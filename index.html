@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Cristina Ibarra — Plan de Alimentación</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f8f7f4;--card:#fff;--text:#2d2a26;--muted:#7a756d;
+    --accent:#6b8e6b;--accent-light:#e8f0e8;
+    --supplement:#8b6f5e;--supplement-light:#f3ece6;
+    --essential:#5b7b9d;--essential-light:#e6eef5;
+    --breakfast:#c4956a;--lunch:#6b8e6b;--dinner:#7a6b8e;
+    --snack:#b08d57;--snack-light:#f7f0e3;
+    --border:#e8e5df;--radius:10px;
+  }
+  html{font-size:15px;scroll-behavior:smooth}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:2rem 1rem}
+  .container{max-width:820px;margin:0 auto}
+
+  header{text-align:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:2px solid var(--border)}
+  header h1{font-size:1.8rem;font-weight:700;letter-spacing:.02em;margin-bottom:.25rem}
+  header .subtitle{font-size:1rem;color:var(--muted);margin-bottom:.15rem}
+  header .date-range{font-size:.92rem;color:var(--muted);font-weight:500}
+
+  .lang-toggle{position:fixed;top:1rem;right:1rem;z-index:100;display:flex;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.12);border:1px solid var(--border)}
+  .lang-btn{padding:.45rem 1rem;font-size:.85rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+  .lang-btn.active{background:var(--accent);color:#fff}
+  .lang-btn:not(.active){background:#fff;color:var(--text)}
+
+  section{margin-bottom:2.5rem}
+  .section-title{font-size:1.3rem;font-weight:700;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:.5rem}
+  .section-icon{width:28px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+
+  .card{background:var(--card);border-radius:var(--radius);padding:1.4rem;margin-bottom:1rem;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+
+  .supplement-card{border-left:4px solid var(--supplement)}
+  .supplement-card .supp-name{font-weight:700;font-size:1rem;margin-bottom:.2rem}
+  .supplement-card .supp-dose{color:var(--muted);font-size:.9rem}
+
+  .essential-card{border-left:4px solid var(--essential)}
+  .essential-card h3{font-weight:700;font-size:1rem;margin-bottom:.5rem;color:var(--essential)}
+  .essential-card ul{list-style:none;padding:0}
+  .essential-card li{padding:.2rem 0;padding-left:1.2rem;position:relative;font-size:.93rem}
+  .essential-card li::before{content:"•";position:absolute;left:0;color:var(--essential);font-weight:700}
+
+  .schedule-bar{background:linear-gradient(135deg,var(--accent-light),#f0ece6);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.4rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;align-items:center;justify-content:center}
+  .schedule-item{display:flex;align-items:center;gap:.35rem;font-size:.85rem;font-weight:600}
+  .schedule-time{font-size:.78rem;color:var(--muted);font-weight:500}
+
+  .day-card{border-left:4px solid var(--accent);padding:0;overflow:hidden}
+  .day-header{background:var(--accent);color:#fff;padding:.7rem 1.4rem;font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:.6rem}
+  .day-num{background:rgba(255,255,255,.25);border-radius:6px;padding:.1rem .55rem;font-size:.85rem}
+  .day-body{padding:1.2rem 1.4rem}
+
+  .meal{margin-bottom:1.3rem}
+  .meal:last-child{margin-bottom:0}
+  .meal-header{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.4rem}
+  .meal-label{display:inline-block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.15rem .6rem;border-radius:4px}
+  .meal-label.breakfast{background:#fdf0e4;color:var(--breakfast)}
+  .meal-label.lunch{background:var(--accent-light);color:var(--lunch)}
+  .meal-label.dinner{background:#ece6f0;color:var(--dinner)}
+  .meal-label.snack{background:var(--snack-light);color:var(--snack)}
+  .meal-time{font-size:.75rem;color:var(--muted);font-weight:500}
+  .meal-name{font-weight:700;font-size:1.02rem;margin-bottom:.4rem}
+  .meal ul{list-style:none;padding:0}
+  .meal li{padding:.18rem 0;padding-left:1.2rem;position:relative;font-size:.9rem}
+  .meal li::before{content:"•";position:absolute;left:0;font-weight:700;color:var(--muted)}
+  .meal li strong{font-weight:600}
+  .meal .sub-label{font-size:.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:.5rem;margin-bottom:.2rem}
+  .meal .note{font-size:.83rem;color:var(--muted);font-style:italic;margin-top:.3rem;padding-left:1.2rem}
+
+  .alt-block{background:#faf8f5;border:1px dashed var(--border);border-radius:8px;padding:.8rem 1rem;margin-top:.6rem}
+  .alt-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--breakfast);margin-bottom:.3rem}
+
+  .snack-slot{background:var(--snack-light);border-radius:8px;padding:.6rem 1rem;margin:1rem 0;border:1px solid #ede5d5}
+  .snack-slot .meal-header{margin-bottom:.15rem}
+  .snack-slot p{font-size:.85rem;color:var(--muted);margin:0}
+
+  .fruit-grid{display:grid;grid-template-columns:1fr 1fr;gap:.2rem .8rem}
+
+  .divider{height:1px;background:var(--border);margin:1rem 0}
+
+  @media print{
+    body{padding:0;background:#fff;font-size:13px}
+    .lang-toggle{display:none!important}
+    .container{max-width:100%}
+    header{margin-bottom:1.5rem}
+    section{break-inside:avoid}
+    .day-card{break-inside:avoid;page-break-inside:avoid;margin-bottom:.8rem}
+    .card{box-shadow:none;border:1px solid #ddd}
+  }
+  @media(max-width:600px){
+    html{font-size:14px}
+    body{padding:1rem .5rem}
+    .fruit-grid{grid-template-columns:1fr}
+    .schedule-bar{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-toggle">
+  <button class="lang-btn active" onclick="setLang('es')">ES</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+</div>
+
+<div class="container">
+
+  <header>
+    <h1>ANA CRISTINA IBARRA</h1>
+    <div class="subtitle" data-i18n="planTitle">Plan de Alimentación</div>
+    <div class="date-range" data-i18n="dateRange">25 de febrero al 20 de marzo del 2026</div>
+  </header>
+
+  <!-- DAILY SCHEDULE -->
+  <div class="schedule-bar">
+    <div class="schedule-item"><span data-i18n="schBreakfast">Desayuno</span> <span class="schedule-time">7–10 AM</span></div>
+    <div class="schedule-item"><span data-i18n="schSnack1">Colación</span> <span class="schedule-time">11 AM–12 PM</span></div>
+    <div class="schedule-item"><span data-i18n="schLunch">Almuerzo</span> <span class="schedule-time">1–4 PM</span></div>
+    <div class="schedule-item"><span data-i18n="schSnack2">Colación</span> <span class="schedule-time">5–6 PM</span></div>
+    <div class="schedule-item"><span data-i18n="schDinner">Cena</span> <span class="schedule-time">8–10 PM</span></div>
+  </div>
+
+  <!-- SUPPLEMENTS -->
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:var(--supplement-light);color:var(--supplement)">&#x1F48A;</span>
+      <span data-i18n="supplementsTitle">Suplementos Diarios</span>
+    </div>
+    <div class="card supplement-card">
+      <div class="supp-name" data-i18n="supp1Name">Colágeno hidrolizado + Vitamina C</div>
+      <div class="supp-dose" data-i18n="supp1Dose">Dosis: 10–15 g de colágeno + 500–1000 mg de vitamina C diarios</div>
+    </div>
+    <div class="card supplement-card">
+      <div class="supp-name" data-i18n="supp2Name">HMB (β-hidroxi β-metilbutirato)</div>
+      <div class="supp-dose" data-i18n="supp2Dose">Dosis: 3 g al día</div>
+    </div>
+    <div class="card supplement-card">
+      <div class="supp-name" data-i18n="supp3Name">Omega 3 (EPA/DHA alto)</div>
+      <div class="supp-dose" data-i18n="supp3Dose">Dosis: 2 cápsulas diarias (1000 mg por cápsula)</div>
+    </div>
+    <div class="card supplement-card">
+      <div class="supp-name" data-i18n="supp4Name">Té — Extracto de diente de león</div>
+      <div class="supp-dose" data-i18n="supp4Dose">Tomar diariamente</div>
+    </div>
+  </section>
+
+  <!-- DAILY ESSENTIALS -->
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:var(--essential-light);color:var(--essential)">&#x2B50;</span>
+      <span data-i18n="essentialsTitle">Obligatorio Todos los Días</span>
+    </div>
+
+    <div class="card essential-card">
+      <h3 data-i18n="shakeTitle">Licuado de Proteína (todos los días)</h3>
+      <ul>
+        <li><strong>350 ml</strong> <span data-i18n="water">de agua</span></li>
+        <li><strong>20 g</strong> <span data-i18n="oats">de avena</span></li>
+        <li><strong>1 scoop</strong> <span data-i18n="protein">de proteína</span></li>
+      </ul>
+    </div>
+
+    <div class="card essential-card">
+      <h3 data-i18n="preworkoutTitle">Antes de Entrenar</h3>
+      <ul>
+        <li><strong>150 g</strong> <span data-i18n="yogurt">de yogurt griego</span></li>
+        <li><strong>1</strong> <span data-i18n="banana">plátano</span></li>
+      </ul>
+    </div>
+
+    <div class="card essential-card">
+      <h3 data-i18n="fruitTitle">1 Fruta a Escoger (por día)</h3>
+      <ul class="fruit-grid">
+        <li><strong>1</strong> <span data-i18n="frBanana">plátano</span></li>
+        <li><strong>1</strong> <span data-i18n="frApple">manzana</span></li>
+        <li><strong>2</strong> <span data-i18n="frMandarin">mandarinas</span></li>
+        <li><strong>2</strong> <span data-i18n="frOrange">naranjas</span></li>
+        <li><strong>18</strong> <span data-i18n="frGrapes">uvas verdes</span></li>
+        <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="frStrawberry">de fresa</span></li>
+        <li><strong data-i18n="qtyHalfCup">½ taza</strong> <span data-i18n="frMelon">de sandía o melón</span></li>
+      </ul>
+    </div>
+
+    <div class="card essential-card">
+      <h3 data-i18n="veggiesTitle">Vegetales Rallados</h3>
+      <ul>
+        <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="jicama">de jícama</span></li>
+        <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="carrot">de zanahoria</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7-DAY MEAL PLAN -->
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:var(--accent-light);color:var(--accent)">&#x1F372;</span>
+      <span data-i18n="mealPlanTitle">Plan de Comidas — 7 Días</span>
+    </div>
+
+    <!-- DAY 1 -->
+    <div class="card day-card">
+      <div class="day-header"><span class="day-num">1</span> <span data-i18n="day1Header">Día 1 — Lunes</span></div>
+      <div class="day-body">
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label breakfast" data-i18n="breakfast">Desayuno</div>
+            <span class="meal-time">7:00 – 10:00 AM</span>
+          </div>
+          <div class="meal-name" data-i18n="d1bName">Licuado Verde + Omelette con Jamón</div>
+          <div class="sub-label" data-i18n="smoothieLabel">Licuado verde</div>
+          <ul>
+            <li><strong>350 ml</strong> <span data-i18n="water">de agua</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="smoothieVeg">de espinaca, pepino, apio</span></li>
+            <li><strong>⅓</strong> <span data-i18n="greenApple">de manzana verde</span></li>
+            <li><span data-i18n="cinnamonOpt">Canela opcional</span></li>
+            <li><strong>⅙</strong> <span data-i18n="avocado">aguacate</span></li>
+          </ul>
+          <div class="sub-label" data-i18n="omelette">Omelette</div>
+          <ul>
+            <li><strong>6</strong> <span data-i18n="eggWhites">claras de huevo</span></li>
+            <li><strong>2 rebanadas</strong> <span data-i18n="turkeySlices">de pechuga de pavo</span></li>
+            <li><span data-i18n="veggiesChoice">Verduras de tu agrado</span></li>
+            <li><strong>2</strong> <span data-i18n="cornTortillas">tortillas de maíz</span></li>
+          </ul>
+          <div class="alt-block">
+            <div class="alt-title" data-i18n="altTitle">&#x21C4; Alternativas sin huevo (misma proteína)</div>
+            <ul>
+              <li data-i18n="alt1">120–150 g de pechuga de pollo en sándwich o tacos con las mismas tortillas.</li>
+              <li data-i18n="alt2">150 g de atún en agua con las mismas tortillas.</li>
+              <li data-i18n="alt3">3 claras + 1–2 huevos enteros (más fácil de comer).</li>
+              <li data-i18n="alt4">150 g de yogurt griego natural + semillas.</li>
+              <li data-i18n="alt5">Burrito de pollo o bowl salado en vez de omelette.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">11:00 AM – 12:00 PM</span>
+          </div>
+          <p data-i18n="snack1Desc">1 fruta a escoger + vegetales rallados</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label lunch" data-i18n="lunch">Almuerzo</div>
+            <span class="meal-time">1:00 – 4:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="salmonTacosName">Tacos de Salmón con Calabaza y Cilantro</div>
+          <ul>
+            <li><strong>2</strong> <span data-i18n="cornTortillas">tortillas de maíz</span></li>
+            <li><strong>170 g</strong> <span data-i18n="salmon">de salmón</span></li>
+            <li><span data-i18n="zucchiniTaste">Calabacitas al gusto</span></li>
+            <li><span data-i18n="cilantroTaste">Cilantro al gusto</span></li>
+            <li><span data-i18n="picoTaste">Pico de gallo al gusto</span></li>
+            <li><span data-i18n="salsaTaste">Salsa al gusto</span></li>
+          </ul>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">5:00 – 6:00 PM</span>
+          </div>
+          <p data-i18n="snack2Desc">Licuado de proteína + pre-entreno (yogurt griego + plátano)</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label dinner" data-i18n="dinner">Cena</div>
+            <span class="meal-time">8:00 – 10:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="chickenSaladName">Pollo a la Plancha con Ensalada Fresca</div>
+          <ul>
+            <li><strong>150 g</strong> <span data-i18n="cookedRice">de arroz cocido</span></li>
+            <li><strong>⅓</strong> <span data-i18n="avocado">aguacate</span></li>
+            <li><strong>180 g</strong> <span data-i18n="chickenBreast">de pechuga de pollo</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="mixedVeg">de mix de vegetales rallados (zanahoria, chayote, lechuga, espinaca)</span></li>
+            <li><span data-i18n="saltPepper">Sal y pimienta al gusto</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="card day-card">
+      <div class="day-header"><span class="day-num">2</span> <span data-i18n="day2Header">Día 2 — Martes</span></div>
+      <div class="day-body">
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label breakfast" data-i18n="breakfast">Desayuno</div>
+            <span class="meal-time">7:00 – 10:00 AM</span>
+          </div>
+          <div class="meal-name" data-i18n="d1bName">Licuado Verde + Omelette con Jamón</div>
+          <div class="sub-label" data-i18n="smoothieLabel">Licuado verde</div>
+          <ul>
+            <li><strong>350 ml</strong> <span data-i18n="water">de agua</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="smoothieVeg">de espinaca, pepino, apio</span></li>
+            <li><strong>⅓</strong> <span data-i18n="greenApple">de manzana verde</span></li>
+            <li><span data-i18n="cinnamonOpt">Canela opcional</span></li>
+            <li><strong>⅙</strong> <span data-i18n="avocado">aguacate</span></li>
+          </ul>
+          <div class="sub-label" data-i18n="omelette">Omelette</div>
+          <ul>
+            <li><strong>6</strong> <span data-i18n="eggWhites">claras de huevo</span></li>
+            <li><strong>2 rebanadas</strong> <span data-i18n="turkeySlices">de pechuga de pavo</span></li>
+            <li><span data-i18n="veggiesChoice">Verduras de tu agrado</span></li>
+            <li><strong>2</strong> <span data-i18n="cornTortillas">tortillas de maíz</span></li>
+          </ul>
+          <div class="alt-block">
+            <div class="alt-title" data-i18n="altTitle">&#x21C4; Alternativas sin huevo (misma proteína)</div>
+            <ul>
+              <li data-i18n="alt1">120–150 g de pechuga de pollo en sándwich o tacos con las mismas tortillas.</li>
+              <li data-i18n="alt2">150 g de atún en agua con las mismas tortillas.</li>
+              <li data-i18n="alt3">3 claras + 1–2 huevos enteros (más fácil de comer).</li>
+              <li data-i18n="alt4">150 g de yogurt griego natural + semillas.</li>
+              <li data-i18n="alt5">Burrito de pollo o bowl salado en vez de omelette.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">11:00 AM – 12:00 PM</span>
+          </div>
+          <p data-i18n="snack1Desc">1 fruta a escoger + vegetales rallados</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label lunch" data-i18n="lunch">Almuerzo</div>
+            <span class="meal-time">1:00 – 4:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="chickenSaladName">Pollo a la Plancha con Ensalada Fresca</div>
+          <ul>
+            <li><strong>150 g</strong> <span data-i18n="cookedRice">de arroz cocido</span></li>
+            <li><strong>⅓</strong> <span data-i18n="avocado">aguacate</span></li>
+            <li><strong>180 g</strong> <span data-i18n="chickenBreast">de pechuga de pollo</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="mixedVeg">de mix de vegetales rallados (zanahoria, chayote, lechuga, espinaca)</span></li>
+            <li><span data-i18n="saltPepper">Sal y pimienta al gusto</span></li>
+          </ul>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">5:00 – 6:00 PM</span>
+          </div>
+          <p data-i18n="snack2Desc">Licuado de proteína + pre-entreno (yogurt griego + plátano)</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label dinner" data-i18n="dinner">Cena</div>
+            <span class="meal-time">8:00 – 10:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="salmonTacosName">Tacos de Salmón con Calabaza y Cilantro</div>
+          <ul>
+            <li><strong>2</strong> <span data-i18n="cornTortillas">tortillas de maíz</span></li>
+            <li><strong>170 g</strong> <span data-i18n="salmon">de salmón</span></li>
+            <li><span data-i18n="zucchiniTaste">Calabacitas al gusto</span></li>
+            <li><span data-i18n="cilantroTaste">Cilantro al gusto</span></li>
+            <li><span data-i18n="picoTaste">Pico de gallo al gusto</span></li>
+            <li><span data-i18n="salsaTaste">Salsa al gusto</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="card day-card">
+      <div class="day-header"><span class="day-num">3</span> <span data-i18n="day3Header">Día 3 — Miércoles</span></div>
+      <div class="day-body">
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label breakfast" data-i18n="breakfast">Desayuno</div>
+            <span class="meal-time">7:00 – 10:00 AM</span>
+          </div>
+          <div class="meal-name" data-i18n="d3bName">Licuado Verde + Huevo con Espinaca</div>
+          <div class="sub-label" data-i18n="smoothieLabel">Licuado verde</div>
+          <ul>
+            <li><strong>350 ml</strong> <span data-i18n="water">de agua</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="smoothieVeg">de espinaca, pepino, apio</span></li>
+            <li><strong>⅓</strong> <span data-i18n="greenApple">de manzana verde</span></li>
+            <li><span data-i18n="cinnamonOpt">Canela opcional</span></li>
+            <li><strong>⅙</strong> <span data-i18n="avocado">aguacate</span></li>
+          </ul>
+          <div class="sub-label" data-i18n="eggsLabel">Huevos</div>
+          <ul>
+            <li><strong>8</strong> <span data-i18n="eggWhites">claras de huevo</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="spinach">de espinaca</span></li>
+            <li><span data-i18n="veggiesChoice">Verduras de tu agrado</span></li>
+            <li><strong>2</strong> <span data-i18n="cornTortillas">tortillas de maíz</span></li>
+          </ul>
+          <div class="alt-block">
+            <div class="alt-title" data-i18n="altTitle">&#x21C4; Alternativas sin huevo (misma proteína)</div>
+            <ul>
+              <li data-i18n="alt1">120–150 g de pechuga de pollo en sándwich o tacos con las mismas tortillas.</li>
+              <li data-i18n="alt2">150 g de atún en agua con las mismas tortillas.</li>
+              <li data-i18n="alt3">3 claras + 1–2 huevos enteros (más fácil de comer).</li>
+              <li data-i18n="alt4">150 g de yogurt griego natural + semillas.</li>
+              <li data-i18n="alt5">Burrito de pollo o bowl salado en vez de omelette.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">11:00 AM – 12:00 PM</span>
+          </div>
+          <p data-i18n="snack1Desc">1 fruta a escoger + vegetales rallados</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label lunch" data-i18n="lunch">Almuerzo</div>
+            <span class="meal-time">1:00 – 4:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="steakPotatoName">Bistec con Papa</div>
+          <ul>
+            <li><strong>180 g</strong> <span data-i18n="steakStrips">de bistec en tiras o cubos</span></li>
+            <li><strong>180 g</strong> <span data-i18n="potatoCooked">de papa cocida o guisada</span></li>
+            <li><span data-i18n="dicedTomato">Jitomate picado</span></li>
+            <li><span data-i18n="zucchiniTaste">Calabacitas al gusto</span></li>
+            <li><span data-i18n="garlicSaltPepper">Ajo, sal y pimienta al gusto</span></li>
+            <li><span data-i18n="cilantroParsley">Cilantro o perejil para decorar</span></li>
+          </ul>
+          <div class="note" data-i18n="steakNote">Opcional: puedes añadir 30–40 ml de agua o caldo para dar textura más caldosa.</div>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">5:00 – 6:00 PM</span>
+          </div>
+          <p data-i18n="snack2Desc">Licuado de proteína + pre-entreno (yogurt griego + plátano)</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label dinner" data-i18n="dinner">Cena</div>
+            <span class="meal-time">8:00 – 10:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="tunaBowlName">Bowl de Atún</div>
+          <ul>
+            <li><strong>2</strong> <span data-i18n="bakedTostadas">tostadas horneadas</span></li>
+            <li><strong>170 g</strong> <span data-i18n="drainedTuna">de atún drenado</span></li>
+            <li><span data-i18n="spinachTaste">Espinaca al gusto</span></li>
+            <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="ofCarrot">de zanahoria</span></li>
+            <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="ofCucumber">de pepino</span></li>
+            <li><span data-i18n="lemon">Limón</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 4 -->
+    <div class="card day-card">
+      <div class="day-header"><span class="day-num">4</span> <span data-i18n="day4Header">Día 4 — Jueves</span></div>
+      <div class="day-body">
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label breakfast" data-i18n="breakfast">Desayuno</div>
+            <span class="meal-time">7:00 – 10:00 AM</span>
+          </div>
+          <div class="meal-name" data-i18n="d4bName">Licuado Verde + Huevo con Calabaza</div>
+          <div class="sub-label" data-i18n="smoothieLabel">Licuado verde</div>
+          <ul>
+            <li><strong>350 ml</strong> <span data-i18n="water">de agua</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="smoothieVeg">de espinaca, pepino, apio</span></li>
+            <li><strong>⅓</strong> <span data-i18n="greenApple">de manzana verde</span></li>
+            <li><span data-i18n="cinnamonOpt">Canela opcional</span></li>
+            <li><strong>⅙</strong> <span data-i18n="avocado">aguacate</span></li>
+          </ul>
+          <div class="sub-label" data-i18n="eggsLabel">Huevos</div>
+          <ul>
+            <li><strong>8</strong> <span data-i18n="eggWhites">claras de huevo</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="squash">de calabaza</span></li>
+            <li><span data-i18n="veggiesChoice">Verduras de tu agrado</span></li>
+            <li><strong>2</strong> <span data-i18n="cornTortillas">tortillas de maíz</span></li>
+          </ul>
+          <div class="alt-block">
+            <div class="alt-title" data-i18n="altTitle">&#x21C4; Alternativas sin huevo (misma proteína)</div>
+            <ul>
+              <li data-i18n="alt1">120–150 g de pechuga de pollo en sándwich o tacos con las mismas tortillas.</li>
+              <li data-i18n="alt2">150 g de atún en agua con las mismas tortillas.</li>
+              <li data-i18n="alt3">3 claras + 1–2 huevos enteros (más fácil de comer).</li>
+              <li data-i18n="alt4">150 g de yogurt griego natural + semillas.</li>
+              <li data-i18n="alt5">Burrito de pollo o bowl salado en vez de omelette.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">11:00 AM – 12:00 PM</span>
+          </div>
+          <p data-i18n="snack1Desc">1 fruta a escoger + vegetales rallados</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label lunch" data-i18n="lunch">Almuerzo</div>
+            <span class="meal-time">1:00 – 4:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="steakPotatoName">Bistec con Papa</div>
+          <ul>
+            <li><strong>180 g</strong> <span data-i18n="steakStrips">de bistec en tiras o cubos</span></li>
+            <li><strong>180 g</strong> <span data-i18n="potatoCooked">de papa cocida o guisada</span></li>
+            <li><span data-i18n="dicedTomato">Jitomate picado</span></li>
+            <li><span data-i18n="zucchiniTaste">Calabacitas al gusto</span></li>
+            <li><span data-i18n="garlicSaltPepper">Ajo, sal y pimienta al gusto</span></li>
+            <li><span data-i18n="cilantroParsley">Cilantro o perejil para decorar</span></li>
+          </ul>
+          <div class="note" data-i18n="steakNote">Opcional: puedes añadir 30–40 ml de agua o caldo para dar textura más caldosa.</div>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">5:00 – 6:00 PM</span>
+          </div>
+          <p data-i18n="snack2Desc">Licuado de proteína + pre-entreno (yogurt griego + plátano)</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label dinner" data-i18n="dinner">Cena</div>
+            <span class="meal-time">8:00 – 10:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="tunaBowlName">Bowl de Atún</div>
+          <ul>
+            <li><strong>2</strong> <span data-i18n="bakedTostadas">tostadas horneadas</span></li>
+            <li><strong>170 g</strong> <span data-i18n="drainedTuna">de atún drenado</span></li>
+            <li><span data-i18n="spinachTaste">Espinaca al gusto</span></li>
+            <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="ofCarrot">de zanahoria</span></li>
+            <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="ofCucumber">de pepino</span></li>
+            <li><span data-i18n="lemon">Limón</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 5 -->
+    <div class="card day-card">
+      <div class="day-header"><span class="day-num">5</span> <span data-i18n="day5Header">Día 5 — Viernes</span></div>
+      <div class="day-body">
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label breakfast" data-i18n="breakfast">Desayuno</div>
+            <span class="meal-time">7:00 – 10:00 AM</span>
+          </div>
+          <div class="meal-name" data-i18n="d5bName">Licuado Verde + Bowl de Atún</div>
+          <div class="sub-label" data-i18n="smoothieLabel">Licuado verde</div>
+          <ul>
+            <li><strong>350 ml</strong> <span data-i18n="water">de agua</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="smoothieVeg">de espinaca, pepino, apio</span></li>
+            <li><strong>⅓</strong> <span data-i18n="greenApple">de manzana verde</span></li>
+            <li><span data-i18n="cinnamonOpt">Canela opcional</span></li>
+          </ul>
+          <div class="sub-label" data-i18n="tunaBowlLabel">Bowl de atún</div>
+          <ul>
+            <li><strong>2</strong> <span data-i18n="bakedTostadas">tostadas horneadas</span></li>
+            <li><strong>⅙</strong> <span data-i18n="avocado">aguacate</span></li>
+            <li><strong>140 g</strong> <span data-i18n="drainedTuna">de atún drenado</span></li>
+            <li><span data-i18n="spinachTaste">Espinaca al gusto</span></li>
+            <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="ofCarrot">de zanahoria</span></li>
+            <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="cookedGreenBeans">de ejote cocido</span></li>
+            <li><span data-i18n="lemon">Limón</span></li>
+          </ul>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">11:00 AM – 12:00 PM</span>
+          </div>
+          <p data-i18n="snack1Desc">1 fruta a escoger + vegetales rallados</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label lunch" data-i18n="lunch">Almuerzo</div>
+            <span class="meal-time">1:00 – 4:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="fajitasName">Fajitas de Pollo (o de Res)</div>
+          <ul>
+            <li><strong>150 g</strong> <span data-i18n="cookedRice">de arroz cocido</span></li>
+            <li><strong>⅓</strong> <span data-i18n="avocado">aguacate</span></li>
+            <li><strong>180 g</strong> <span data-i18n="chickenBreast">de pechuga de pollo</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="peppers">de pimientos</span></li>
+            <li><span data-i18n="mushroomsNopales">Champiñones o nopales al gusto</span></li>
+            <li><span data-i18n="worcestershire">Salsa inglesa opcional</span></li>
+            <li><span data-i18n="saltPepper">Sal y pimienta al gusto</span></li>
+          </ul>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">5:00 – 6:00 PM</span>
+          </div>
+          <p data-i18n="snack2Desc">Licuado de proteína + pre-entreno (yogurt griego + plátano)</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label dinner" data-i18n="dinner">Cena</div>
+            <span class="meal-time">8:00 – 10:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="powerFitName">Huevos Estilo Power Fit</div>
+          <ul>
+            <li><strong>9</strong> <span data-i18n="eggWhites">claras de huevo</span></li>
+            <li><strong>1</strong> <span data-i18n="wholeEgg">huevo entero</span></li>
+            <li><strong data-i18n="qtyQuarterCup">¼ taza</strong> <span data-i18n="redOnion">de cebolla morada picada</span></li>
+            <li><strong data-i18n="qtyQuarterCup">¼ taza</strong> <span data-i18n="slicedMushrooms">de champiñones fileteados</span></li>
+            <li><strong data-i18n="qtyQuarterCup">¼ taza</strong> <span data-i18n="spinachChard">de espinaca o acelga picada</span></li>
+            <li><strong>2</strong> <span data-i18n="cornTortillas">tortillas de maíz</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 6 -->
+    <div class="card day-card">
+      <div class="day-header"><span class="day-num">6</span> <span data-i18n="day6Header">Día 6 — Sábado</span></div>
+      <div class="day-body">
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label breakfast" data-i18n="breakfast">Desayuno</div>
+            <span class="meal-time">7:00 – 10:00 AM</span>
+          </div>
+          <div class="meal-name" data-i18n="d5bName">Licuado Verde + Bowl de Atún</div>
+          <div class="sub-label" data-i18n="smoothieLabel">Licuado verde</div>
+          <ul>
+            <li><strong>350 ml</strong> <span data-i18n="water">de agua</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="smoothieVeg">de espinaca, pepino, apio</span></li>
+            <li><strong>⅓</strong> <span data-i18n="greenApple">de manzana verde</span></li>
+            <li><span data-i18n="cinnamonOpt">Canela opcional</span></li>
+          </ul>
+          <div class="sub-label" data-i18n="tunaBowlLabel">Bowl de atún</div>
+          <ul>
+            <li><strong>2</strong> <span data-i18n="bakedTostadas">tostadas horneadas</span></li>
+            <li><strong>⅙</strong> <span data-i18n="avocado">aguacate</span></li>
+            <li><strong>140 g</strong> <span data-i18n="drainedTuna">de atún drenado</span></li>
+            <li><span data-i18n="spinachTaste">Espinaca al gusto</span></li>
+            <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="ofCarrot">de zanahoria</span></li>
+            <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="cookedGreenBeans">de ejote cocido</span></li>
+            <li><span data-i18n="lemon">Limón</span></li>
+          </ul>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">11:00 AM – 12:00 PM</span>
+          </div>
+          <p data-i18n="snack1Desc">1 fruta a escoger + vegetales rallados</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label lunch" data-i18n="lunch">Almuerzo</div>
+            <span class="meal-time">1:00 – 4:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="fajitasName">Fajitas de Pollo (o de Res)</div>
+          <ul>
+            <li><strong>150 g</strong> <span data-i18n="cookedRice">de arroz cocido</span></li>
+            <li><strong>⅓</strong> <span data-i18n="avocado">aguacate</span></li>
+            <li><strong>180 g</strong> <span data-i18n="chickenBreast">de pechuga de pollo</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="peppers">de pimientos</span></li>
+            <li><span data-i18n="mushroomsNopales">Champiñones o nopales al gusto</span></li>
+            <li><span data-i18n="worcestershire">Salsa inglesa opcional</span></li>
+            <li><span data-i18n="saltPepper">Sal y pimienta al gusto</span></li>
+          </ul>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">5:00 – 6:00 PM</span>
+          </div>
+          <p data-i18n="snack2Desc">Licuado de proteína + pre-entreno (yogurt griego + plátano)</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label dinner" data-i18n="dinner">Cena</div>
+            <span class="meal-time">8:00 – 10:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="powerFitName">Huevos Estilo Power Fit</div>
+          <ul>
+            <li><strong>9</strong> <span data-i18n="eggWhites">claras de huevo</span></li>
+            <li><strong>1</strong> <span data-i18n="wholeEgg">huevo entero</span></li>
+            <li><strong data-i18n="qtyQuarterCup">¼ taza</strong> <span data-i18n="redOnion">de cebolla morada picada</span></li>
+            <li><strong data-i18n="qtyQuarterCup">¼ taza</strong> <span data-i18n="slicedMushrooms">de champiñones fileteados</span></li>
+            <li><strong data-i18n="qtyQuarterCup">¼ taza</strong> <span data-i18n="spinachChard">de espinaca o acelga picada</span></li>
+            <li><strong>2</strong> <span data-i18n="cornTortillas">tortillas de maíz</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 7 -->
+    <div class="card day-card">
+      <div class="day-header"><span class="day-num">7</span> <span data-i18n="day7Header">Día 7 — Domingo</span></div>
+      <div class="day-body">
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label breakfast" data-i18n="breakfast">Desayuno</div>
+            <span class="meal-time">7:00 – 10:00 AM</span>
+          </div>
+          <div class="meal-name" data-i18n="d4bName">Licuado Verde + Huevo con Calabaza</div>
+          <div class="sub-label" data-i18n="smoothieLabel">Licuado verde</div>
+          <ul>
+            <li><strong>350 ml</strong> <span data-i18n="water">de agua</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="smoothieVeg">de espinaca, pepino, apio</span></li>
+            <li><strong>⅓</strong> <span data-i18n="greenApple">de manzana verde</span></li>
+            <li><span data-i18n="cinnamonOpt">Canela opcional</span></li>
+            <li><strong>⅙</strong> <span data-i18n="avocado">aguacate</span></li>
+          </ul>
+          <div class="sub-label" data-i18n="eggsLabel">Huevos</div>
+          <ul>
+            <li><strong>8</strong> <span data-i18n="eggWhites">claras de huevo</span></li>
+            <li><strong data-i18n="qty1cup">1 taza</strong> <span data-i18n="squash">de calabaza</span></li>
+            <li><span data-i18n="veggiesChoice">Verduras de tu agrado</span></li>
+            <li><strong>2</strong> <span data-i18n="cornTortillas">tortillas de maíz</span></li>
+          </ul>
+          <div class="alt-block">
+            <div class="alt-title" data-i18n="altTitle">&#x21C4; Alternativas sin huevo (misma proteína)</div>
+            <ul>
+              <li data-i18n="alt1">120–150 g de pechuga de pollo en sándwich o tacos con las mismas tortillas.</li>
+              <li data-i18n="alt2">150 g de atún en agua con las mismas tortillas.</li>
+              <li data-i18n="alt3">3 claras + 1–2 huevos enteros (más fácil de comer).</li>
+              <li data-i18n="alt4">150 g de yogurt griego natural + semillas.</li>
+              <li data-i18n="alt5">Burrito de pollo o bowl salado en vez de omelette.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">11:00 AM – 12:00 PM</span>
+          </div>
+          <p data-i18n="snack1Desc">1 fruta a escoger + vegetales rallados</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label lunch" data-i18n="lunch">Almuerzo</div>
+            <span class="meal-time">1:00 – 4:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="steakPotatoName">Bistec con Papa</div>
+          <ul>
+            <li><strong>180 g</strong> <span data-i18n="steakStrips">de bistec en tiras o cubos</span></li>
+            <li><strong>180 g</strong> <span data-i18n="potatoCooked">de papa cocida o guisada</span></li>
+            <li><span data-i18n="dicedTomato">Jitomate picado</span></li>
+            <li><span data-i18n="zucchiniTaste">Calabacitas al gusto</span></li>
+            <li><span data-i18n="garlicSaltPepper">Ajo, sal y pimienta al gusto</span></li>
+            <li><span data-i18n="cilantroParsley">Cilantro o perejil para decorar</span></li>
+          </ul>
+          <div class="note" data-i18n="steakNote">Opcional: puedes añadir 30–40 ml de agua o caldo para dar textura más caldosa.</div>
+        </div>
+        <div class="snack-slot">
+          <div class="meal-header">
+            <div class="meal-label snack" data-i18n="snackLabel">Colación</div>
+            <span class="meal-time">5:00 – 6:00 PM</span>
+          </div>
+          <p data-i18n="snack2Desc">Licuado de proteína + pre-entreno (yogurt griego + plátano)</p>
+        </div>
+        <div class="meal">
+          <div class="meal-header">
+            <div class="meal-label dinner" data-i18n="dinner">Cena</div>
+            <span class="meal-time">8:00 – 10:00 PM</span>
+          </div>
+          <div class="meal-name" data-i18n="tunaBowlName">Bowl de Atún</div>
+          <ul>
+            <li><strong>2</strong> <span data-i18n="bakedTostadas">tostadas horneadas</span></li>
+            <li><strong>170 g</strong> <span data-i18n="drainedTuna">de atún drenado</span></li>
+            <li><span data-i18n="spinachTaste">Espinaca al gusto</span></li>
+            <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="ofCarrot">de zanahoria</span></li>
+            <li><strong data-i18n="qtyThirdCup">⅓ taza</strong> <span data-i18n="ofCucumber">de pepino</span></li>
+            <li><span data-i18n="lemon">Limón</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CALORIES & DEFICIT -->
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:#fce4e4;color:#c0392b">&#x1F525;</span>
+      <span data-i18n="calSectionTitle">Calorías y Déficit</span>
+    </div>
+
+    <div class="card" style="border-left:4px solid #c0392b">
+
+      <h3 style="color:#c0392b;margin-bottom:.6rem" data-i18n="calHeading">Calorías y Macros Estimados por Día</h3>
+
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem" data-i18n="calAssumptions">Supuestos: Valores nutricionales promedio estilo USDA. Arroz cocido = peso cocido. Atún = enlatado en agua, drenado. Salmón/pollo/bistec = peso crudo salvo que diga cocido. Yogurt griego = natural, sin grasa. 1 scoop de proteína = ~25 g de proteína (whey típico). Tortillas y tostadas = valores estándar de tienda. Verduras "al gusto" = 25–50 kcal por porción estimada.</p>
+
+      <table style="width:100%;border-collapse:collapse;font-size:.88rem;margin-bottom:.8rem">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border);text-align:left">
+            <th style="padding:.4rem .3rem" data-i18n="thDay">Día</th>
+            <th style="padding:.4rem .3rem" data-i18n="thCal">Calorías</th>
+            <th style="padding:.4rem .3rem" data-i18n="thProt">Proteína</th>
+            <th style="padding:.4rem .3rem" data-i18n="thCarbs">Carbos</th>
+            <th style="padding:.4rem .3rem" data-i18n="thFat">Grasa</th>
+            <th style="padding:.4rem .3rem" data-i18n="thDeficit">Déficit?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:.4rem .3rem"><strong data-i18n="r1Day">1 Lun</strong></td>
+            <td style="padding:.4rem .3rem">~1,935</td>
+            <td style="padding:.4rem .3rem">167 g</td>
+            <td style="padding:.4rem .3rem">211 g</td>
+            <td style="padding:.4rem .3rem">49 g</td>
+            <td style="padding:.4rem .3rem;color:var(--accent)" data-i18n="deficitLikely">Probable déficit</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:.4rem .3rem"><strong data-i18n="r2Day">2 Mar</strong></td>
+            <td style="padding:.4rem .3rem">~1,935</td>
+            <td style="padding:.4rem .3rem">167 g</td>
+            <td style="padding:.4rem .3rem">211 g</td>
+            <td style="padding:.4rem .3rem">49 g</td>
+            <td style="padding:.4rem .3rem;color:var(--accent)" data-i18n="deficitLikely">Probable déficit</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:.4rem .3rem"><strong data-i18n="r3Day">3 Mié</strong></td>
+            <td style="padding:.4rem .3rem">~1,680</td>
+            <td style="padding:.4rem .3rem">164 g</td>
+            <td style="padding:.4rem .3rem">192 g</td>
+            <td style="padding:.4rem .3rem">30 g</td>
+            <td style="padding:.4rem .3rem;color:var(--accent)" data-i18n="deficitLikely">Probable déficit</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:.4rem .3rem"><strong data-i18n="r4Day">4 Jue</strong></td>
+            <td style="padding:.4rem .3rem">~1,690</td>
+            <td style="padding:.4rem .3rem">164 g</td>
+            <td style="padding:.4rem .3rem">195 g</td>
+            <td style="padding:.4rem .3rem">30 g</td>
+            <td style="padding:.4rem .3rem;color:var(--accent)" data-i18n="deficitLikely">Probable déficit</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:.4rem .3rem"><strong data-i18n="r5Day">5 Vie</strong></td>
+            <td style="padding:.4rem .3rem">~1,815</td>
+            <td style="padding:.4rem .3rem">172 g</td>
+            <td style="padding:.4rem .3rem">211 g</td>
+            <td style="padding:.4rem .3rem">33 g</td>
+            <td style="padding:.4rem .3rem;color:var(--accent)" data-i18n="deficitLikely">Probable déficit</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:.4rem .3rem"><strong data-i18n="r6Day">6 Sáb</strong></td>
+            <td style="padding:.4rem .3rem">~1,815</td>
+            <td style="padding:.4rem .3rem">172 g</td>
+            <td style="padding:.4rem .3rem">211 g</td>
+            <td style="padding:.4rem .3rem">33 g</td>
+            <td style="padding:.4rem .3rem;color:var(--accent)" data-i18n="deficitLikely">Probable déficit</td>
+          </tr>
+          <tr>
+            <td style="padding:.4rem .3rem"><strong data-i18n="r7Day">7 Dom</strong></td>
+            <td style="padding:.4rem .3rem">~1,690</td>
+            <td style="padding:.4rem .3rem">164 g</td>
+            <td style="padding:.4rem .3rem">195 g</td>
+            <td style="padding:.4rem .3rem">30 g</td>
+            <td style="padding:.4rem .3rem;color:var(--accent)" data-i18n="deficitLikely">Probable déficit</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="font-size:.88rem;margin-bottom:.3rem" data-i18n="calAvgLine">Promedio semanal: ~1,795 kcal/día</p>
+      <p style="font-size:.88rem;margin-bottom:.3rem" data-i18n="calMacroLine">Macros promedio: Proteína 167 g (37%) · Carbos 204 g (45%) · Grasa 36 g (18%)</p>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:0" data-i18n="calSummary">Plan alto en proteína, bajo en grasa — claramente orientado a pérdida de grasa preservando masa muscular. Todas las jornadas están en probable déficit calórico para una mujer adulta promedio (mantenimiento ~1,800–2,200 kcal).</p>
+
+    </div>
+  </section>
+
+</div>
+
+<script>
+const translations = {
+  es: {
+    planTitle: "Plan de Alimentación",
+    dateRange: "25 de febrero al 20 de marzo del 2026",
+    schBreakfast: "Desayuno",
+    schSnack1: "Colación",
+    schLunch: "Almuerzo",
+    schSnack2: "Colación",
+    schDinner: "Cena",
+    supplementsTitle: "Suplementos Diarios",
+    supp1Name: "Colágeno hidrolizado + Vitamina C",
+    supp1Dose: "Dosis: 10–15 g de colágeno + 500–1000 mg de vitamina C diarios",
+    supp2Name: "HMB (β-hidroxi β-metilbutirato)",
+    supp2Dose: "Dosis: 3 g al día",
+    supp3Name: "Omega 3 (EPA/DHA alto)",
+    supp3Dose: "Dosis: 2 cápsulas diarias (1000 mg por cápsula)",
+    supp4Name: "Té — Extracto de diente de león",
+    supp4Dose: "Tomar diariamente",
+    essentialsTitle: "Obligatorio Todos los Días",
+    shakeTitle: "Licuado de Proteína (todos los días)",
+    water: "de agua",
+    oats: "de avena",
+    protein: "de proteína",
+    preworkoutTitle: "Antes de Entrenar",
+    yogurt: "de yogurt griego",
+    banana: "plátano",
+    fruitTitle: "1 Fruta a Escoger (por día)",
+    frBanana: "plátano",
+    frApple: "manzana",
+    frMandarin: "mandarinas",
+    frOrange: "naranjas",
+    frGrapes: "uvas verdes",
+    frStrawberry: "de fresa",
+    frMelon: "de sandía o melón",
+    veggiesTitle: "Vegetales Rallados",
+    jicama: "de jícama",
+    carrot: "de zanahoria",
+    mealPlanTitle: "Plan de Comidas — 7 Días",
+    day1Header: "Día 1 — Lunes",
+    day2Header: "Día 2 — Martes",
+    day3Header: "Día 3 — Miércoles",
+    day4Header: "Día 4 — Jueves",
+    day5Header: "Día 5 — Viernes",
+    day6Header: "Día 6 — Sábado",
+    day7Header: "Día 7 — Domingo",
+    breakfast: "Desayuno",
+    lunch: "Almuerzo",
+    dinner: "Cena",
+    snackLabel: "Colación",
+    snack1Desc: "1 fruta a escoger + vegetales rallados",
+    snack2Desc: "Licuado de proteína + pre-entreno (yogurt griego + plátano)",
+    altTitle: "\u21C4 Alternativas sin huevo (misma proteína)",
+    alt1: "120–150 g de pechuga de pollo en sándwich o tacos con las mismas tortillas.",
+    alt2: "150 g de atún en agua con las mismas tortillas.",
+    alt3: "3 claras + 1–2 huevos enteros (más fácil de comer).",
+    alt4: "150 g de yogurt griego natural + semillas.",
+    alt5: "Burrito de pollo o bowl salado en vez de omelette.",
+    smoothieLabel: "Licuado verde",
+    smoothieVeg: "de espinaca, pepino, apio",
+    greenApple: "de manzana verde",
+    cinnamonOpt: "Canela opcional",
+    avocado: "aguacate",
+    omelette: "Omelette",
+    eggWhites: "claras de huevo",
+    turkeySlices: "de pechuga de pavo",
+    veggiesChoice: "Verduras de tu agrado",
+    cornTortillas: "tortillas de maíz",
+    d1bName: "Licuado Verde + Omelette con Jamón",
+    d3bName: "Licuado Verde + Huevo con Espinaca",
+    d4bName: "Licuado Verde + Huevo con Calabaza",
+    d5bName: "Licuado Verde + Bowl de Atún",
+    salmonTacosName: "Tacos de Salmón con Calabaza y Cilantro",
+    salmon: "de salmón",
+    zucchiniTaste: "Calabacitas al gusto",
+    cilantroTaste: "Cilantro al gusto",
+    picoTaste: "Pico de gallo al gusto",
+    salsaTaste: "Salsa al gusto",
+    chickenSaladName: "Pollo a la Plancha con Ensalada Fresca",
+    cookedRice: "de arroz cocido",
+    chickenBreast: "de pechuga de pollo",
+    mixedVeg: "de mix de vegetales rallados (zanahoria, chayote, lechuga, espinaca)",
+    saltPepper: "Sal y pimienta al gusto",
+    steakPotatoName: "Bistec con Papa",
+    steakStrips: "de bistec en tiras o cubos",
+    potatoCooked: "de papa cocida o guisada",
+    dicedTomato: "Jitomate picado",
+    garlicSaltPepper: "Ajo, sal y pimienta al gusto",
+    cilantroParsley: "Cilantro o perejil para decorar",
+    steakNote: "Opcional: puedes añadir 30–40 ml de agua o caldo para dar textura más caldosa.",
+    tunaBowlName: "Bowl de Atún",
+    tunaBowlLabel: "Bowl de atún",
+    bakedTostadas: "tostadas horneadas",
+    drainedTuna: "de atún drenado",
+    spinachTaste: "Espinaca al gusto",
+    ofCarrot: "de zanahoria",
+    ofCucumber: "de pepino",
+    lemon: "Limón",
+    eggsLabel: "Huevos",
+    spinach: "de espinaca",
+    squash: "de calabaza",
+    fajitasName: "Fajitas de Pollo (o de Res)",
+    peppers: "de pimientos",
+    mushroomsNopales: "Champiñones o nopales al gusto",
+    worcestershire: "Salsa inglesa opcional",
+    powerFitName: "Huevos Estilo Power Fit",
+    wholeEgg: "huevo entero",
+    redOnion: "de cebolla morada picada",
+    slicedMushrooms: "de champiñones fileteados",
+    spinachChard: "de espinaca o acelga picada",
+    cookedGreenBeans: "de ejote cocido",
+    qty1cup: "1 taza",
+    qtyHalfCup: "½ taza",
+    qtyThirdCup: "⅓ taza",
+    qtyQuarterCup: "¼ taza",
+    calSectionTitle: "Calorías y Déficit",
+    calHeading: "Calorías y Macros Estimados por Día",
+    calAssumptions: "Supuestos: Valores nutricionales promedio estilo USDA. Arroz cocido = peso cocido. Atún = enlatado en agua, drenado. Salmón/pollo/bistec = peso crudo salvo que diga cocido. Yogurt griego = natural, sin grasa. 1 scoop de proteína = ~25 g de proteína (whey típico). Tortillas y tostadas = valores estándar de tienda. Verduras \"al gusto\" = 25–50 kcal por porción estimada.",
+    thDay: "Día",
+    thCal: "Calorías",
+    thProt: "Proteína",
+    thCarbs: "Carbos",
+    thFat: "Grasa",
+    thDeficit: "Déficit?",
+    r1Day: "1 Lun",
+    r2Day: "2 Mar",
+    r3Day: "3 Mié",
+    r4Day: "4 Jue",
+    r5Day: "5 Vie",
+    r6Day: "6 Sáb",
+    r7Day: "7 Dom",
+    deficitLikely: "Probable déficit",
+    calAvgLine: "Promedio semanal: ~1,795 kcal/día",
+    calMacroLine: "Macros promedio: Proteína 167 g (37%) · Carbos 204 g (45%) · Grasa 36 g (18%)",
+    calSummary: "Plan alto en proteína, bajo en grasa — claramente orientado a pérdida de grasa preservando masa muscular. Todas las jornadas están en probable déficit calórico para una mujer adulta promedio (mantenimiento ~1,800–2,200 kcal)."
+  },
+  en: {
+    planTitle: "Meal Plan",
+    dateRange: "February 25 to March 20, 2026",
+    schBreakfast: "Breakfast",
+    schSnack1: "Snack",
+    schLunch: "Lunch",
+    schSnack2: "Snack",
+    schDinner: "Dinner",
+    supplementsTitle: "Daily Supplements",
+    supp1Name: "Hydrolyzed Collagen + Vitamin C",
+    supp1Dose: "Dose: 10–15 g collagen + 500–1000 mg vitamin C daily",
+    supp2Name: "HMB (\u03B2-hydroxy \u03B2-methylbutyrate)",
+    supp2Dose: "Dose: 3 g per day",
+    supp3Name: "Omega 3 (high EPA/DHA)",
+    supp3Dose: "Dose: 2 capsules daily (1000 mg per capsule)",
+    supp4Name: "Tea — Dandelion Extract",
+    supp4Dose: "Take daily",
+    essentialsTitle: "Mandatory Every Day",
+    shakeTitle: "Protein Shake (every day)",
+    water: "water",
+    oats: "oats",
+    protein: "protein powder",
+    preworkoutTitle: "Before Training",
+    yogurt: "Greek yogurt",
+    banana: "banana",
+    fruitTitle: "Choose 1 Fruit (per day)",
+    frBanana: "banana",
+    frApple: "apple",
+    frMandarin: "mandarins",
+    frOrange: "oranges",
+    frGrapes: "green grapes",
+    frStrawberry: "strawberries",
+    frMelon: "watermelon or melon",
+    veggiesTitle: "Shredded Vegetables",
+    jicama: "jicama",
+    carrot: "carrot",
+    mealPlanTitle: "Meal Plan — 7 Days",
+    day1Header: "Day 1 — Monday",
+    day2Header: "Day 2 — Tuesday",
+    day3Header: "Day 3 — Wednesday",
+    day4Header: "Day 4 — Thursday",
+    day5Header: "Day 5 — Friday",
+    day6Header: "Day 6 — Saturday",
+    day7Header: "Day 7 — Sunday",
+    breakfast: "Breakfast",
+    lunch: "Lunch",
+    dinner: "Dinner",
+    snackLabel: "Snack",
+    snack1Desc: "1 fruit of your choice + shredded vegetables",
+    snack2Desc: "Protein shake + pre-workout (Greek yogurt + banana)",
+    altTitle: "\u21C4 Egg-free alternatives (same protein)",
+    alt1: "120–150 g chicken breast in a sandwich or tacos with the same tortillas.",
+    alt2: "150 g tuna in water with the same tortillas.",
+    alt3: "3 egg whites + 1–2 whole eggs (easier to eat).",
+    alt4: "150 g plain Greek yogurt + seeds.",
+    alt5: "Chicken burrito or savory bowl instead of omelet.",
+    smoothieLabel: "Green smoothie",
+    smoothieVeg: "spinach, cucumber, celery",
+    greenApple: "green apple",
+    cinnamonOpt: "Cinnamon (optional)",
+    avocado: "avocado",
+    omelette: "Omelette",
+    eggWhites: "egg whites",
+    turkeySlices: "turkey breast slices",
+    veggiesChoice: "Vegetables of your choice",
+    cornTortillas: "corn tortillas",
+    d1bName: "Green Smoothie + Ham Omelette",
+    d3bName: "Green Smoothie + Egg with Spinach",
+    d4bName: "Green Smoothie + Egg with Squash",
+    d5bName: "Green Smoothie + Tuna Bowl",
+    salmonTacosName: "Salmon Tacos with Zucchini & Cilantro",
+    salmon: "salmon",
+    zucchiniTaste: "Zucchini to taste",
+    cilantroTaste: "Cilantro to taste",
+    picoTaste: "Pico de gallo to taste",
+    salsaTaste: "Salsa to taste",
+    chickenSaladName: "Grilled Chicken with Fresh Salad",
+    cookedRice: "cooked rice",
+    chickenBreast: "chicken breast",
+    mixedVeg: "mixed shredded vegetables (carrot, chayote, lettuce, spinach)",
+    saltPepper: "Salt & pepper to taste",
+    steakPotatoName: "Steak with Potato",
+    steakStrips: "steak in strips or cubes",
+    potatoCooked: "cooked or stewed potato",
+    dicedTomato: "Diced tomato",
+    garlicSaltPepper: "Garlic, salt & pepper to taste",
+    cilantroParsley: "Cilantro or parsley for garnish",
+    steakNote: "Optional: add 30\u201340 ml water or broth for a soupier texture.",
+    tunaBowlName: "Tuna Bowl",
+    tunaBowlLabel: "Tuna bowl",
+    bakedTostadas: "baked tostadas",
+    drainedTuna: "drained tuna",
+    spinachTaste: "Spinach to taste",
+    ofCarrot: "carrot",
+    ofCucumber: "cucumber",
+    lemon: "Lemon/lime",
+    eggsLabel: "Eggs",
+    spinach: "spinach",
+    squash: "squash (calabaza)",
+    fajitasName: "Chicken Fajitas (or Beef)",
+    peppers: "bell peppers",
+    mushroomsNopales: "Mushrooms or nopales to taste",
+    worcestershire: "Worcestershire sauce (optional)",
+    powerFitName: "Power Fit Style Eggs",
+    wholeEgg: "whole egg",
+    redOnion: "diced red onion",
+    slicedMushrooms: "sliced mushrooms",
+    spinachChard: "chopped spinach or chard",
+    cookedGreenBeans: "cooked green beans",
+    qty1cup: "1 cup",
+    qtyHalfCup: "½ cup",
+    qtyThirdCup: "⅓ cup",
+    qtyQuarterCup: "¼ cup",
+    calSectionTitle: "Calories & Deficit",
+    calHeading: "Estimated Daily Calories & Macros",
+    calAssumptions: "Assumptions: USDA-style average nutritional values. Cooked rice = cooked weight. Tuna = canned in water, drained. Salmon/chicken/steak = raw weight unless explicitly stated cooked. Greek yogurt = plain, nonfat. 1 scoop protein powder = ~25 g protein (typical whey). Tortillas and tostadas = standard store-bought values. \"Vegetables to taste\" = 25–50 kcal per estimated serving.",
+    thDay: "Day",
+    thCal: "Calories",
+    thProt: "Protein",
+    thCarbs: "Carbs",
+    thFat: "Fat",
+    thDeficit: "Deficit?",
+    r1Day: "1 Mon",
+    r2Day: "2 Tue",
+    r3Day: "3 Wed",
+    r4Day: "4 Thu",
+    r5Day: "5 Fri",
+    r6Day: "6 Sat",
+    r7Day: "7 Sun",
+    deficitLikely: "Likely deficit",
+    calAvgLine: "Weekly average: ~1,795 kcal/day",
+    calMacroLine: "Average macros: Protein 167 g (37%) · Carbs 204 g (45%) · Fat 36 g (18%)",
+    calSummary: "High-protein, low-fat plan — clearly designed for fat loss while preserving muscle mass. All days are in a likely caloric deficit for an average adult female (maintenance ~1,800–2,200 kcal)."
+  }
+};
+
+let currentLang = "es";
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll(".lang-btn").forEach(function(btn) {
+    btn.classList.toggle("active", btn.textContent.trim() === lang.toUpperCase());
+  });
+  document.querySelectorAll("[data-i18n]").forEach(function(el) {
+    var key = el.getAttribute("data-i18n");
+    if (translations[lang][key] !== undefined) {
+      el.textContent = translations[lang][key];
+    }
+  });
+}
+</script>
+
+</body>
+</html>
