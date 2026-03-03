@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -51,7 +51,7 @@
   .person-panel.visible{display:block}
 
   /* ── Milestone grid ── */
-  .milestone-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem}
+  .milestone-grid{display:grid;grid-template-columns:1fr;gap:1.6rem}
 
   /* ── Milestone card ── */
   .milestone-card{
@@ -69,8 +69,17 @@
   }
   #panel-remi .milestone-card .card-top{background:var(--accent-remi)}
 
-  /* ── Photo area ── */
-  .photo-wrap{
+  /* ── 4-photo grid inside each card ── */
+  .photos-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:2px;
+    background:var(--ph-border);
+    border-bottom:1px solid var(--ph-border);
+  }
+
+  /* ── Individual photo slot ── */
+  .photo-slot{
     position:relative;
     background:var(--ph-bg);
     aspect-ratio:3/4;
@@ -78,33 +87,40 @@
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    gap:.6rem;
-    border-bottom:1px solid var(--ph-border);
+    gap:.35rem;
     overflow:hidden;
     cursor:pointer;
   }
-  .photo-wrap img{
+  .photo-slot img{
     position:absolute;inset:0;
     width:100%;height:100%;
     object-fit:cover;
     display:none;
   }
-  .photo-wrap img.loaded{display:block}
-  .photo-wrap .ph-icon{font-size:2.4rem;opacity:.4;transition:opacity .2s;pointer-events:none}
-  .photo-wrap .ph-label{font-size:.78rem;font-weight:600;color:var(--muted);opacity:.7;pointer-events:none}
-  .photo-wrap:hover .ph-icon{opacity:.6}
-  .photo-wrap input[type="file"]{
+  .photo-slot img.loaded{display:block}
+  .photo-slot .ph-icon{font-size:1.6rem;opacity:.35;transition:opacity .2s;pointer-events:none}
+  .photo-slot .ph-label{font-size:.65rem;font-weight:700;color:var(--muted);opacity:.65;pointer-events:none;text-transform:uppercase;letter-spacing:.04em;text-align:center;line-height:1.2}
+  .photo-slot:hover .ph-icon{opacity:.55}
+  .photo-slot input[type="file"]{
     position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
   }
-  .photo-wrap .remove-btn{
-    position:absolute;top:.5rem;right:.5rem;
+  .photo-slot .remove-btn{
+    position:absolute;top:.35rem;right:.35rem;
     background:rgba(0,0,0,.55);color:#fff;
-    border:none;border-radius:50%;width:26px;height:26px;
-    font-size:.85rem;cursor:pointer;
+    border:none;border-radius:50%;width:22px;height:22px;
+    font-size:.75rem;cursor:pointer;
     display:none;align-items:center;justify-content:center;
     z-index:2;line-height:1;
   }
-  .photo-wrap:hover .remove-btn{display:flex}
+  .photo-slot:hover .remove-btn{display:flex}
+  .slot-view-tag{
+    position:absolute;bottom:0;left:0;right:0;
+    background:rgba(0,0,0,.38);color:#fff;
+    font-size:.6rem;font-weight:700;text-align:center;
+    padding:.18rem 0;text-transform:uppercase;letter-spacing:.06em;
+    pointer-events:none;
+  }
+  .photo-slot img.loaded ~ .slot-view-tag{display:block}
 
   /* ── Card footer ── */
   .card-footer{padding:.9rem 1.1rem 1rem}
@@ -143,9 +159,9 @@
 
   /* ── Print ── */
   @media print{
-    .plan-nav,.lang-toggle,.person-tabs,.photo-wrap input,.remove-btn,.milestone-note,.milestone-date input{display:none!important}
+    .plan-nav,.lang-toggle,.person-tabs,.photo-slot input,.remove-btn,.milestone-note,.milestone-date input{display:none!important}
     .container{max-width:100%}
-    .photo-wrap img.loaded{display:block!important}
+    .photo-slot img.loaded{display:block!important}
   }
 
   /* ── Mobile ── */
@@ -155,7 +171,7 @@
     .lang-toggle{top:2.8rem;right:.5rem}
     .lang-btn{padding:.35rem .7rem;font-size:.78rem}
     body{padding-top:3.4rem}
-    .milestone-grid{grid-template-columns:1fr;gap:1rem}
+    .photos-grid{grid-template-columns:repeat(2,1fr)}
   }
 </style>
 </head>
@@ -201,19 +217,14 @@
   /* ── i18n ── */
   var T = {
     en: {
-      groceryNav:  'Grocery List',
-      trainingNav: 'Training',
-      progressNav: 'Progress',
-      pageTitle:   'Progress Photos',
-      pageSubtitle:'Visual milestones. Real results. Same team.',
-      startDate:   '📅 Started: February 25, 2026',
-      tabAna:      '🌿 Ana',
-      tabRemi:     '💪 Remi',
-      saveNotice:  '📌 Photos and notes are saved in your browser automatically.',
-      addPhoto:    'Add Photo',
-      tapToAdd:    'Tap to add',
+      pageTitle:       'Progress Photos',
+      pageSubtitle:    'Visual milestones. Real results. Same team.',
+      startDate:       '📅 Started: February 25, 2026',
+      tabAna:          '🌿 Ana',
+      tabRemi:         '💪 Remi',
+      saveNotice:      '📌 Photos and notes are saved in your browser automatically.',
       notePlaceholder: 'Notes (weight, feeling…)',
-      datePlaceholder: 'Set date',
+      views:           ['Front', 'Back', 'Left', 'Right'],
       milestones: [
         { label: 'Day 1',  desc: 'Starting point' },
         { label: 'Day 30', desc: '1 month in' },
@@ -222,19 +233,14 @@
       ]
     },
     es: {
-      groceryNav:  'Lista de Compras',
-      trainingNav: 'Entrenamiento',
-      progressNav: 'Progreso',
-      pageTitle:   'Fotos de Progreso',
-      pageSubtitle:'Hitos visuales. Resultados reales. Mismo equipo.',
-      startDate:   '📅 Inicio: 25 de febrero de 2026',
-      tabAna:      '🌿 Ana',
-      tabRemi:     '💪 Remi',
-      saveNotice:  '📌 Las fotos y notas se guardan automáticamente en tu navegador.',
-      addPhoto:    'Agregar Foto',
-      tapToAdd:    'Toca para agregar',
+      pageTitle:       'Fotos de Progreso',
+      pageSubtitle:    'Hitos visuales. Resultados reales. Mismo equipo.',
+      startDate:       '📅 Inicio: 25 de febrero de 2026',
+      tabAna:          '🌿 Ana',
+      tabRemi:         '💪 Remi',
+      saveNotice:      '📌 Las fotos y notas se guardan automáticamente en tu navegador.',
       notePlaceholder: 'Notas (peso, cómo te sientes…)',
-      datePlaceholder: 'Fecha',
+      views:           ['Frente', 'Espalda', 'Izq.', 'Der.'],
       milestones: [
         { label: 'Día 1',  desc: 'Punto de partida' },
         { label: 'Día 30', desc: '1 mes de progreso' },
@@ -244,6 +250,7 @@
     }
   };
 
+  var VIEWS = ['front', 'back', 'left', 'right'];
   var currentLang = 'en';
   var currentPanel = 'ana';
 
@@ -252,95 +259,112 @@
     var grid = document.getElementById('grid-' + person);
     grid.innerHTML = '';
     var milestones = T[lang].milestones;
+    var viewLabels = T[lang].views;
 
     milestones.forEach(function(m, i) {
-      var key = 'progress_' + person + '_' + i;
-      var saved = getSaved(key);
+      /* Build 4 photo slots */
+      var photosHtml = '<div class="photos-grid">';
+      VIEWS.forEach(function(view, vi) {
+        var pid = person + '-' + i + '-' + view;
+        photosHtml +=
+          '<div class="photo-slot" id="ps-' + pid + '">' +
+            '<img id="img-' + pid + '" alt="' + viewLabels[vi] + '" />' +
+            '<span class="ph-icon">📷</span>' +
+            '<span class="ph-label" id="phlbl-' + pid + '">' + viewLabels[vi] + '</span>' +
+            '<input type="file" accept="image/*" onchange="handlePhoto(this,\'' + person + '\',' + i + ',\'' + view + '\')" />' +
+            '<button class="remove-btn" title="Remove" onclick="removePhoto(\'' + person + '\',' + i + ',\'' + view + '\',event)">✕</button>' +
+            '<span class="slot-view-tag">' + viewLabels[vi] + '</span>' +
+          '</div>';
+      });
+      photosHtml += '</div>';
 
       var card = document.createElement('div');
       card.className = 'milestone-card';
       card.innerHTML =
         '<div class="card-top"></div>' +
-        '<div class="photo-wrap" id="pw-' + person + '-' + i + '">' +
-          '<img id="img-' + person + '-' + i + '" alt="' + m.label + '" />' +
-          '<span class="ph-icon">📷</span>' +
-          '<span class="ph-label" id="phlbl-' + person + '-' + i + '">' + T[lang].addPhoto + '</span>' +
-          '<input type="file" accept="image/*" onchange="handlePhoto(this,\'' + person + '\',' + i + ')" />' +
-          '<button class="remove-btn" title="Remove" onclick="removePhoto(\'' + person + '\',' + i + ',event)">✕</button>' +
-        '</div>' +
+        photosHtml +
         '<div class="card-footer">' +
-          '<div class="milestone-label" id="mlbl-' + person + '-' + i + '">' + m.label + '</div>' +
-          '<div class="milestone-desc" id="mdesc-' + person + '-' + i + '">' + m.desc + '</div>' +
+          '<div class="milestone-label">' + m.label + '</div>' +
+          '<div class="milestone-desc">' + m.desc + '</div>' +
           '<div class="milestone-date">' +
             '<span>📅</span>' +
-            '<input type="date" id="date-' + person + '-' + i + '" onchange="saveField(\'' + person + '\',' + i + ')" />' +
+            '<input type="date" id="date-' + person + '-' + i + '" onchange="saveMeta(\'' + person + '\',' + i + ')" />' +
           '</div>' +
           '<div class="milestone-note-wrap">' +
             '<textarea class="milestone-note" id="note-' + person + '-' + i + '" rows="2" ' +
               'placeholder="' + T[lang].notePlaceholder + '" ' +
-              'oninput="saveField(\'' + person + '\',' + i + ')">' +
+              'oninput="saveMeta(\'' + person + '\',' + i + ')">' +
             '</textarea>' +
           '</div>' +
         '</div>';
 
       grid.appendChild(card);
 
-      /* Restore saved data */
-      if (saved.photo) {
-        var img = document.getElementById('img-' + person + '-' + i);
-        img.src = saved.photo;
-        img.classList.add('loaded');
-        document.getElementById('phlbl-' + person + '-' + i).style.display = 'none';
-        document.querySelector('#pw-' + person + '-' + i + ' .ph-icon').style.display = 'none';
-      }
-      if (saved.date)  document.getElementById('date-' + person + '-' + i).value = saved.date;
-      if (saved.note)  document.getElementById('note-' + person + '-' + i).value = saved.note;
+      /* Restore saved photos */
+      VIEWS.forEach(function(view) {
+        var pid = person + '-' + i + '-' + view;
+        var saved = getSaved('progress_' + person + '_' + i + '_' + view);
+        if (saved.photo) {
+          var img = document.getElementById('img-' + pid);
+          img.src = saved.photo;
+          img.classList.add('loaded');
+          document.getElementById('ps-' + pid).querySelector('.ph-icon').style.display = 'none';
+          document.getElementById('phlbl-' + pid).style.display = 'none';
+        }
+      });
+
+      /* Restore date / note */
+      var meta = getSaved('progress_' + person + '_' + i);
+      if (meta.date) document.getElementById('date-' + person + '-' + i).value = meta.date;
+      if (meta.note) document.getElementById('note-' + person + '-' + i).value = meta.note;
     });
   }
 
   function rebuildGridsForLang(lang) {
-    ['ana','remi'].forEach(function(p) {
-      buildGrid(p, lang);
-    });
+    ['ana','remi'].forEach(function(p) { buildGrid(p, lang); });
   }
 
   /* ── Photo handling ── */
-  function handlePhoto(input, person, idx) {
+  function handlePhoto(input, person, idx, view) {
     var file = input.files[0];
     if (!file) return;
     var reader = new FileReader();
     reader.onload = function(e) {
       var dataUrl = e.target.result;
-      var img = document.getElementById('img-' + person + '-' + idx);
+      var pid = person + '-' + idx + '-' + view;
+      var img = document.getElementById('img-' + pid);
       img.src = dataUrl;
       img.classList.add('loaded');
-      document.getElementById('phlbl-' + person + '-' + idx).style.display = 'none';
-      document.querySelector('#pw-' + person + '-' + idx + ' .ph-icon').style.display = 'none';
-      saveField(person, idx, dataUrl);
+      document.getElementById('ps-' + pid).querySelector('.ph-icon').style.display = 'none';
+      document.getElementById('phlbl-' + pid).style.display = 'none';
+      var saved = getSaved('progress_' + person + '_' + idx + '_' + view);
+      saved.photo = dataUrl;
+      try { localStorage.setItem('progress_' + person + '_' + idx + '_' + view, JSON.stringify(saved)); } catch(e) {}
     };
     reader.readAsDataURL(file);
   }
 
-  function removePhoto(person, idx, evt) {
+  function removePhoto(person, idx, view, evt) {
     evt.stopPropagation();
-    var img = document.getElementById('img-' + person + '-' + idx);
+    var pid = person + '-' + idx + '-' + view;
+    var img = document.getElementById('img-' + pid);
     img.src = '';
     img.classList.remove('loaded');
-    var pw = document.getElementById('pw-' + person + '-' + idx);
-    pw.querySelector('.ph-icon').style.display = '';
-    document.getElementById('phlbl-' + person + '-' + idx).style.display = '';
-    saveField(person, idx, null);
+    var ps = document.getElementById('ps-' + pid);
+    ps.querySelector('.ph-icon').style.display = '';
+    document.getElementById('phlbl-' + pid).style.display = '';
+    var key = 'progress_' + person + '_' + idx + '_' + view;
+    try { localStorage.setItem(key, JSON.stringify({})); } catch(e) {}
   }
 
-  /* ── Persistence (localStorage) ── */
+  /* ── Persistence ── */
   function getSaved(key) {
     try { return JSON.parse(localStorage.getItem(key)) || {}; } catch(e) { return {}; }
   }
 
-  function saveField(person, idx, photoDataUrl) {
+  function saveMeta(person, idx) {
     var key = 'progress_' + person + '_' + idx;
     var saved = getSaved(key);
-    if (photoDataUrl !== undefined) saved.photo = photoDataUrl;
     var dateEl = document.getElementById('date-' + person + '-' + idx);
     var noteEl = document.getElementById('note-' + person + '-' + idx);
     if (dateEl) saved.date = dateEl.value;
