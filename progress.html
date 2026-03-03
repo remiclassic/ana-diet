@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana & Remi — Progress Photos</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f5f4f2;--card:#fff;--text:#1e2228;--muted:#6b7280;
+    --accent:#5a7a5a;--accent-light:#e8f0e8;
+    --accent-remi:#3b6ea5;--accent-remi-light:#e0ecf7;
+    --border:#e0ddd8;--radius:14px;
+    --shadow:0 2px 10px rgba(0,0,0,.07);
+    --ph-bg:#eeecea;--ph-border:#d8d5d0;
+  }
+  html{font-size:15px;scroll-behavior:smooth}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:3.8rem 1rem 3rem}
+  .container{max-width:900px;margin:0 auto}
+
+  /* ── Nav ── */
+  .plan-nav{position:fixed;top:0;left:0;width:100%;height:2.8rem;background:#fff;display:flex;align-items:center;justify-content:center;gap:.4rem;z-index:200;box-shadow:0 1px 4px rgba(0,0,0,.1);border-bottom:1px solid var(--border);flex-wrap:wrap;padding:0 .5rem}
+  .plan-nav a{text-decoration:none;font-size:.82rem;font-weight:600;padding:.32rem 1rem;border-radius:20px;transition:all .2s;border:1.5px solid transparent;white-space:nowrap}
+  .plan-nav a.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .plan-nav a:not(.active){color:var(--muted);border-color:var(--border);background:#fff}
+  .plan-nav a:not(.active):hover{color:var(--text);border-color:var(--text)}
+
+  /* ── Lang toggle ── */
+  .lang-toggle{position:fixed;top:3.2rem;right:1rem;z-index:100;display:flex;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.12);border:1px solid var(--border)}
+  .lang-btn{padding:.45rem 1rem;font-size:.85rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+  .lang-btn.active{background:var(--accent);color:#fff}
+  .lang-btn:not(.active){background:#fff;color:var(--text)}
+
+  /* ── Header ── */
+  header{text-align:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:2px solid var(--border)}
+  header .header-icon{font-size:2rem;margin-bottom:.5rem;display:block}
+  header h1{font-size:1.7rem;font-weight:800;letter-spacing:.01em;margin-bottom:.3rem;line-height:1.2}
+  header .subtitle{font-size:.93rem;color:var(--muted);font-style:italic}
+  header .start-date{display:inline-block;margin-top:.7rem;font-size:.82rem;font-weight:600;color:var(--accent);background:var(--accent-light);padding:.25rem .85rem;border-radius:20px;border:1px solid rgba(90,122,90,.2)}
+
+  /* ── Person tabs ── */
+  .person-tabs{display:flex;gap:.6rem;margin-bottom:2rem;justify-content:center}
+  .tab-btn{padding:.45rem 1.6rem;font-size:.88rem;font-weight:700;border-radius:22px;border:2px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:all .2s}
+  .tab-btn.active-ana{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .tab-btn.active-remi{background:var(--accent-remi);color:#fff;border-color:var(--accent-remi)}
+  .tab-btn:not(.active-ana):not(.active-remi):hover{border-color:var(--text);color:var(--text)}
+
+  /* ── Person panel ── */
+  .person-panel{display:none}
+  .person-panel.visible{display:block}
+
+  /* ── Milestone grid ── */
+  .milestone-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem}
+
+  /* ── Milestone card ── */
+  .milestone-card{
+    background:var(--card);
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .milestone-card .card-top{
+    height:6px;
+    background:var(--accent);
+  }
+  #panel-remi .milestone-card .card-top{background:var(--accent-remi)}
+
+  /* ── Photo area ── */
+  .photo-wrap{
+    position:relative;
+    background:var(--ph-bg);
+    aspect-ratio:3/4;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:.6rem;
+    border-bottom:1px solid var(--ph-border);
+    overflow:hidden;
+    cursor:pointer;
+  }
+  .photo-wrap img{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+    display:none;
+  }
+  .photo-wrap img.loaded{display:block}
+  .photo-wrap .ph-icon{font-size:2.4rem;opacity:.4;transition:opacity .2s;pointer-events:none}
+  .photo-wrap .ph-label{font-size:.78rem;font-weight:600;color:var(--muted);opacity:.7;pointer-events:none}
+  .photo-wrap:hover .ph-icon{opacity:.6}
+  .photo-wrap input[type="file"]{
+    position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+  }
+  .photo-wrap .remove-btn{
+    position:absolute;top:.5rem;right:.5rem;
+    background:rgba(0,0,0,.55);color:#fff;
+    border:none;border-radius:50%;width:26px;height:26px;
+    font-size:.85rem;cursor:pointer;
+    display:none;align-items:center;justify-content:center;
+    z-index:2;line-height:1;
+  }
+  .photo-wrap:hover .remove-btn{display:flex}
+
+  /* ── Card footer ── */
+  .card-footer{padding:.9rem 1.1rem 1rem}
+  .milestone-label{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:.18rem}
+  .milestone-desc{font-size:.8rem;color:var(--muted)}
+  .milestone-date{
+    margin-top:.55rem;
+    display:flex;align-items:center;gap:.4rem;
+    font-size:.78rem;color:var(--muted);
+  }
+  .milestone-date input[type="date"]{
+    font-size:.78rem;font-family:inherit;
+    border:1px solid var(--border);border-radius:6px;
+    padding:.2rem .5rem;color:var(--text);
+    background:var(--bg);cursor:pointer;outline:none;
+    transition:border-color .15s;
+  }
+  .milestone-date input[type="date"]:focus{border-color:var(--accent)}
+  #panel-remi .milestone-date input[type="date"]:focus{border-color:var(--accent-remi)}
+
+  .milestone-note-wrap{margin-top:.5rem}
+  .milestone-note{
+    width:100%;font-size:.78rem;font-family:inherit;
+    border:1px solid var(--border);border-radius:6px;
+    padding:.3rem .6rem;color:var(--text);
+    background:var(--bg);resize:none;outline:none;
+    transition:border-color .15s;line-height:1.5;
+    min-height:44px;
+  }
+  .milestone-note:focus{border-color:var(--accent)}
+  #panel-remi .milestone-note:focus{border-color:var(--accent-remi)}
+  .milestone-note::placeholder{color:var(--muted);opacity:.6}
+
+  /* ── Save notice ── */
+  .save-notice{text-align:center;margin-top:1.6rem;font-size:.78rem;color:var(--muted);font-style:italic}
+
+  /* ── Print ── */
+  @media print{
+    .plan-nav,.lang-toggle,.person-tabs,.photo-wrap input,.remove-btn,.milestone-note,.milestone-date input{display:none!important}
+    .container{max-width:100%}
+    .photo-wrap img.loaded{display:block!important}
+  }
+
+  /* ── Mobile ── */
+  @media(max-width:580px){
+    .plan-nav{height:2.4rem}
+    .plan-nav a{font-size:.72rem;padding:.25rem .6rem}
+    .lang-toggle{top:2.8rem;right:.5rem}
+    .lang-btn{padding:.35rem .7rem;font-size:.78rem}
+    body{padding-top:3.4rem}
+    .milestone-grid{grid-template-columns:1fr;gap:1rem}
+  }
+</style>
+</head>
+<body>
+
+<nav class="plan-nav">
+  <a href="index.html">Ana's Plan</a>
+  <a href="remi-diet.html">Remi's Plan</a>
+  <a href="grocery.html" data-i18n="groceryNav">Grocery List</a>
+  <a href="training-schedule.html" data-i18n="trainingNav">Training</a>
+  <a href="progress.html" class="active" data-i18n="progressNav">Progress</a>
+</nav>
+
+<div class="lang-toggle">
+  <button class="lang-btn" onclick="setLang('es')">ES</button>
+  <button class="lang-btn active" onclick="setLang('en')">EN</button>
+</div>
+
+<div class="container">
+
+  <header>
+    <span class="header-icon">📸</span>
+    <h1 data-i18n="pageTitle">Progress Photos</h1>
+    <p class="subtitle" data-i18n="pageSubtitle">Visual milestones. Real results. Same team.</p>
+    <span class="start-date" data-i18n="startDate">📅 Started: February 25, 2026</span>
+  </header>
+
+  <!-- Person tabs -->
+  <div class="person-tabs">
+    <button class="tab-btn active-ana" onclick="showPanel('ana')" data-i18n="tabAna">🌿 Ana</button>
+    <button class="tab-btn" onclick="showPanel('remi')" data-i18n="tabRemi">💪 Remi</button>
+  </div>
+
+  <!-- ── ANA PANEL ── -->
+  <div class="person-panel visible" id="panel-ana">
+    <div class="milestone-grid" id="grid-ana"></div>
+  </div>
+
+  <!-- ── REMI PANEL ── -->
+  <div class="person-panel" id="panel-remi">
+    <div class="milestone-grid" id="grid-remi"></div>
+  </div>
+
+  <p class="save-notice" data-i18n="saveNotice">📌 Photos and notes are saved in your browser automatically.</p>
+
+</div>
+
+<script>
+  /* ── i18n ── */
+  var T = {
+    en: {
+      groceryNav:  'Grocery List',
+      trainingNav: 'Training',
+      progressNav: 'Progress',
+      pageTitle:   'Progress Photos',
+      pageSubtitle:'Visual milestones. Real results. Same team.',
+      startDate:   '📅 Started: February 25, 2026',
+      tabAna:      '🌿 Ana',
+      tabRemi:     '💪 Remi',
+      saveNotice:  '📌 Photos and notes are saved in your browser automatically.',
+      addPhoto:    'Add Photo',
+      tapToAdd:    'Tap to add',
+      notePlaceholder: 'Notes (weight, feeling…)',
+      datePlaceholder: 'Set date',
+      milestones: [
+        { label: 'Day 1',  desc: 'Starting point' },
+        { label: 'Day 30', desc: '1 month in' },
+        { label: 'Day 60', desc: '2 months in' },
+        { label: 'Day 90', desc: '3 months — final' }
+      ]
+    },
+    es: {
+      groceryNav:  'Lista de Compras',
+      trainingNav: 'Entrenamiento',
+      progressNav: 'Progreso',
+      pageTitle:   'Fotos de Progreso',
+      pageSubtitle:'Hitos visuales. Resultados reales. Mismo equipo.',
+      startDate:   '📅 Inicio: 25 de febrero de 2026',
+      tabAna:      '🌿 Ana',
+      tabRemi:     '💪 Remi',
+      saveNotice:  '📌 Las fotos y notas se guardan automáticamente en tu navegador.',
+      addPhoto:    'Agregar Foto',
+      tapToAdd:    'Toca para agregar',
+      notePlaceholder: 'Notas (peso, cómo te sientes…)',
+      datePlaceholder: 'Fecha',
+      milestones: [
+        { label: 'Día 1',  desc: 'Punto de partida' },
+        { label: 'Día 30', desc: '1 mes de progreso' },
+        { label: 'Día 60', desc: '2 meses de progreso' },
+        { label: 'Día 90', desc: '3 meses — resultado final' }
+      ]
+    }
+  };
+
+  var currentLang = 'en';
+  var currentPanel = 'ana';
+
+  /* ── Build milestone cards ── */
+  function buildGrid(person, lang) {
+    var grid = document.getElementById('grid-' + person);
+    grid.innerHTML = '';
+    var milestones = T[lang].milestones;
+
+    milestones.forEach(function(m, i) {
+      var key = 'progress_' + person + '_' + i;
+      var saved = getSaved(key);
+
+      var card = document.createElement('div');
+      card.className = 'milestone-card';
+      card.innerHTML =
+        '<div class="card-top"></div>' +
+        '<div class="photo-wrap" id="pw-' + person + '-' + i + '">' +
+          '<img id="img-' + person + '-' + i + '" alt="' + m.label + '" />' +
+          '<span class="ph-icon">📷</span>' +
+          '<span class="ph-label" id="phlbl-' + person + '-' + i + '">' + T[lang].addPhoto + '</span>' +
+          '<input type="file" accept="image/*" onchange="handlePhoto(this,\'' + person + '\',' + i + ')" />' +
+          '<button class="remove-btn" title="Remove" onclick="removePhoto(\'' + person + '\',' + i + ',event)">✕</button>' +
+        '</div>' +
+        '<div class="card-footer">' +
+          '<div class="milestone-label" id="mlbl-' + person + '-' + i + '">' + m.label + '</div>' +
+          '<div class="milestone-desc" id="mdesc-' + person + '-' + i + '">' + m.desc + '</div>' +
+          '<div class="milestone-date">' +
+            '<span>📅</span>' +
+            '<input type="date" id="date-' + person + '-' + i + '" onchange="saveField(\'' + person + '\',' + i + ')" />' +
+          '</div>' +
+          '<div class="milestone-note-wrap">' +
+            '<textarea class="milestone-note" id="note-' + person + '-' + i + '" rows="2" ' +
+              'placeholder="' + T[lang].notePlaceholder + '" ' +
+              'oninput="saveField(\'' + person + '\',' + i + ')">' +
+            '</textarea>' +
+          '</div>' +
+        '</div>';
+
+      grid.appendChild(card);
+
+      /* Restore saved data */
+      if (saved.photo) {
+        var img = document.getElementById('img-' + person + '-' + i);
+        img.src = saved.photo;
+        img.classList.add('loaded');
+        document.getElementById('phlbl-' + person + '-' + i).style.display = 'none';
+        document.querySelector('#pw-' + person + '-' + i + ' .ph-icon').style.display = 'none';
+      }
+      if (saved.date)  document.getElementById('date-' + person + '-' + i).value = saved.date;
+      if (saved.note)  document.getElementById('note-' + person + '-' + i).value = saved.note;
+    });
+  }
+
+  function rebuildGridsForLang(lang) {
+    ['ana','remi'].forEach(function(p) {
+      buildGrid(p, lang);
+    });
+  }
+
+  /* ── Photo handling ── */
+  function handlePhoto(input, person, idx) {
+    var file = input.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var dataUrl = e.target.result;
+      var img = document.getElementById('img-' + person + '-' + idx);
+      img.src = dataUrl;
+      img.classList.add('loaded');
+      document.getElementById('phlbl-' + person + '-' + idx).style.display = 'none';
+      document.querySelector('#pw-' + person + '-' + idx + ' .ph-icon').style.display = 'none';
+      saveField(person, idx, dataUrl);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removePhoto(person, idx, evt) {
+    evt.stopPropagation();
+    var img = document.getElementById('img-' + person + '-' + idx);
+    img.src = '';
+    img.classList.remove('loaded');
+    var pw = document.getElementById('pw-' + person + '-' + idx);
+    pw.querySelector('.ph-icon').style.display = '';
+    document.getElementById('phlbl-' + person + '-' + idx).style.display = '';
+    saveField(person, idx, null);
+  }
+
+  /* ── Persistence (localStorage) ── */
+  function getSaved(key) {
+    try { return JSON.parse(localStorage.getItem(key)) || {}; } catch(e) { return {}; }
+  }
+
+  function saveField(person, idx, photoDataUrl) {
+    var key = 'progress_' + person + '_' + idx;
+    var saved = getSaved(key);
+    if (photoDataUrl !== undefined) saved.photo = photoDataUrl;
+    var dateEl = document.getElementById('date-' + person + '-' + idx);
+    var noteEl = document.getElementById('note-' + person + '-' + idx);
+    if (dateEl) saved.date = dateEl.value;
+    if (noteEl) saved.note = noteEl.value;
+    try { localStorage.setItem(key, JSON.stringify(saved)); } catch(e) {}
+  }
+
+  /* ── Panel switching ── */
+  function showPanel(person) {
+    currentPanel = person;
+    document.getElementById('panel-ana').classList.toggle('visible', person === 'ana');
+    document.getElementById('panel-remi').classList.toggle('visible', person === 'remi');
+    var btns = document.querySelectorAll('.tab-btn');
+    btns[0].className = 'tab-btn' + (person === 'ana' ? ' active-ana' : '');
+    btns[1].className = 'tab-btn' + (person === 'remi' ? ' active-remi' : '');
+  }
+
+  /* ── Language ── */
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
+      btn.classList.toggle('active', btn.textContent.trim() === lang.toUpperCase());
+    });
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (T[lang][key] !== undefined) el.textContent = T[lang][key];
+    });
+    rebuildGridsForLang(lang);
+    showPanel(currentPanel);
+  }
+
+  /* ── Init ── */
+  buildGrid('ana', currentLang);
+  buildGrid('remi', currentLang);
+</script>
+
+</body>
+</html>
