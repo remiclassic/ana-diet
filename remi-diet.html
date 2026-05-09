@@ -1,20 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Remi Couture — Muscle Gain Plan</title>
+<title>Remi Couture — Nutrition Plan (July)</title>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
     --bg:#f4f6f8;--card:#fff;--text:#1e2228;--muted:#6b7280;
     --accent:#3b6ea5;--accent-light:#e0ecf7;
     --supplement:#8b6f5e;--supplement-light:#f3ece6;
-    --essential:#3b6ea5;--essential-light:#e0ecf7;
     --breakfast:#c4956a;--lunch:#4a8c5c;--dinner:#7a6b8e;
     --snack:#b08d57;--snack-light:#f7f0e3;
     --training:#2d7d46;--training-light:#e4f5ea;
-    --rest:#8b6f5e;--rest-light:#f3ece6;
     --border:#dfe3e8;--radius:10px;
   }
   html{font-size:15px;scroll-behavior:smooth}
@@ -34,6 +32,7 @@
   section{margin-bottom:2.5rem}
   .section-title{font-size:1.25rem;font-weight:700;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:.5rem}
   .section-icon{width:28px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+  .section-sub{font-size:1.05rem;font-weight:700;margin:1.25rem 0 .65rem;color:var(--text);padding-bottom:.35rem;border-bottom:1px dashed var(--border)}
 
   .card{background:var(--card);border-radius:var(--radius);padding:1.4rem;margin-bottom:1rem;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04)}
 
@@ -41,95 +40,45 @@
   .supplement-card .supp-name{font-weight:700;font-size:1rem;margin-bottom:.2rem}
   .supplement-card .supp-dose{color:var(--muted);font-size:.9rem}
 
-  .essential-card{border-left:4px solid var(--essential)}
-  .essential-card h3{font-weight:700;font-size:1rem;margin-bottom:.5rem;color:var(--essential)}
-  .essential-card ul{list-style:none;padding:0}
-  .essential-card li{padding:.2rem 0;padding-left:1.2rem;position:relative;font-size:.93rem}
-  .essential-card li::before{content:"•";position:absolute;left:0;color:var(--essential);font-weight:700}
-
   .schedule-bar{background:linear-gradient(135deg,var(--accent-light),#f0ece6);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.4rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;align-items:center;justify-content:center}
   .schedule-item{display:flex;align-items:center;gap:.35rem;font-size:.85rem;font-weight:600}
   .schedule-time{font-size:.78rem;color:var(--muted);font-weight:500}
 
-  .targets-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1.5rem}
-  .target-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem;text-align:center}
-  .target-box .val{font-size:1.3rem;font-weight:700;color:var(--accent)}
-  .target-box .lbl{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .targets-grid.target-cal-only{display:grid;grid-template-columns:1fr;max-width:340px;margin:0 auto 1rem;gap:.6rem}
+  .target-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;text-align:center;border-left:4px solid var(--accent)}
+  .target-box .val{font-size:1.85rem;font-weight:700;color:var(--accent)}
+  .target-box .lbl{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:.2rem}
 
-  .day-card{border-left:4px solid var(--accent);padding:0;overflow:hidden}
-  .day-card.training{border-left-color:var(--training)}
-  .day-card.rest{border-left-color:var(--rest)}
-  .day-header{background:var(--accent);color:#fff;padding:.7rem 1.4rem;font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:.6rem}
-  .day-card.training .day-header{background:var(--training)}
-  .day-card.rest .day-header{background:var(--rest)}
-  .day-num{background:rgba(255,255,255,.25);border-radius:6px;padding:.1rem .55rem;font-size:.85rem}
-  .day-body{padding:1.2rem 1.4rem}
+  .meal-option-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.12rem .5rem;border-radius:4px;margin-bottom:.45rem;background:var(--accent-light);color:var(--accent)}
+  .meal-option-tag.snack{background:var(--snack-light);color:var(--snack)}
+  .meal-option-tag.lunch{background:#e4f5ea;color:var(--lunch)}
+  .meal-option-tag.dinner{background:#ece6f0;color:var(--dinner)}
+  .meal-option-tag.breakfast{background:#fdf0e4;color:var(--breakfast)}
 
-  .meal{margin-bottom:1.3rem}
-  .meal:last-child{margin-bottom:0}
-  .meal-header{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.4rem}
-  .meal-label{display:inline-block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.15rem .6rem;border-radius:4px}
-  .meal-label.breakfast{background:#fdf0e4;color:var(--breakfast)}
-  .meal-label.lunch{background:#e4f5ea;color:var(--lunch)}
-  .meal-label.dinner{background:#ece6f0;color:var(--dinner)}
-  .meal-label.snack{background:var(--snack-light);color:var(--snack)}
-  .meal-time{font-size:.75rem;color:var(--muted);font-weight:500}
-  .meal-name{font-weight:700;font-size:1.02rem;margin-bottom:.4rem}
-  .meal-macros{font-size:.78rem;color:var(--muted);margin-bottom:.4rem;font-style:italic}
+  .meal-name{font-weight:700;font-size:1.02rem;margin-bottom:.45rem}
   .meal ul{list-style:none;padding:0}
-  .meal li{padding:.18rem 0;padding-left:1.2rem;position:relative;font-size:.9rem}
+  .meal li{padding:.15rem 0;padding-left:1.15rem;position:relative;font-size:.9rem}
   .meal li::before{content:"•";position:absolute;left:0;font-weight:700;color:var(--muted)}
-  .meal li strong{font-weight:600}
-  .meal .sub-label{font-size:.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:.5rem;margin-bottom:.2rem}
-  .meal .note{font-size:.83rem;color:var(--muted);font-style:italic;margin-top:.3rem;padding-left:1.2rem}
+  .meal li.note{list-style:none;padding-left:0;font-style:italic;color:var(--muted);margin-top:.25rem}
+  .meal li.note::before{content:none}
+  .meal .sub-label{font-size:.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:.55rem;margin-bottom:.2rem}
+  .meal .note{font-size:.83rem;color:var(--muted);font-style:italic;margin-top:.45rem}
 
-  .snack-slot{background:var(--snack-light);border-radius:8px;padding:.6rem 1rem;margin:1rem 0;border:1px solid #ede5d5}
-  .snack-slot .meal-header{margin-bottom:.15rem}
-  .snack-slot p{font-size:.85rem;color:var(--muted);margin:0}
-  .snack-slot .meal-macros{margin:0}
+  .menu-intro{font-size:.93rem;color:var(--muted);margin-bottom:1.15rem;line-height:1.55}
 
-  .fruit-grid{display:grid;grid-template-columns:1fr 1fr;gap:.2rem .8rem}
+  .training-summary-list{list-style:none;padding:0;margin:.6rem 0 1rem}
+  .training-summary-list li{padding:.35rem 0;padding-left:1.15rem;position:relative;font-size:.92rem}
+  .training-summary-list li::before{content:"•";position:absolute;left:0;color:var(--training);font-weight:700}
 
-  .divider{height:1px;background:var(--border);margin:1rem 0}
+  .full-program-link{display:inline-block;margin-top:.35rem;font-weight:600;color:var(--accent);font-size:.95rem}
 
-  .rest-note{background:var(--rest-light);border:1px solid #e0d4c8;border-radius:8px;padding:.7rem 1rem;margin-top:.5rem;font-size:.85rem;color:var(--rest)}
+  .disclaimer{font-size:.82rem;color:var(--muted);font-style:italic;margin-top:.5rem;text-align:center}
 
-  table.macro-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-bottom:.8rem}
-  table.macro-table th,table.macro-table td{padding:.45rem .4rem;text-align:left}
-  table.macro-table thead tr{border-bottom:2px solid var(--border)}
-  table.macro-table tbody tr{border-bottom:1px solid var(--border)}
-  table.macro-table tbody tr:last-child{border-bottom:none}
+  #meal-options,#remi-training-summary{scroll-margin-top:76px}
 
-  .disclaimer{font-size:.82rem;color:var(--muted);font-style:italic}
+  @keyframes today-glow{0%,15%{box-shadow:0 0 0 5px rgba(59,110,165,.35),0 1px 3px rgba(0,0,0,.06)}100%{box-shadow:0 1px 3px rgba(0,0,0,.04)}}
+  .today-highlight{animation:today-glow 2s ease-out forwards;border-radius:var(--radius)}
 
-  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-
-  @media print{
-    body{padding:0!important;background:#fff;font-size:13px}
-    .plan-nav,.lang-toggle{display:none!important}
-    .container{max-width:100%}
-    header{margin-bottom:1.5rem}
-    section{break-inside:avoid}
-    .day-card{break-inside:avoid;page-break-inside:avoid;margin-bottom:.8rem}
-    .card{box-shadow:none;border:1px solid #ddd}
-    table.macro-table{font-size:.8rem}
-    table.macro-table th,table.macro-table td{padding:.3rem .2rem}
-  }
-  @media(max-width:600px){
-    html{font-size:14px}
-    body{padding:3.4rem .5rem 1rem}
-    .lang-toggle{top:2.8rem;right:.5rem}
-    .lang-btn{padding:.35rem .7rem;font-size:.78rem}
-    .fruit-grid{grid-template-columns:1fr}
-    .schedule-bar{flex-direction:column;align-items:flex-start}
-    .targets-grid{grid-template-columns:repeat(2,1fr)}
-    .day-body{padding:.8rem .9rem}
-    .card{padding:1rem}
-    .rest-note{padding:.5rem .7rem;font-size:.8rem}
-    table.macro-table{font-size:.78rem}
-  }
-
-  /* TODAY BUTTON */
   #today-btn{position:fixed;bottom:1.4rem;right:1rem;background:var(--accent);color:#fff;border-radius:14px;padding:.7rem 1.15rem;cursor:pointer;z-index:300;box-shadow:0 4px 18px rgba(0,0,0,.22);min-width:148px;text-align:center;transition:transform .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent;user-select:none;border:none;font-family:inherit}
   #today-btn:hover{transform:translateY(-2px);box-shadow:0 7px 24px rgba(0,0,0,.27)}
   #today-btn:active{transform:scale(.97)}
@@ -137,16 +86,29 @@
   .today-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.8;line-height:1}
   .today-day{font-size:1.02rem;font-weight:700;margin:.12rem 0 .18rem;line-height:1.1}
   .today-meal{font-size:.74rem;font-weight:500;opacity:.92;line-height:1.3}
-  @keyframes today-glow{0%,15%{box-shadow:0 0 0 5px rgba(59,110,165,.4),0 1px 3px rgba(0,0,0,.04)}100%{box-shadow:0 1px 3px rgba(0,0,0,.04)}}
-  .day-card.today-highlight{animation:today-glow 2s ease-out forwards}
   @media(max-width:600px){#today-btn{bottom:1rem;right:.6rem;min-width:128px;padding:.6rem .9rem}}
 
-  /* REMI WATERMARK — diagonal repeating SVG text tile (more subtle than Ana's) */
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='Segoe UI%2C system-ui%2C sans-serif' font-size='36' font-weight='900' letter-spacing='8' fill='%23eaecef' transform='rotate(-35 110 110)'%3EREMI%3C/text%3E%3C/svg%3E");background-size:220px 220px;background-repeat:repeat}
 
-  /* REMI CORNER RIBBON */
   .remi-ribbon{position:fixed;top:62px;left:-40px;background:var(--accent);color:#fff;font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:.38rem 3.8rem;transform:rotate(-45deg);z-index:150;box-shadow:0 2px 10px rgba(0,0,0,.18);pointer-events:none;user-select:none}
   @media(max-width:600px){.remi-ribbon{top:54px;left:-44px;font-size:.7rem;padding:.32rem 3.6rem}}
+
+  @media print{
+    body{padding:0!important;background:#fff;font-size:13px}
+    .plan-nav,.lang-toggle{display:none!important}
+    .container{max-width:100%}
+    header{margin-bottom:1.5rem}
+    section{break-inside:avoid}
+    .card{break-inside:avoid;page-break-inside:avoid;margin-bottom:.75rem;box-shadow:none;border:1px solid #ddd}
+  }
+  @media(max-width:600px){
+    html{font-size:14px}
+    body{padding:3.4rem .5rem 1rem}
+    .lang-toggle{top:2.8rem;right:.5rem}
+    .lang-btn{padding:.35rem .7rem;font-size:.78rem}
+    .schedule-bar{flex-direction:column;align-items:flex-start}
+    .card{padding:1rem}
+  }
 </style>
 </head>
 <body>
@@ -164,19 +126,19 @@
 
   <header>
     <h1>REMI COUTURE</h1>
-    <div class="subtitle" data-i18n="planTitle">Muscle Gain Plan</div>
-    <div class="stats" data-i18n="stats">6'3" / 190 cm &middot; ~201 lbs / 91 kg &middot; Age 41 &middot; Lifting regularly</div>
+    <div class="subtitle" data-i18n="planTitle">Nutrition plan — July · 2,000 kcal</div>
+    <div class="stats" data-i18n="stats">Pick one option per meal category daily · Training split Mon–Thu</div>
   </header>
 
-  <!-- DAILY TARGETS -->
-  <div class="targets-grid">
-    <div class="target-box"><div class="val">~3,050</div><div class="lbl" data-i18n="tgtCal">kcal (training)</div></div>
-    <div class="target-box"><div class="val">200g</div><div class="lbl" data-i18n="tgtProt">Protein</div></div>
-    <div class="target-box"><div class="val">~350g</div><div class="lbl" data-i18n="tgtCarbs">Carbs (training)</div></div>
-    <div class="target-box"><div class="val">~70g</div><div class="lbl" data-i18n="tgtFat">Fat</div></div>
+  <div class="targets-grid target-cal-only">
+    <div class="target-box">
+      <div class="val">2,000</div>
+      <div class="lbl" data-i18n="tgtCalLabel">kcal / day</div>
+    </div>
   </div>
+  <p class="disclaimer" data-i18n="tgtCalNote">Your PDF lists total calories only; macro breakdown is not specified.</p>
+  <p style="text-align:center;margin-bottom:1.25rem"><a href="remi-grocery.html" class="full-program-link" data-i18n="groceryLink">Weekly grocery list (Remi only) →</a></p>
 
-  <!-- DAILY SCHEDULE -->
   <div class="schedule-bar">
     <div class="schedule-item"><span data-i18n="schBreakfast">Breakfast</span> <span class="schedule-time">7–10 AM</span></div>
     <div class="schedule-item"><span data-i18n="schSnack1">Snack</span> <span class="schedule-time">11 AM–12 PM</span></div>
@@ -185,732 +147,252 @@
     <div class="schedule-item"><span data-i18n="schDinner">Dinner</span> <span class="schedule-time">8–10 PM</span></div>
   </div>
 
-  <!-- SUPPLEMENTS -->
   <section>
     <div class="section-title">
       <span class="section-icon" style="background:var(--supplement-light);color:var(--supplement)">&#x1F48A;</span>
-      <span data-i18n="supplementsTitle">Daily Supplements</span>
+      <span data-i18n="supplementsTitle">Supplementation</span>
     </div>
     <div class="card supplement-card">
-      <div class="supp-name" data-i18n="supp1Name">Hydrolyzed Collagen + Vitamin C</div>
-      <div class="supp-dose" data-i18n="supp1Dose">Dose: 10–15 g collagen + 500–1000 mg vitamin C daily</div>
+      <div class="supp-name" data-i18n="supp1Name">Protein powder</div>
+      <div class="supp-dose" data-i18n="supp1Dose">1 scoop per day</div>
     </div>
     <div class="card supplement-card">
-      <div class="supp-name" data-i18n="supp2Name">HMB (β-hydroxy β-methylbutyrate)</div>
-      <div class="supp-dose" data-i18n="supp2Dose">Dose: 3 g per day</div>
-    </div>
-    <div class="card supplement-card">
-      <div class="supp-name" data-i18n="supp3Name">Omega 3 (high EPA/DHA)</div>
-      <div class="supp-dose" data-i18n="supp3Dose">Dose: 2 capsules daily (1000 mg per capsule)</div>
-    </div>
-    <div class="card supplement-card">
-      <div class="supp-name" data-i18n="supp4Name">Creatine Monohydrate</div>
-      <div class="supp-dose" data-i18n="supp4Dose">Dose: 5 g per day (with any meal)</div>
+      <div class="supp-name" data-i18n="supp2Name">Creatine</div>
+      <div class="supp-dose" data-i18n="supp2Dose">1 scoop per day</div>
     </div>
   </section>
 
-  <!-- DAILY ESSENTIALS -->
-  <section>
-    <div class="section-title">
-      <span class="section-icon" style="background:var(--essential-light);color:var(--essential)">&#x2B50;</span>
-      <span data-i18n="essentialsTitle">Mandatory Every Day</span>
-    </div>
-
-    <div class="card essential-card">
-      <h3 data-i18n="shakeTitle">Protein Shake (every day)</h3>
-      <ul>
-        <li><strong>400 ml</strong> <span data-i18n="water">water</span></li>
-        <li><strong>50 g</strong> <span data-i18n="oats">oats</span></li>
-        <li><strong>2 scoops</strong> <span data-i18n="protein">protein powder</span></li>
-        <li><strong>1 tbsp</strong> <span data-i18n="peanutButter">peanut butter</span></li>
-      </ul>
-    </div>
-
-    <div class="card essential-card">
-      <h3 data-i18n="preworkoutTitle">Before Training</h3>
-      <ul>
-        <li><strong>250 g</strong> <span data-i18n="yogurt">Greek yogurt</span></li>
-        <li><strong>1</strong> <span data-i18n="banana">banana</span></li>
-        <li><strong>30 g</strong> <span data-i18n="oats">oats</span></li>
-      </ul>
-    </div>
-
-    <div class="card essential-card">
-      <h3 data-i18n="fruitTitle">1 Fruit per day (choose one)</h3>
-      <ul class="fruit-grid">
-        <li><strong>1</strong> <span data-i18n="frBanana">banana</span></li>
-        <li><strong>1</strong> <span data-i18n="frApple">apple</span></li>
-        <li><strong>2</strong> <span data-i18n="frMandarin">mandarins</span></li>
-        <li><strong>2</strong> <span data-i18n="frOrange">oranges</span></li>
-        <li><strong>18</strong> <span data-i18n="frGrapes">green grapes</span></li>
-        <li><strong>1 cup</strong> <span data-i18n="frStrawberry">strawberries</span></li>
-        <li><strong>½ cup</strong> <span data-i18n="frMelon">watermelon or melon</span></li>
-      </ul>
-    </div>
-
-    <div class="card essential-card">
-      <h3 data-i18n="veggiesTitle">Shredded Vegetables</h3>
-      <ul>
-        <li><strong>⅓ cup</strong> <span data-i18n="jicama">jicama</span></li>
-        <li><strong>⅓ cup</strong> <span data-i18n="carrot">carrot</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 7-DAY MEAL PLAN -->
-  <section>
+  <section id="meal-options">
     <div class="section-title">
       <span class="section-icon" style="background:var(--training-light);color:var(--training)">&#x1F372;</span>
-      <span data-i18n="mealPlanTitle">7-Day Meal Plan</span>
+      <span data-i18n="mealPlanTitle">Meal options</span>
+    </div>
+    <p class="menu-intro" data-i18n="introPickOne">Each day, choose one breakfast, one snack (morning), one lunch, one snack (afternoon), and one dinner from the lists below.</p>
+
+    <div class="section-sub" data-i18n="secBreakfast">Breakfast — choose 1</div>
+
+    <div class="card meal">
+      <span class="meal-option-tag breakfast" data-i18n="opt1">Option 1</span>
+      <div class="meal-name" data-i18n="bf1Title">Huevos al albañil (bricklayer-style eggs)</div>
+      <ul>
+        <li data-i18n="bf1_l1">1 whole egg</li>
+        <li data-i18n="bf1_l2">5 egg whites</li>
+        <li data-i18n="bf1_l3">3 slices turkey breast</li>
+        <li data-i18n="bf1_l4">4 nopal tortillas</li>
+        <li class="sub-label" data-i18n="bf1_salsa">Salsa</li>
+        <li data-i18n="bf1_l5">1 tomato, ¼ onion, garlic to taste, serrano and árbol chile to taste</li>
+        <li data-i18n="bf1_l6">Roast tomato, onion, and chiles; blend for salsa</li>
+      </ul>
     </div>
 
-    <!-- DAY 1 — MONDAY -->
-    <div class="card day-card">
-      <div class="day-header"><span class="day-num">1</span> <span data-i18n="day1Header">Day 1 — Monday</span></div>
-      <div class="day-body">
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label breakfast" data-i18n="breakfast">Breakfast</div>
-            <span class="meal-time">7:00 – 10:00 AM</span>
-          </div>
-          <div class="meal-name" data-i18n="d1bName">Green Smoothie + Egg Omelette</div>
-          <div class="meal-macros" data-i18n="d1bMacros">~560 kcal · 40g P · 45g C · 20g F</div>
-          <div class="sub-label" data-i18n="smoothieLabel">Green smoothie</div>
-          <ul>
-            <li><strong>350 ml</strong> <span data-i18n="water">water</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="smoothieVeg">spinach, cucumber, celery</span></li>
-            <li><strong>⅓</strong> <span data-i18n="greenApple">green apple</span></li>
-            <li><span data-i18n="cinnamonOpt">Cinnamon (optional)</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-          </ul>
-          <div class="sub-label" data-i18n="omelette">Omelette</div>
-          <ul>
-            <li><strong>4</strong> <span data-i18n="eggWhites">egg whites</span></li>
-            <li><strong>2</strong> <span data-i18n="wholeEggs">whole eggs</span></li>
-            <li><strong>2 slices</strong> <span data-i18n="turkeySlices">turkey breast</span></li>
-            <li><span data-i18n="veggiesChoice">Vegetables of your choice</span></li>
-            <li><strong>3</strong> <span data-i18n="cornTortillas">corn tortillas</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">11:00 AM – 12:00 PM</span>
-          </div>
-          <p data-i18n="snack1Desc">1 fruit of your choice + shredded vegetables</p>
-          <div class="meal-macros" data-i18n="snack1Macros">~110 kcal · 2g P · 26g C · 0g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label lunch" data-i18n="lunch">Lunch</div>
-            <span class="meal-time">1:00 – 4:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="salmonTacosName">Salmon Tacos with Zucchini &amp; Cilantro</div>
-          <div class="meal-macros" data-i18n="d1lMacros">~650 kcal · 48g P · 35g C · 32g F</div>
-          <ul>
-            <li><strong>3</strong> <span data-i18n="cornTortillas">corn tortillas</span></li>
-            <li><strong>220 g</strong> <span data-i18n="salmon">salmon</span></li>
-            <li><span data-i18n="zucchiniTaste">Zucchini to taste</span></li>
-            <li><span data-i18n="cilantroTaste">Cilantro to taste</span></li>
-            <li><span data-i18n="picoTaste">Pico de gallo to taste</span></li>
-            <li><span data-i18n="salsaTaste">Salsa to taste</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">5:00 – 6:00 PM</span>
-          </div>
-          <p data-i18n="snack2Desc">Protein shake + pre-workout (Greek yogurt + banana + oats)</p>
-          <div class="meal-macros" data-i18n="snack2Macros">~890 kcal · 91g P · 98g C · 15g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label dinner" data-i18n="dinner">Dinner</div>
-            <span class="meal-time">8:00 – 10:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="chickenSaladName">Grilled Chicken with Fresh Salad</div>
-          <div class="meal-macros" data-i18n="d1dMacros">~750 kcal · 60g P · 86g C · 14g F</div>
-          <ul>
-            <li><strong>280 g</strong> <span data-i18n="cookedRice">cooked rice</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-            <li><strong>250 g</strong> <span data-i18n="chickenBreast">chicken breast</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="mixedVeg">mixed shredded vegetables (carrot, chayote, lettuce, spinach)</span></li>
-            <li><span data-i18n="saltPepper">Salt &amp; pepper to taste</span></li>
-          </ul>
-        </div>
-        <div class="rest-note" data-i18n="restDayNote">Rest day: reduce rice to 200 g, skip 30 g oats from pre-workout.</div>
-      </div>
+    <div class="card meal">
+      <span class="meal-option-tag breakfast" data-i18n="opt2">Option 2</span>
+      <div class="meal-name" data-i18n="bf2Title">Fruit bowl + yogurt</div>
+      <ul>
+        <li data-i18n="bf2_l1">1 cup melon or papaya</li>
+        <li data-i18n="bf2_l2">1 cup mixed berries or strawberries</li>
+        <li data-i18n="bf2_l3">1 cup Greek yogurt</li>
+        <li data-i18n="bf2_l4">½ cup granola or oats</li>
+        <li data-i18n="bf2_l5">2 tbsp agave syrup</li>
+        <li class="sub-label" data-i18n="bf2_dress">Yogurt dressing</li>
+        <li data-i18n="bf2_l6">2 tbsp Greek yogurt, 1 tbsp cream cheese, 1 tbsp honey</li>
+      </ul>
     </div>
 
-    <!-- DAY 2 — TUESDAY -->
-    <div class="card day-card">
-      <div class="day-header"><span class="day-num">2</span> <span data-i18n="day2Header">Day 2 — Tuesday</span></div>
-      <div class="day-body">
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label breakfast" data-i18n="breakfast">Breakfast</div>
-            <span class="meal-time">7:00 – 10:00 AM</span>
-          </div>
-          <div class="meal-name" data-i18n="d1bName">Green Smoothie + Egg Omelette</div>
-          <div class="meal-macros" data-i18n="d1bMacros">~560 kcal · 40g P · 45g C · 20g F</div>
-          <div class="sub-label" data-i18n="smoothieLabel">Green smoothie</div>
-          <ul>
-            <li><strong>350 ml</strong> <span data-i18n="water">water</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="smoothieVeg">spinach, cucumber, celery</span></li>
-            <li><strong>⅓</strong> <span data-i18n="greenApple">green apple</span></li>
-            <li><span data-i18n="cinnamonOpt">Cinnamon (optional)</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-          </ul>
-          <div class="sub-label" data-i18n="omelette">Omelette</div>
-          <ul>
-            <li><strong>4</strong> <span data-i18n="eggWhites">egg whites</span></li>
-            <li><strong>2</strong> <span data-i18n="wholeEggs">whole eggs</span></li>
-            <li><strong>2 slices</strong> <span data-i18n="turkeySlices">turkey breast</span></li>
-            <li><span data-i18n="veggiesChoice">Vegetables of your choice</span></li>
-            <li><strong>3</strong> <span data-i18n="cornTortillas">corn tortillas</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">11:00 AM – 12:00 PM</span>
-          </div>
-          <p data-i18n="snack1Desc">1 fruit of your choice + shredded vegetables</p>
-          <div class="meal-macros" data-i18n="snack1Macros">~110 kcal · 2g P · 26g C · 0g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label lunch" data-i18n="lunch">Lunch</div>
-            <span class="meal-time">1:00 – 4:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="chickenSaladName">Grilled Chicken with Fresh Salad</div>
-          <div class="meal-macros" data-i18n="d2lMacros">~750 kcal · 60g P · 86g C · 14g F</div>
-          <ul>
-            <li><strong>280 g</strong> <span data-i18n="cookedRice">cooked rice</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-            <li><strong>250 g</strong> <span data-i18n="chickenBreast">chicken breast</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="mixedVeg">mixed shredded vegetables (carrot, chayote, lettuce, spinach)</span></li>
-            <li><span data-i18n="saltPepper">Salt &amp; pepper to taste</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">5:00 – 6:00 PM</span>
-          </div>
-          <p data-i18n="snack2Desc">Protein shake + pre-workout (Greek yogurt + banana + oats)</p>
-          <div class="meal-macros" data-i18n="snack2Macros">~890 kcal · 91g P · 98g C · 15g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label dinner" data-i18n="dinner">Dinner</div>
-            <span class="meal-time">8:00 – 10:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="salmonTacosName">Salmon Tacos with Zucchini &amp; Cilantro</div>
-          <div class="meal-macros" data-i18n="d2dMacros">~650 kcal · 48g P · 35g C · 32g F</div>
-          <ul>
-            <li><strong>3</strong> <span data-i18n="cornTortillas">corn tortillas</span></li>
-            <li><strong>220 g</strong> <span data-i18n="salmon">salmon</span></li>
-            <li><span data-i18n="zucchiniTaste">Zucchini to taste</span></li>
-            <li><span data-i18n="cilantroTaste">Cilantro to taste</span></li>
-            <li><span data-i18n="picoTaste">Pico de gallo to taste</span></li>
-            <li><span data-i18n="salsaTaste">Salsa to taste</span></li>
-          </ul>
-        </div>
-        <div class="rest-note" data-i18n="restDayNote">Rest day: reduce rice to 200 g, skip 30 g oats from pre-workout.</div>
-      </div>
+    <div class="card meal">
+      <span class="meal-option-tag breakfast" data-i18n="opt3">Option 3</span>
+      <div class="meal-name" data-i18n="bf3Title">Chilaquiles with chicken or eggs</div>
+      <ul>
+        <li data-i18n="bf3_l1">3 nopal tostadas or salmas</li>
+        <li data-i18n="bf3_l2">Chicken breast or 4 scrambled eggs</li>
+        <li data-i18n="bf3_l3">140 g shredded chicken breast</li>
+        <li data-i18n="bf3_l4">2 tbsp light cream (optional)</li>
+        <li data-i18n="bf3_l5">½ cup diced tomato</li>
+        <li data-i18n="bf3_l6">1 cup chopped lettuce</li>
+        <li data-i18n="bf3_l7">Onion to taste</li>
+        <li data-i18n="bf3_l8">¼ avocado</li>
+        <li data-i18n="bf3_l9">Red or green salsa to taste</li>
+      </ul>
     </div>
 
-    <!-- DAY 3 — WEDNESDAY -->
-    <div class="card day-card">
-      <div class="day-header"><span class="day-num">3</span> <span data-i18n="day3Header">Day 3 — Wednesday</span></div>
-      <div class="day-body">
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label breakfast" data-i18n="breakfast">Breakfast</div>
-            <span class="meal-time">7:00 – 10:00 AM</span>
-          </div>
-          <div class="meal-name" data-i18n="d3bName">Green Smoothie + Eggs with Spinach</div>
-          <div class="meal-macros" data-i18n="d3bMacros">~470 kcal · 30g P · 40g C · 18g F</div>
-          <div class="sub-label" data-i18n="smoothieLabel">Green smoothie</div>
-          <ul>
-            <li><strong>350 ml</strong> <span data-i18n="water">water</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="smoothieVeg">spinach, cucumber, celery</span></li>
-            <li><strong>⅓</strong> <span data-i18n="greenApple">green apple</span></li>
-            <li><span data-i18n="cinnamonOpt">Cinnamon (optional)</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-          </ul>
-          <div class="sub-label" data-i18n="eggsLabel">Eggs</div>
-          <ul>
-            <li><strong>4</strong> <span data-i18n="eggWhites">egg whites</span></li>
-            <li><strong>2</strong> <span data-i18n="wholeEggs">whole eggs</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="spinach">spinach</span></li>
-            <li><span data-i18n="veggiesChoice">Vegetables of your choice</span></li>
-            <li><strong>3</strong> <span data-i18n="cornTortillas">corn tortillas</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">11:00 AM – 12:00 PM</span>
-          </div>
-          <p data-i18n="snack1Desc">1 fruit of your choice + shredded vegetables</p>
-          <div class="meal-macros" data-i18n="snack1Macros">~110 kcal · 2g P · 26g C · 0g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label lunch" data-i18n="lunch">Lunch</div>
-            <span class="meal-time">1:00 – 4:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="steakPotatoName">Steak with Potato</div>
-          <div class="meal-macros" data-i18n="d3lMacros">~620 kcal · 52g P · 48g C · 18g F</div>
-          <ul>
-            <li><strong>250 g</strong> <span data-i18n="steakStrips">steak in strips or cubes</span></li>
-            <li><strong>250 g</strong> <span data-i18n="potatoCooked">cooked or stewed potato</span></li>
-            <li><span data-i18n="dicedTomato">Diced tomato</span></li>
-            <li><span data-i18n="zucchiniTaste">Zucchini to taste</span></li>
-            <li><span data-i18n="garlicSaltPepper">Garlic, salt &amp; pepper to taste</span></li>
-            <li><span data-i18n="cilantroParsley">Cilantro or parsley for garnish</span></li>
-          </ul>
-          <div class="note" data-i18n="steakNote">Optional: add 30–40 ml water or broth for a soupier texture.</div>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">5:00 – 6:00 PM</span>
-          </div>
-          <p data-i18n="snack2Desc">Protein shake + pre-workout (Greek yogurt + banana + oats)</p>
-          <div class="meal-macros" data-i18n="snack2Macros">~890 kcal · 91g P · 98g C · 15g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label dinner" data-i18n="dinner">Dinner</div>
-            <span class="meal-time">8:00 – 10:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="tunaBowlName">Tuna Bowl</div>
-          <div class="meal-macros" data-i18n="d3dMacros">~420 kcal · 48g P · 34g C · 6g F</div>
-          <ul>
-            <li><strong>3</strong> <span data-i18n="bakedTostadas">baked tostadas</span></li>
-            <li><strong>200 g</strong> <span data-i18n="drainedTuna">drained tuna</span></li>
-            <li><span data-i18n="spinachTaste">Spinach to taste</span></li>
-            <li><strong>⅓ cup</strong> <span data-i18n="ofCarrot">carrot</span></li>
-            <li><strong>⅓ cup</strong> <span data-i18n="ofCucumber">cucumber</span></li>
-            <li><span data-i18n="lemon">Lemon/lime</span></li>
-          </ul>
-        </div>
-        <div class="rest-note" data-i18n="restDayNoteB">Rest day: reduce potato to 200 g, skip 30 g oats from pre-workout.</div>
-      </div>
+    <div class="card meal">
+      <span class="meal-option-tag breakfast" data-i18n="opt4">Option 4</span>
+      <div class="meal-name" data-i18n="bf4Title">Chicken sandwich with yogurt dressing</div>
+      <ul>
+        <li data-i18n="bf4_l1">2 slices whole wheat or rye bread</li>
+        <li data-i18n="bf4_l2">160 g chicken breast</li>
+        <li data-i18n="bf4_l3">½ cup diced tomato</li>
+        <li data-i18n="bf4_l4">Onion to taste</li>
+        <li class="sub-label" data-i18n="bf4_dress">Yogurt dressing (same as option 2)</li>
+        <li data-i18n="bf4_l5">2 tbsp Greek yogurt, 1 tbsp cream cheese, 1 tbsp honey</li>
+      </ul>
     </div>
 
-    <!-- DAY 4 — THURSDAY -->
-    <div class="card day-card">
-      <div class="day-header"><span class="day-num">4</span> <span data-i18n="day4Header">Day 4 — Thursday</span></div>
-      <div class="day-body">
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label breakfast" data-i18n="breakfast">Breakfast</div>
-            <span class="meal-time">7:00 – 10:00 AM</span>
-          </div>
-          <div class="meal-name" data-i18n="d4bName">Green Smoothie + Eggs with Squash</div>
-          <div class="meal-macros" data-i18n="d4bMacros">~480 kcal · 30g P · 42g C · 18g F</div>
-          <div class="sub-label" data-i18n="smoothieLabel">Green smoothie</div>
-          <ul>
-            <li><strong>350 ml</strong> <span data-i18n="water">water</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="smoothieVeg">spinach, cucumber, celery</span></li>
-            <li><strong>⅓</strong> <span data-i18n="greenApple">green apple</span></li>
-            <li><span data-i18n="cinnamonOpt">Cinnamon (optional)</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-          </ul>
-          <div class="sub-label" data-i18n="eggsLabel">Eggs</div>
-          <ul>
-            <li><strong>4</strong> <span data-i18n="eggWhites">egg whites</span></li>
-            <li><strong>2</strong> <span data-i18n="wholeEggs">whole eggs</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="squash">squash (calabaza)</span></li>
-            <li><span data-i18n="veggiesChoice">Vegetables of your choice</span></li>
-            <li><strong>3</strong> <span data-i18n="cornTortillas">corn tortillas</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">11:00 AM – 12:00 PM</span>
-          </div>
-          <p data-i18n="snack1Desc">1 fruit of your choice + shredded vegetables</p>
-          <div class="meal-macros" data-i18n="snack1Macros">~110 kcal · 2g P · 26g C · 0g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label lunch" data-i18n="lunch">Lunch</div>
-            <span class="meal-time">1:00 – 4:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="steakPotatoName">Steak with Potato</div>
-          <div class="meal-macros" data-i18n="d3lMacros">~620 kcal · 52g P · 48g C · 18g F</div>
-          <ul>
-            <li><strong>250 g</strong> <span data-i18n="steakStrips">steak in strips or cubes</span></li>
-            <li><strong>250 g</strong> <span data-i18n="potatoCooked">cooked or stewed potato</span></li>
-            <li><span data-i18n="dicedTomato">Diced tomato</span></li>
-            <li><span data-i18n="zucchiniTaste">Zucchini to taste</span></li>
-            <li><span data-i18n="garlicSaltPepper">Garlic, salt &amp; pepper to taste</span></li>
-            <li><span data-i18n="cilantroParsley">Cilantro or parsley for garnish</span></li>
-          </ul>
-          <div class="note" data-i18n="steakNote">Optional: add 30–40 ml water or broth for a soupier texture.</div>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">5:00 – 6:00 PM</span>
-          </div>
-          <p data-i18n="snack2Desc">Protein shake + pre-workout (Greek yogurt + banana + oats)</p>
-          <div class="meal-macros" data-i18n="snack2Macros">~890 kcal · 91g P · 98g C · 15g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label dinner" data-i18n="dinner">Dinner</div>
-            <span class="meal-time">8:00 – 10:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="tunaBowlName">Tuna Bowl</div>
-          <div class="meal-macros" data-i18n="d3dMacros">~420 kcal · 48g P · 34g C · 6g F</div>
-          <ul>
-            <li><strong>3</strong> <span data-i18n="bakedTostadas">baked tostadas</span></li>
-            <li><strong>200 g</strong> <span data-i18n="drainedTuna">drained tuna</span></li>
-            <li><span data-i18n="spinachTaste">Spinach to taste</span></li>
-            <li><strong>⅓ cup</strong> <span data-i18n="ofCarrot">carrot</span></li>
-            <li><strong>⅓ cup</strong> <span data-i18n="ofCucumber">cucumber</span></li>
-            <li><span data-i18n="lemon">Lemon/lime</span></li>
-          </ul>
-        </div>
-        <div class="rest-note" data-i18n="restDayNoteB">Rest day: reduce potato to 200 g, skip 30 g oats from pre-workout.</div>
-      </div>
+    <div class="section-sub" data-i18n="secSnack">Snack — choose 1 (same list for both snack times)</div>
+
+    <div class="card meal">
+      <span class="meal-option-tag snack" data-i18n="opt1">Option 1</span>
+      <div class="meal-name" data-i18n="sn1Title">Blueberries &amp; almonds in dark chocolate</div>
+      <ul>
+        <li data-i18n="sn1_l1">20 g dark chocolate, melted</li>
+        <li data-i18n="sn1_l2">10 almonds</li>
+        <li data-i18n="sn1_l3">10 blueberries</li>
+        <li class="note" data-i18n="sn1_note">Coat berries and almonds in melted chocolate</li>
+      </ul>
     </div>
 
-    <!-- DAY 5 — FRIDAY -->
-    <div class="card day-card">
-      <div class="day-header"><span class="day-num">5</span> <span data-i18n="day5Header">Day 5 — Friday</span></div>
-      <div class="day-body">
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label breakfast" data-i18n="breakfast">Breakfast</div>
-            <span class="meal-time">7:00 – 10:00 AM</span>
-          </div>
-          <div class="meal-name" data-i18n="d5bName">Green Smoothie + Tuna Bowl</div>
-          <div class="meal-macros" data-i18n="d5bMacros">~520 kcal · 42g P · 40g C · 14g F</div>
-          <div class="sub-label" data-i18n="smoothieLabel">Green smoothie</div>
-          <ul>
-            <li><strong>350 ml</strong> <span data-i18n="water">water</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="smoothieVeg">spinach, cucumber, celery</span></li>
-            <li><strong>⅓</strong> <span data-i18n="greenApple">green apple</span></li>
-            <li><span data-i18n="cinnamonOpt">Cinnamon (optional)</span></li>
-          </ul>
-          <div class="sub-label" data-i18n="tunaBowlLabel">Tuna Bowl</div>
-          <ul>
-            <li><strong>3</strong> <span data-i18n="bakedTostadas">baked tostadas</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-            <li><strong>170 g</strong> <span data-i18n="drainedTuna">drained tuna</span></li>
-            <li><span data-i18n="cookedGreenBeans">Cooked green beans</span></li>
-            <li><span data-i18n="lemon">Lemon/lime</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">11:00 AM – 12:00 PM</span>
-          </div>
-          <p data-i18n="snack1Desc">1 fruit of your choice + shredded vegetables</p>
-          <div class="meal-macros" data-i18n="snack1Macros">~110 kcal · 2g P · 26g C · 0g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label lunch" data-i18n="lunch">Lunch</div>
-            <span class="meal-time">1:00 – 4:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="fajitasName">Chicken Fajitas (or Beef)</div>
-          <div class="meal-macros" data-i18n="d5lMacros">~760 kcal · 60g P · 88g C · 14g F</div>
-          <ul>
-            <li><strong>280 g</strong> <span data-i18n="cookedRice">cooked rice</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-            <li><strong>250 g</strong> <span data-i18n="chickenBreast">chicken breast</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="peppers">bell peppers</span></li>
-            <li><span data-i18n="mushroomsNopales">Mushrooms or nopales to taste</span></li>
-            <li><span data-i18n="worcestershire">Worcestershire sauce (optional)</span></li>
-            <li><span data-i18n="saltPepper">Salt &amp; pepper to taste</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">5:00 – 6:00 PM</span>
-          </div>
-          <p data-i18n="snack2Desc">Protein shake + pre-workout (Greek yogurt + banana + oats)</p>
-          <div class="meal-macros" data-i18n="snack2Macros">~890 kcal · 91g P · 98g C · 15g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label dinner" data-i18n="dinner">Dinner</div>
-            <span class="meal-time">8:00 – 10:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="powerFitName">Power Fit Style Eggs</div>
-          <div class="meal-macros" data-i18n="d5dMacros">~460 kcal · 44g P · 36g C · 12g F</div>
-          <ul>
-            <li><strong>9</strong> <span data-i18n="eggWhites">egg whites</span></li>
-            <li><strong>2</strong> <span data-i18n="wholeEggs">whole eggs</span></li>
-            <li><span data-i18n="redOnion">Red onion</span></li>
-            <li><span data-i18n="slicedMushrooms">Sliced mushrooms</span></li>
-            <li><span data-i18n="spinachChard">Spinach or chard</span></li>
-            <li><strong>3</strong> <span data-i18n="cornTortillas">corn tortillas</span></li>
-          </ul>
-        </div>
-        <div class="rest-note" data-i18n="restDayNote">Rest day: reduce rice to 200 g, skip 30 g oats from pre-workout.</div>
-      </div>
+    <div class="card meal">
+      <span class="meal-option-tag snack" data-i18n="opt2">Option 2</span>
+      <div class="meal-name" data-i18n="sn2Title">Berry mix with nuts</div>
+      <ul>
+        <li data-i18n="sn2_l1">10 cashews</li>
+        <li data-i18n="sn2_l2">2 cups mixed berries</li>
+        <li data-i18n="sn2_l3">10 almonds</li>
+      </ul>
     </div>
 
-    <!-- DAY 6 — SATURDAY (same as Day 5) -->
-    <div class="card day-card">
-      <div class="day-header"><span class="day-num">6</span> <span data-i18n="day6Header">Day 6 — Saturday</span></div>
-      <div class="day-body">
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label breakfast" data-i18n="breakfast">Breakfast</div>
-            <span class="meal-time">7:00 – 10:00 AM</span>
-          </div>
-          <div class="meal-name" data-i18n="d5bName">Green Smoothie + Tuna Bowl</div>
-          <div class="meal-macros" data-i18n="d5bMacros">~520 kcal · 42g P · 40g C · 14g F</div>
-          <div class="sub-label" data-i18n="smoothieLabel">Green smoothie</div>
-          <ul>
-            <li><strong>350 ml</strong> <span data-i18n="water">water</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="smoothieVeg">spinach, cucumber, celery</span></li>
-            <li><strong>⅓</strong> <span data-i18n="greenApple">green apple</span></li>
-            <li><span data-i18n="cinnamonOpt">Cinnamon (optional)</span></li>
-          </ul>
-          <div class="sub-label" data-i18n="tunaBowlLabel">Tuna Bowl</div>
-          <ul>
-            <li><strong>3</strong> <span data-i18n="bakedTostadas">baked tostadas</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-            <li><strong>170 g</strong> <span data-i18n="drainedTuna">drained tuna</span></li>
-            <li><span data-i18n="cookedGreenBeans">Cooked green beans</span></li>
-            <li><span data-i18n="lemon">Lemon/lime</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">11:00 AM – 12:00 PM</span>
-          </div>
-          <p data-i18n="snack1Desc">1 fruit of your choice + shredded vegetables</p>
-          <div class="meal-macros" data-i18n="snack1Macros">~110 kcal · 2g P · 26g C · 0g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label lunch" data-i18n="lunch">Lunch</div>
-            <span class="meal-time">1:00 – 4:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="fajitasName">Chicken Fajitas (or Beef)</div>
-          <div class="meal-macros" data-i18n="d5lMacros">~760 kcal · 60g P · 88g C · 14g F</div>
-          <ul>
-            <li><strong>280 g</strong> <span data-i18n="cookedRice">cooked rice</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-            <li><strong>250 g</strong> <span data-i18n="chickenBreast">chicken breast</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="peppers">bell peppers</span></li>
-            <li><span data-i18n="mushroomsNopales">Mushrooms or nopales to taste</span></li>
-            <li><span data-i18n="worcestershire">Worcestershire sauce (optional)</span></li>
-            <li><span data-i18n="saltPepper">Salt &amp; pepper to taste</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">5:00 – 6:00 PM</span>
-          </div>
-          <p data-i18n="snack2Desc">Protein shake + pre-workout (Greek yogurt + banana + oats)</p>
-          <div class="meal-macros" data-i18n="snack2Macros">~890 kcal · 91g P · 98g C · 15g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label dinner" data-i18n="dinner">Dinner</div>
-            <span class="meal-time">8:00 – 10:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="powerFitName">Power Fit Style Eggs</div>
-          <div class="meal-macros" data-i18n="d5dMacros">~460 kcal · 44g P · 36g C · 12g F</div>
-          <ul>
-            <li><strong>9</strong> <span data-i18n="eggWhites">egg whites</span></li>
-            <li><strong>2</strong> <span data-i18n="wholeEggs">whole eggs</span></li>
-            <li><span data-i18n="redOnion">Red onion</span></li>
-            <li><span data-i18n="slicedMushrooms">Sliced mushrooms</span></li>
-            <li><span data-i18n="spinachChard">Spinach or chard</span></li>
-            <li><strong>3</strong> <span data-i18n="cornTortillas">corn tortillas</span></li>
-          </ul>
-        </div>
-        <div class="rest-note" data-i18n="restDayNote">Rest day: reduce rice to 200 g, skip 30 g oats from pre-workout.</div>
-      </div>
+    <div class="card meal">
+      <span class="meal-option-tag snack" data-i18n="opt3">Option 3</span>
+      <div class="meal-name" data-i18n="sn3Title">Strawberries with low-fat cream</div>
+      <ul>
+        <li data-i18n="sn3_l1">1 cup strawberries</li>
+        <li data-i18n="sn3_l2">4 tbsp low-fat cream</li>
+        <li data-i18n="sn3_l3">2 tbsp shredded coconut</li>
+      </ul>
     </div>
 
-    <!-- DAY 7 — SUNDAY (same as Day 4) -->
-    <div class="card day-card">
-      <div class="day-header"><span class="day-num">7</span> <span data-i18n="day7Header">Day 7 — Sunday</span></div>
-      <div class="day-body">
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label breakfast" data-i18n="breakfast">Breakfast</div>
-            <span class="meal-time">7:00 – 10:00 AM</span>
-          </div>
-          <div class="meal-name" data-i18n="d4bName">Green Smoothie + Eggs with Squash</div>
-          <div class="meal-macros" data-i18n="d4bMacros">~480 kcal · 30g P · 42g C · 18g F</div>
-          <div class="sub-label" data-i18n="smoothieLabel">Green smoothie</div>
-          <ul>
-            <li><strong>350 ml</strong> <span data-i18n="water">water</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="smoothieVeg">spinach, cucumber, celery</span></li>
-            <li><strong>⅓</strong> <span data-i18n="greenApple">green apple</span></li>
-            <li><span data-i18n="cinnamonOpt">Cinnamon (optional)</span></li>
-            <li><strong>⅓</strong> <span data-i18n="avocado">avocado</span></li>
-          </ul>
-          <div class="sub-label" data-i18n="eggsLabel">Eggs</div>
-          <ul>
-            <li><strong>4</strong> <span data-i18n="eggWhites">egg whites</span></li>
-            <li><strong>2</strong> <span data-i18n="wholeEggs">whole eggs</span></li>
-            <li><strong>1 cup</strong> <span data-i18n="squash">squash (calabaza)</span></li>
-            <li><span data-i18n="veggiesChoice">Vegetables of your choice</span></li>
-            <li><strong>3</strong> <span data-i18n="cornTortillas">corn tortillas</span></li>
-          </ul>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">11:00 AM – 12:00 PM</span>
-          </div>
-          <p data-i18n="snack1Desc">1 fruit of your choice + shredded vegetables</p>
-          <div class="meal-macros" data-i18n="snack1Macros">~110 kcal · 2g P · 26g C · 0g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label lunch" data-i18n="lunch">Lunch</div>
-            <span class="meal-time">1:00 – 4:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="steakPotatoName">Steak with Potato</div>
-          <div class="meal-macros" data-i18n="d3lMacros">~620 kcal · 52g P · 48g C · 18g F</div>
-          <ul>
-            <li><strong>250 g</strong> <span data-i18n="steakStrips">steak in strips or cubes</span></li>
-            <li><strong>250 g</strong> <span data-i18n="potatoCooked">cooked or stewed potato</span></li>
-            <li><span data-i18n="dicedTomato">Diced tomato</span></li>
-            <li><span data-i18n="zucchiniTaste">Zucchini to taste</span></li>
-            <li><span data-i18n="garlicSaltPepper">Garlic, salt &amp; pepper to taste</span></li>
-            <li><span data-i18n="cilantroParsley">Cilantro or parsley for garnish</span></li>
-          </ul>
-          <div class="note" data-i18n="steakNote">Optional: add 30–40 ml water or broth for a soupier texture.</div>
-        </div>
-        <div class="snack-slot">
-          <div class="meal-header">
-            <div class="meal-label snack" data-i18n="snackLabel">Snack</div>
-            <span class="meal-time">5:00 – 6:00 PM</span>
-          </div>
-          <p data-i18n="snack2Desc">Protein shake + pre-workout (Greek yogurt + banana + oats)</p>
-          <div class="meal-macros" data-i18n="snack2Macros">~890 kcal · 91g P · 98g C · 15g F</div>
-        </div>
-        <div class="meal">
-          <div class="meal-header">
-            <div class="meal-label dinner" data-i18n="dinner">Dinner</div>
-            <span class="meal-time">8:00 – 10:00 PM</span>
-          </div>
-          <div class="meal-name" data-i18n="tunaBowlName">Tuna Bowl</div>
-          <div class="meal-macros" data-i18n="d3dMacros">~420 kcal · 48g P · 34g C · 6g F</div>
-          <ul>
-            <li><strong>3</strong> <span data-i18n="bakedTostadas">baked tostadas</span></li>
-            <li><strong>200 g</strong> <span data-i18n="drainedTuna">drained tuna</span></li>
-            <li><span data-i18n="spinachTaste">Spinach to taste</span></li>
-            <li><strong>⅓ cup</strong> <span data-i18n="ofCarrot">carrot</span></li>
-            <li><strong>⅓ cup</strong> <span data-i18n="ofCucumber">cucumber</span></li>
-            <li><span data-i18n="lemon">Lemon/lime</span></li>
-          </ul>
-        </div>
-        <div class="rest-note" data-i18n="restDayNoteB">Rest day: reduce potato to 200 g, skip 30 g oats from pre-workout.</div>
-      </div>
+    <div class="card meal">
+      <span class="meal-option-tag snack" data-i18n="opt4">Option 4</span>
+      <div class="meal-name" data-i18n="sn4Title">Watermelon with dark chocolate</div>
+      <ul>
+        <li data-i18n="sn4_l1">2 cups diced watermelon</li>
+        <li data-i18n="sn4_l2">30 g dark chocolate (≥70% cacao)</li>
+      </ul>
+    </div>
+
+    <div class="section-sub" data-i18n="secLunch">Lunch — choose 1</div>
+
+    <div class="card meal">
+      <span class="meal-option-tag lunch" data-i18n="opt1">Option 1</span>
+      <div class="meal-name" data-i18n="lc1Title">Fish fillet with vegetables</div>
+      <ul>
+        <li data-i18n="lc1_l1">180 g grouper or sea bass fillet</li>
+        <li data-i18n="lc1_l2">¼ avocado</li>
+        <li data-i18n="lc1_l3">1 green bell pepper</li>
+        <li data-i18n="lc1_l4">½ cup red onion</li>
+        <li data-i18n="lc1_l5">1 cup boiled white rice</li>
+        <li data-i18n="lc1_l6">Lemon and dressing to taste</li>
+      </ul>
+    </div>
+
+    <div class="card meal">
+      <span class="meal-option-tag lunch" data-i18n="opt2">Option 2</span>
+      <div class="meal-name" data-i18n="lc2Title">Beef steak or chicken breast with salad</div>
+      <ul>
+        <li data-i18n="lc2_l1">180 g beef (round, sirloin tip, or similar) or grilled chicken breast</li>
+        <li data-i18n="lc2_l2">¼ avocado</li>
+        <li data-i18n="lc2_l3">Green salad: 2 cups spinach, 1 cup lettuce</li>
+        <li data-i18n="lc2_l4">1 tomato, diced</li>
+      </ul>
+    </div>
+
+    <div class="card meal">
+      <span class="meal-option-tag lunch" data-i18n="opt3">Option 3</span>
+      <div class="meal-name" data-i18n="lc3Title">Skirt steak or beef fillet with mashed potato</div>
+      <ul>
+        <li data-i18n="lc3_l1">160 g skirt steak or beef fillet</li>
+        <li data-i18n="lc3_l2">1 cup mashed potato</li>
+        <li data-i18n="lc3_l3">½ avocado</li>
+        <li data-i18n="lc3_l4">1 green bell pepper</li>
+        <li data-i18n="lc3_l5">1 cup spinach</li>
+        <li data-i18n="lc3_l6">1 tomato — optional low-sodium seasoning or salsa of choice</li>
+      </ul>
+    </div>
+
+    <div class="card meal">
+      <span class="meal-option-tag lunch" data-i18n="opt4">Option 4</span>
+      <div class="meal-name" data-i18n="lc4Title">Tuna bowl with rice</div>
+      <ul>
+        <li data-i18n="lc4_l1">2 cans tuna in water</li>
+        <li data-i18n="lc4_l2">1 cup brown rice</li>
+        <li data-i18n="lc4_l3">¼ avocado</li>
+        <li data-i18n="lc4_l4">70 g mixed garden salad</li>
+      </ul>
+    </div>
+
+    <div class="section-sub" data-i18n="secDinner">Dinner — choose 1</div>
+
+    <div class="card meal">
+      <span class="meal-option-tag dinner" data-i18n="opt1">Option 1</span>
+      <div class="meal-name" data-i18n="dn1Title">Grilled turkey rolls with panela &amp; salad</div>
+      <ul>
+        <li data-i18n="dn1_l1">140 g turkey breast</li>
+        <li data-i18n="dn1_l2">30 g panela cheese</li>
+        <li data-i18n="dn1_l3">2 cups chopped spinach</li>
+        <li data-i18n="dn1_l4">½ cup tomato</li>
+        <li data-i18n="dn1_l5">½ cup mushrooms</li>
+        <li data-i18n="dn1_l6">2 cups lettuce</li>
+      </ul>
+    </div>
+
+    <div class="card meal">
+      <span class="meal-option-tag dinner" data-i18n="opt2">Option 2</span>
+      <div class="meal-name" data-i18n="dn2Title">Tuna bowl</div>
+      <ul>
+        <li data-i18n="dn2_l1">1 can tuna in water</li>
+        <li data-i18n="dn2_l2">¼ avocado</li>
+        <li data-i18n="dn2_l3">1 tbsp cream cheese</li>
+        <li data-i18n="dn2_l4">1 cup spinach or 5 asparagus spears</li>
+        <li data-i18n="dn2_l5">1 package salmas</li>
+      </ul>
+    </div>
+
+    <div class="card meal">
+      <span class="meal-option-tag dinner" data-i18n="opt3">Option 3</span>
+      <div class="meal-name" data-i18n="dn3Title">Chicken “alambre” style</div>
+      <ul>
+        <li data-i18n="dn3_l1">160 g chicken</li>
+        <li data-i18n="dn3_l2">1 cup bell peppers</li>
+        <li data-i18n="dn3_l3">¼ cup red onion</li>
+        <li data-i18n="dn3_l4">1 cup mushrooms</li>
+        <li data-i18n="dn3_l5">5 asparagus spears</li>
+        <li data-i18n="dn3_l6">¼ avocado</li>
+      </ul>
+    </div>
+
+    <div class="card meal">
+      <span class="meal-option-tag dinner" data-i18n="opt4">Option 4</span>
+      <div class="meal-name" data-i18n="dn4Title">Skirt steak salad</div>
+      <ul>
+        <li data-i18n="dn4_l1">1 green bell pepper</li>
+        <li data-i18n="dn4_l2">1 zucchini, diced</li>
+        <li data-i18n="dn4_l3">50 g corn kernels</li>
+        <li data-i18n="dn4_l4">2 cups lettuce</li>
+        <li data-i18n="dn4_l5">¼ avocado</li>
+      </ul>
+      <p class="note" data-i18n="dn4_note">The PDF lists vegetables only for this dish; confirm skirt steak portion with your coach.</p>
     </div>
   </section>
 
-  <!-- CALORIE SUMMARY -->
   <section>
-    <div class="section-title">
-      <span class="section-icon" style="background:#e4f5ea;color:var(--training)">&#x1F4CA;</span>
-      <span data-i18n="summaryTitle">Daily Totals</span>
-    </div>
-
-    <div class="card" style="border-left:4px solid var(--training)">
-      <h3 style="color:var(--training);margin-bottom:.6rem" data-i18n="summaryHeading">Estimated Calories &amp; Macros per Day</h3>
-
-      <div class="table-wrap">
-      <table class="macro-table">
-        <thead>
-          <tr>
-            <th data-i18n="thDay">Day</th>
-            <th data-i18n="thCal">Calories</th>
-            <th data-i18n="thProt">Protein</th>
-            <th data-i18n="thCarbs">Carbs</th>
-            <th data-i18n="thFat">Fat</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong data-i18n="row1">1 — Monday</strong></td>
-            <td>~3,050</td>
-            <td>210 g</td>
-            <td>322 g</td>
-            <td>72 g</td>
-          </tr>
-          <tr>
-            <td><strong data-i18n="row2">2 — Tuesday</strong></td>
-            <td>~3,050</td>
-            <td>210 g</td>
-            <td>322 g</td>
-            <td>72 g</td>
-          </tr>
-          <tr>
-            <td><strong data-i18n="row3">3 — Wednesday</strong></td>
-            <td>~2,900</td>
-            <td>196 g</td>
-            <td>280 g</td>
-            <td>68 g</td>
-          </tr>
-          <tr>
-            <td><strong data-i18n="row4">4 — Thursday</strong></td>
-            <td>~2,910</td>
-            <td>196 g</td>
-            <td>282 g</td>
-            <td>68 g</td>
-          </tr>
-          <tr>
-            <td><strong data-i18n="row5">5 — Friday</strong></td>
-            <td>~3,020</td>
-            <td>212 g</td>
-            <td>318 g</td>
-            <td>64 g</td>
-          </tr>
-          <tr>
-            <td><strong data-i18n="row6">6 — Saturday</strong></td>
-            <td>~3,020</td>
-            <td>212 g</td>
-            <td>318 g</td>
-            <td>64 g</td>
-          </tr>
-          <tr>
-            <td><strong data-i18n="row7">7 — Sunday</strong></td>
-            <td>~2,910</td>
-            <td>196 g</td>
-            <td>282 g</td>
-            <td>68 g</td>
-          </tr>
-        </tbody>
-      </table>
+    <div id="remi-training-summary" class="card" style="border-left:4px solid var(--training)">
+      <div class="section-title" style="border:none;padding-bottom:.35rem;margin-bottom:.5rem">
+        <span class="section-icon" style="background:var(--training-light);color:var(--training)">&#x1F4AA;</span>
+        <span data-i18n="trainTitle">Training split (summary)</span>
       </div>
-
-      <p style="font-size:.88rem;margin-bottom:.3rem" data-i18n="avgTraining">Training avg: ~2,980 kcal · 205g P · 303g C · 68g F</p>
-      <p style="font-size:.88rem;margin-bottom:.8rem" data-i18n="avgRest">Rest avg: ~2,720 kcal · 203g P · 258g C · 66g F</p>
-
-      <p class="disclaimer" data-i18n="calDisclaimer">Assumes ~201 lbs bodyweight with estimated maintenance of ~2,750 kcal. Training days add a +250-300 kcal surplus for lean muscle gain. Adjust portions once you have an exact weigh-in. If weight stalls for 2+ weeks, add 50 g rice to lunch.</p>
+      <p class="menu-intro" style="margin-bottom:.75rem" data-i18n="trainIntro">Four gym days (example: Mon–Thu). Full exercise tables with sets and reps are on the Training page.</p>
+      <ul class="training-summary-list">
+        <li><strong data-i18n="trainD1Head">Day 1:</strong> <span data-i18n="trainD1Body">Quads, glutes, calves</span></li>
+        <li><strong data-i18n="trainD2Head">Day 2:</strong> <span data-i18n="trainD2Body">Chest, triceps, abs</span></li>
+        <li><strong data-i18n="trainD3Head">Day 3:</strong> <span data-i18n="trainD3Body">Hamstrings, glutes, calves</span></li>
+        <li><strong data-i18n="trainD4Head">Day 4:</strong> <span data-i18n="trainD4Body">Back, biceps, abs</span></li>
+      </ul>
+      <a class="full-program-link" href="training-schedule.html#remi-strength" data-i18n="trainFullLink">Open full program (sets &amp; reps) →</a>
     </div>
   </section>
 
 </div>
 
-<!-- TODAY BUTTON -->
 <button id="today-btn" onclick="scrollToToday()" aria-label="Go to today">
   <div class="today-label" id="today-label">Today</div>
   <div class="today-day" id="today-day">—</div>
@@ -920,294 +402,280 @@
 <script>
 const translations = {
   en: {
-    planTitle: "Muscle Gain Plan",
-    stats: "6'3\" / 190 cm \u00b7 ~201 lbs / 91 kg \u00b7 Age 41 \u00b7 Lifting regularly",
-    tgtCal: "kcal (training)",
-    tgtProt: "Protein",
-    tgtCarbs: "Carbs (training)",
-    tgtFat: "Fat",
+    planTitle: "Nutrition plan — July · 2,000 kcal",
+    stats: "Pick one option per meal category daily · Training split Mon–Thu",
+    tgtCalLabel: "kcal / day",
+    tgtCalNote: "Your PDF lists total calories only; macro breakdown is not specified.",
+    groceryLink: "Weekly grocery list (Remi only) →",
     schBreakfast: "Breakfast",
     schSnack1: "Snack",
     schLunch: "Lunch",
     schSnack2: "Snack",
     schDinner: "Dinner",
-    supplementsTitle: "Daily Supplements",
-    supp1Name: "Hydrolyzed Collagen + Vitamin C",
-    supp1Dose: "Dose: 10\u201315 g collagen + 500\u20131000 mg vitamin C daily",
-    supp2Name: "HMB (\u03B2-hydroxy \u03B2-methylbutyrate)",
-    supp2Dose: "Dose: 3 g per day",
-    supp3Name: "Omega 3 (high EPA/DHA)",
-    supp3Dose: "Dose: 2 capsules daily (1000 mg per capsule)",
-    supp4Name: "Creatine Monohydrate",
-    supp4Dose: "Dose: 5 g per day (with any meal)",
-    essentialsTitle: "Mandatory Every Day",
-    shakeTitle: "Protein Shake (every day)",
-    water: "water",
-    oats: "oats",
-    protein: "protein powder",
-    peanutButter: "peanut butter",
-    preworkoutTitle: "Before Training",
-    yogurt: "Greek yogurt",
-    banana: "banana",
-    fruitTitle: "1 Fruit per day (choose one)",
-    frBanana: "banana",
-    frApple: "apple",
-    frMandarin: "mandarins",
-    frOrange: "oranges",
-    frGrapes: "green grapes",
-    frStrawberry: "strawberries",
-    frMelon: "watermelon or melon",
-    veggiesTitle: "Shredded Vegetables",
-    jicama: "jicama",
-    carrot: "carrot",
-    mealPlanTitle: "7-Day Meal Plan",
-    day1Header: "Day 1 \u2014 Monday",
-    day2Header: "Day 2 \u2014 Tuesday",
-    day3Header: "Day 3 \u2014 Wednesday",
-    day4Header: "Day 4 \u2014 Thursday",
-    day5Header: "Day 5 \u2014 Friday",
-    day6Header: "Day 6 \u2014 Saturday",
-    day7Header: "Day 7 \u2014 Sunday",
-    breakfast: "Breakfast",
-    lunch: "Lunch",
-    dinner: "Dinner",
-    snackLabel: "Snack",
-    snack1Desc: "1 fruit of your choice + shredded vegetables",
-    snack1Macros: "~110 kcal \u00b7 2g P \u00b7 26g C \u00b7 0g F",
-    snack2Desc: "Protein shake + pre-workout (Greek yogurt + banana + oats)",
-    snack2Macros: "~890 kcal \u00b7 91g P \u00b7 98g C \u00b7 15g F",
-    smoothieLabel: "Green smoothie",
-    smoothieVeg: "spinach, cucumber, celery",
-    greenApple: "green apple",
-    cinnamonOpt: "Cinnamon (optional)",
-    avocado: "avocado",
-    omelette: "Omelette",
-    eggWhites: "egg whites",
-    wholeEggs: "whole eggs",
-    wholeEgg: "whole egg",
-    turkeySlices: "turkey breast",
-    veggiesChoice: "Vegetables of your choice",
-    cornTortillas: "corn tortillas",
-    eggsLabel: "Eggs",
-    spinach: "spinach",
-    squash: "squash (calabaza)",
-    d1bName: "Green Smoothie + Egg Omelette",
-    d1bMacros: "~560 kcal \u00b7 40g P \u00b7 45g C \u00b7 20g F",
-    d3bName: "Green Smoothie + Eggs with Spinach",
-    d3bMacros: "~470 kcal \u00b7 30g P \u00b7 40g C \u00b7 18g F",
-    d4bName: "Green Smoothie + Eggs with Squash",
-    d4bMacros: "~480 kcal \u00b7 30g P \u00b7 42g C \u00b7 18g F",
-    d5bName: "Green Smoothie + Tuna Bowl",
-    d5bMacros: "~520 kcal \u00b7 42g P \u00b7 40g C \u00b7 14g F",
-    tunaBowlLabel: "Tuna Bowl",
-    cookedGreenBeans: "Cooked green beans",
-    powerFitName: "Power Fit Style Eggs",
-    redOnion: "Red onion",
-    slicedMushrooms: "Sliced mushrooms",
-    spinachChard: "Spinach or chard",
-    chickenSaladName: "Grilled Chicken with Fresh Salad",
-    d1lMacros: "~650 kcal \u00b7 48g P \u00b7 35g C \u00b7 32g F",
-    d1dMacros: "~750 kcal \u00b7 60g P \u00b7 86g C \u00b7 14g F",
-    d2lMacros: "~750 kcal \u00b7 60g P \u00b7 86g C \u00b7 14g F",
-    d2dMacros: "~650 kcal \u00b7 48g P \u00b7 35g C \u00b7 32g F",
-    d3lMacros: "~620 kcal \u00b7 52g P \u00b7 48g C \u00b7 18g F",
-    d3dMacros: "~420 kcal \u00b7 48g P \u00b7 34g C \u00b7 6g F",
-    d5lMacros: "~760 kcal \u00b7 60g P \u00b7 88g C \u00b7 14g F",
-    d5dMacros: "~460 kcal \u00b7 44g P \u00b7 36g C \u00b7 12g F",
-    fajitasName: "Chicken Fajitas (or Beef)",
-    cookedRice: "cooked rice",
-    chickenBreast: "chicken breast",
-    mixedVeg: "mixed shredded vegetables (carrot, chayote, lettuce, spinach)",
-    saltPepper: "Salt & pepper to taste",
-    peppers: "bell peppers",
-    mushroomsNopales: "Mushrooms or nopales to taste",
-    worcestershire: "Worcestershire sauce (optional)",
-    salmonTacosName: "Salmon Tacos with Zucchini & Cilantro",
-    salmon: "salmon",
-    cilantroTaste: "Cilantro to taste",
-    picoTaste: "Pico de gallo to taste",
-    salsaTaste: "Salsa to taste",
-    steakPotatoName: "Steak with Potato",
-    steakStrips: "steak in strips or cubes",
-    potatoCooked: "cooked or stewed potato",
-    dicedTomato: "Diced tomato",
-    zucchiniTaste: "Zucchini to taste",
-    garlicSaltPepper: "Garlic, salt & pepper to taste",
-    cilantroParsley: "Cilantro or parsley for garnish",
-    steakNote: "Optional: add 30\u201340 ml water or broth for a soupier texture.",
-    tunaBowlName: "Tuna Bowl",
-    bakedTostadas: "baked tostadas",
-    drainedTuna: "drained tuna",
-    spinachTaste: "Spinach to taste",
-    ofCarrot: "carrot",
-    ofCucumber: "cucumber",
-    lemon: "Lemon/lime",
-    restDayNote: "Rest day: reduce rice to 200 g, skip 30 g oats from pre-workout.",
-    restDayNoteB: "Rest day: reduce potato to 200 g, skip 30 g oats from pre-workout.",
-    summaryTitle: "Daily Totals",
-    summaryHeading: "Estimated Calories & Macros per Day",
-    thDay: "Day",
-    thCal: "Calories",
-    thProt: "Protein",
-    thCarbs: "Carbs",
-    thFat: "Fat",
-    row1: "1 \u2014 Monday",
-    row2: "2 \u2014 Tuesday",
-    row3: "3 \u2014 Wednesday",
-    row4: "4 \u2014 Thursday",
-    row5: "5 \u2014 Friday",
-    row6: "6 \u2014 Saturday",
-    row7: "7 \u2014 Sunday",
-    tagTraining: "Training",
-    avgTraining: "Training avg: ~2,980 kcal \u00b7 205g P \u00b7 303g C \u00b7 68g F",
-    avgRest: "Rest avg: ~2,720 kcal \u00b7 203g P \u00b7 258g C \u00b7 66g F",
-    groceryNav: "Grocery List",
-    calDisclaimer: "Assumes ~201 lbs bodyweight with estimated maintenance of ~2,750 kcal. Training days add a +250-300 kcal surplus for lean muscle gain. Adjust portions once you have an exact weigh-in. If weight stalls for 2+ weeks, add 50 g rice to lunch."
+    supplementsTitle: "Supplementation",
+    supp1Name: "Protein powder",
+    supp1Dose: "1 scoop per day",
+    supp2Name: "Creatine",
+    supp2Dose: "1 scoop per day",
+    mealPlanTitle: "Meal options",
+    introPickOne: "Each day, choose one breakfast, one snack (morning), one lunch, one snack (afternoon), and one dinner from the lists below.",
+    secBreakfast: "Breakfast — choose 1",
+    secSnack: "Snack — choose 1 (same list for both snack times)",
+    secLunch: "Lunch — choose 1",
+    secDinner: "Dinner — choose 1",
+    opt1: "Option 1",
+    opt2: "Option 2",
+    opt3: "Option 3",
+    opt4: "Option 4",
+    bf1Title: "Huevos al albañil (bricklayer-style eggs)",
+    bf1_l1: "1 whole egg",
+    bf1_l2: "5 egg whites",
+    bf1_l3: "3 slices turkey breast",
+    bf1_l4: "4 nopal tortillas",
+    bf1_salsa: "Salsa",
+    bf1_l5: "1 tomato, ¼ onion, garlic to taste, serrano and árbol chile to taste",
+    bf1_l6: "Roast tomato, onion, and chiles; blend for salsa",
+    bf2Title: "Fruit bowl + yogurt",
+    bf2_l1: "1 cup melon or papaya",
+    bf2_l2: "1 cup mixed berries or strawberries",
+    bf2_l3: "1 cup Greek yogurt",
+    bf2_l4: "½ cup granola or oats",
+    bf2_l5: "2 tbsp agave syrup",
+    bf2_dress: "Yogurt dressing",
+    bf2_l6: "2 tbsp Greek yogurt, 1 tbsp cream cheese, 1 tbsp honey",
+    bf3Title: "Chilaquiles with chicken or eggs",
+    bf3_l1: "3 nopal tostadas or salmas",
+    bf3_l2: "Chicken breast or 4 scrambled eggs",
+    bf3_l3: "140 g shredded chicken breast",
+    bf3_l4: "2 tbsp light cream (optional)",
+    bf3_l5: "½ cup diced tomato",
+    bf3_l6: "1 cup chopped lettuce",
+    bf3_l7: "Onion to taste",
+    bf3_l8: "¼ avocado",
+    bf3_l9: "Red or green salsa to taste",
+    bf4Title: "Chicken sandwich with yogurt dressing",
+    bf4_l1: "2 slices whole wheat or rye bread",
+    bf4_l2: "160 g chicken breast",
+    bf4_l3: "½ cup diced tomato",
+    bf4_l4: "Onion to taste",
+    bf4_dress: "Yogurt dressing (same as option 2)",
+    bf4_l5: "2 tbsp Greek yogurt, 1 tbsp cream cheese, 1 tbsp honey",
+    sn1Title: "Blueberries & almonds in dark chocolate",
+    sn1_l1: "20 g dark chocolate, melted",
+    sn1_l2: "10 almonds",
+    sn1_l3: "10 blueberries",
+    sn1_note: "Coat berries and almonds in melted chocolate",
+    sn2Title: "Berry mix with nuts",
+    sn2_l1: "10 cashews",
+    sn2_l2: "2 cups mixed berries",
+    sn2_l3: "10 almonds",
+    sn3Title: "Strawberries with low-fat cream",
+    sn3_l1: "1 cup strawberries",
+    sn3_l2: "4 tbsp low-fat cream",
+    sn3_l3: "2 tbsp shredded coconut",
+    sn4Title: "Watermelon with dark chocolate",
+    sn4_l1: "2 cups diced watermelon",
+    sn4_l2: "30 g dark chocolate (≥70% cacao)",
+    lc1Title: "Fish fillet with vegetables",
+    lc1_l1: "180 g grouper or sea bass fillet",
+    lc1_l2: "¼ avocado",
+    lc1_l3: "1 green bell pepper",
+    lc1_l4: "½ cup red onion",
+    lc1_l5: "1 cup boiled white rice",
+    lc1_l6: "Lemon and dressing to taste",
+    lc2Title: "Beef steak or chicken breast with salad",
+    lc2_l1: "180 g beef (round, sirloin tip, or similar) or grilled chicken breast",
+    lc2_l2: "¼ avocado",
+    lc2_l3: "Green salad: 2 cups spinach, 1 cup lettuce",
+    lc2_l4: "1 tomato, diced",
+    lc3Title: "Skirt steak or beef fillet with mashed potato",
+    lc3_l1: "160 g skirt steak or beef fillet",
+    lc3_l2: "1 cup mashed potato",
+    lc3_l3: "½ avocado",
+    lc3_l4: "1 green bell pepper",
+    lc3_l5: "1 cup spinach",
+    lc3_l6: "1 tomato — optional low-sodium seasoning or salsa of choice",
+    lc4Title: "Tuna bowl with rice",
+    lc4_l1: "2 cans tuna in water",
+    lc4_l2: "1 cup brown rice",
+    lc4_l3: "¼ avocado",
+    lc4_l4: "70 g mixed garden salad",
+    dn1Title: "Grilled turkey rolls with panela & salad",
+    dn1_l1: "140 g turkey breast",
+    dn1_l2: "30 g panela cheese",
+    dn1_l3: "2 cups chopped spinach",
+    dn1_l4: "½ cup tomato",
+    dn1_l5: "½ cup mushrooms",
+    dn1_l6: "2 cups lettuce",
+    dn2Title: "Tuna bowl",
+    dn2_l1: "1 can tuna in water",
+    dn2_l2: "¼ avocado",
+    dn2_l3: "1 tbsp cream cheese",
+    dn2_l4: "1 cup spinach or 5 asparagus spears",
+    dn2_l5: "1 package salmas",
+    dn3Title: "Chicken “alambre” style",
+    dn3_l1: "160 g chicken",
+    dn3_l2: "1 cup bell peppers",
+    dn3_l3: "¼ cup red onion",
+    dn3_l4: "1 cup mushrooms",
+    dn3_l5: "5 asparagus spears",
+    dn3_l6: "¼ avocado",
+    dn4Title: "Skirt steak salad",
+    dn4_l1: "1 green bell pepper",
+    dn4_l2: "1 zucchini, diced",
+    dn4_l3: "50 g corn kernels",
+    dn4_l4: "2 cups lettuce",
+    dn4_l5: "¼ avocado",
+    dn4_note: "The PDF lists vegetables only for this dish; confirm skirt steak portion with your coach.",
+    trainTitle: "Training split (summary)",
+    trainIntro: "Four gym days (example: Mon–Thu). Full exercise tables with sets and reps are on the Training page.",
+    trainD1Head: "Day 1:",
+    trainD1Body: "Quads, glutes, calves",
+    trainD2Head: "Day 2:",
+    trainD2Body: "Chest, triceps, abs",
+    trainD3Head: "Day 3:",
+    trainD3Body: "Hamstrings, glutes, calves",
+    trainD4Head: "Day 4:",
+    trainD4Body: "Back, biceps, abs",
+    trainFullLink: "Open full program (sets & reps) →"
   },
   es: {
-    groceryNav: "Lista de Compras",
-    planTitle: "Plan de Ganancia Muscular",
-    stats: "1.90 m \u00b7 ~91 kg \u00b7 41 a\u00f1os \u00b7 Entrenamiento con pesas regular",
-    tgtCal: "kcal (entreno)",
-    tgtProt: "Prote\u00edna",
-    tgtCarbs: "Carbos (entreno)",
-    tgtFat: "Grasa",
+    planTitle: "Plan de alimentación — Julio · 2,000 kcal",
+    stats: "Elige una opción por categoría cada día · Rutina de gym Lun–Jue",
+    tgtCalLabel: "kcal / día",
+    tgtCalNote: "Tu PDF solo indica calorías totales; no desglosa macros.",
+    groceryLink: "Lista de compras semanal (solo Remi) →",
     schBreakfast: "Desayuno",
-    schSnack1: "Colaci\u00f3n",
-    schLunch: "Almuerzo",
-    schSnack2: "Colaci\u00f3n",
+    schSnack1: "Colación",
+    schLunch: "Comida",
+    schSnack2: "Colación",
     schDinner: "Cena",
-    supplementsTitle: "Suplementos Diarios",
-    supp1Name: "Col\u00e1geno hidrolizado + Vitamina C",
-    supp1Dose: "Dosis: 10\u201315 g de col\u00e1geno + 500\u20131000 mg de vitamina C diarios",
-    supp2Name: "HMB (\u03B2-hidroxi \u03B2-metilbutirato)",
-    supp2Dose: "Dosis: 3 g al d\u00eda",
-    supp3Name: "Omega 3 (EPA/DHA alto)",
-    supp3Dose: "Dosis: 2 c\u00e1psulas diarias (1000 mg por c\u00e1psula)",
-    supp4Name: "Creatina Monohidratada",
-    supp4Dose: "Dosis: 5 g al d\u00eda (con cualquier comida)",
-    essentialsTitle: "Obligatorio Todos los D\u00edas",
-    shakeTitle: "Licuado de Prote\u00edna (todos los d\u00edas)",
-    water: "de agua",
-    oats: "de avena",
-    protein: "de prote\u00edna",
-    peanutButter: "de crema de cacahuate",
-    preworkoutTitle: "Antes de Entrenar",
-    yogurt: "de yogurt griego",
-    banana: "pl\u00e1tano",
-    fruitTitle: "1 Fruta a Escoger (por d\u00eda)",
-    frBanana: "pl\u00e1tano",
-    frApple: "manzana",
-    frMandarin: "mandarinas",
-    frOrange: "naranjas",
-    frGrapes: "uvas verdes",
-    frStrawberry: "de fresa",
-    frMelon: "de sand\u00eda o mel\u00f3n",
-    veggiesTitle: "Vegetales Rallados",
-    jicama: "de j\u00edcama",
-    carrot: "de zanahoria",
-    mealPlanTitle: "Plan de Comidas \u2014 7 D\u00edas",
-    day1Header: "D\u00eda 1 \u2014 Lunes",
-    day2Header: "D\u00eda 2 \u2014 Martes",
-    day3Header: "D\u00eda 3 \u2014 Mi\u00e9rcoles",
-    day4Header: "D\u00eda 4 \u2014 Jueves",
-    day5Header: "D\u00eda 5 \u2014 Viernes",
-    day6Header: "D\u00eda 6 \u2014 S\u00e1bado",
-    day7Header: "D\u00eda 7 \u2014 Domingo",
-    breakfast: "Desayuno",
-    lunch: "Almuerzo",
-    dinner: "Cena",
-    snackLabel: "Colaci\u00f3n",
-    snack1Desc: "1 fruta a escoger + vegetales rallados",
-    snack1Macros: "~110 kcal \u00b7 2g P \u00b7 26g C \u00b7 0g G",
-    snack2Desc: "Licuado de prote\u00edna + pre-entreno (yogurt griego + pl\u00e1tano + avena)",
-    snack2Macros: "~890 kcal \u00b7 91g P \u00b7 98g C \u00b7 15g G",
-    smoothieLabel: "Licuado verde",
-    smoothieVeg: "de espinaca, pepino, apio",
-    greenApple: "de manzana verde",
-    cinnamonOpt: "Canela opcional",
-    avocado: "aguacate",
-    omelette: "Omelette",
-    eggWhites: "claras de huevo",
-    wholeEggs: "huevos enteros",
-    wholeEgg: "huevo entero",
-    turkeySlices: "de pechuga de pavo",
-    veggiesChoice: "Verduras de tu agrado",
-    cornTortillas: "tortillas de ma\u00edz",
-    eggsLabel: "Huevos",
-    spinach: "de espinaca",
-    squash: "de calabaza",
-    d1bName: "Licuado Verde + Omelette de Huevo",
-    d1bMacros: "~560 kcal \u00b7 40g P \u00b7 45g C \u00b7 20g G",
-    d3bName: "Licuado Verde + Huevo con Espinaca",
-    d3bMacros: "~470 kcal \u00b7 30g P \u00b7 40g C \u00b7 18g G",
-    d4bName: "Licuado Verde + Huevo con Calabaza",
-    d4bMacros: "~480 kcal \u00b7 30g P \u00b7 42g C \u00b7 18g G",
-    d5bName: "Licuado Verde + Bowl de At\u00fan",
-    d5bMacros: "~520 kcal \u00b7 42g P \u00b7 40g C \u00b7 14g G",
-    tunaBowlLabel: "Bowl de At\u00fan",
-    cookedGreenBeans: "Ejotes cocidos",
-    powerFitName: "Huevos Estilo Power Fit",
-    redOnion: "Cebolla morada",
-    slicedMushrooms: "Champi\u00f1ones rebanados",
-    spinachChard: "Espinaca o acelga",
-    chickenSaladName: "Pollo a la Plancha con Ensalada Fresca",
-    d1lMacros: "~650 kcal \u00b7 48g P \u00b7 35g C \u00b7 32g G",
-    d1dMacros: "~750 kcal \u00b7 60g P \u00b7 86g C \u00b7 14g G",
-    d2lMacros: "~750 kcal \u00b7 60g P \u00b7 86g C \u00b7 14g G",
-    d2dMacros: "~650 kcal \u00b7 48g P \u00b7 35g C \u00b7 32g G",
-    d3lMacros: "~620 kcal \u00b7 52g P \u00b7 48g C \u00b7 18g G",
-    d3dMacros: "~420 kcal \u00b7 48g P \u00b7 34g C \u00b7 6g G",
-    d5lMacros: "~760 kcal \u00b7 60g P \u00b7 88g C \u00b7 14g G",
-    d5dMacros: "~460 kcal \u00b7 44g P \u00b7 36g C \u00b7 12g G",
-    fajitasName: "Fajitas de Pollo (o de Res)",
-    cookedRice: "de arroz cocido",
-    chickenBreast: "de pechuga de pollo",
-    mixedVeg: "de mix de vegetales rallados (zanahoria, chayote, lechuga, espinaca)",
-    saltPepper: "Sal y pimienta al gusto",
-    peppers: "de pimientos",
-    mushroomsNopales: "Champi\u00f1ones o nopales al gusto",
-    worcestershire: "Salsa inglesa opcional",
-    salmonTacosName: "Tacos de Salm\u00f3n con Calabaza y Cilantro",
-    salmon: "de salm\u00f3n",
-    cilantroTaste: "Cilantro al gusto",
-    picoTaste: "Pico de gallo al gusto",
-    salsaTaste: "Salsa al gusto",
-    steakPotatoName: "Bistec con Papa",
-    steakStrips: "de bistec en tiras o cubos",
-    potatoCooked: "de papa cocida o guisada",
-    dicedTomato: "Jitomate picado",
-    zucchiniTaste: "Calabacitas al gusto",
-    garlicSaltPepper: "Ajo, sal y pimienta al gusto",
-    cilantroParsley: "Cilantro o perejil para decorar",
-    steakNote: "Opcional: a\u00f1adir 30\u201340 ml de agua o caldo para dar textura m\u00e1s caldosa.",
-    tunaBowlName: "Bowl de At\u00fan",
-    bakedTostadas: "tostadas horneadas",
-    drainedTuna: "de at\u00fan drenado",
-    spinachTaste: "Espinaca al gusto",
-    ofCarrot: "de zanahoria",
-    ofCucumber: "de pepino",
-    lemon: "Lim\u00f3n",
-    restDayNote: "D\u00eda de descanso: reduce el arroz a 200 g, omite los 30 g de avena del pre-entreno.",
-    restDayNoteB: "D\u00eda de descanso: reduce la papa a 200 g, omite los 30 g de avena del pre-entreno.",
-    summaryTitle: "Totales Diarios",
-    summaryHeading: "Calor\u00edas y Macros Estimados por D\u00eda",
-    thDay: "D\u00eda",
-    thCal: "Calor\u00edas",
-    thProt: "Prote\u00edna",
-    thCarbs: "Carbos",
-    thFat: "Grasa",
-    row1: "1 \u2014 Lunes",
-    row2: "2 \u2014 Martes",
-    row3: "3 \u2014 Mi\u00e9rcoles",
-    row4: "4 \u2014 Jueves",
-    row5: "5 \u2014 Viernes",
-    row6: "6 \u2014 S\u00e1bado",
-    row7: "7 \u2014 Domingo",
-    tagTraining: "Entreno",
-    avgTraining: "Promedio d\u00eda de entreno: ~2,980 kcal \u00b7 205g P \u00b7 303g C \u00b7 68g G",
-    avgRest: "Promedio d\u00eda de descanso: ~2,720 kcal \u00b7 203g P \u00b7 258g C \u00b7 66g G",
-    calDisclaimer: "Asume ~91 kg de peso corporal con mantenimiento estimado de ~2,750 kcal. D\u00edas de entreno a\u00f1aden +250-300 kcal de super\u00e1vit para ganancia muscular magra. Ajusta porciones una vez tengas un peso exacto. Si el peso se estanca por 2+ semanas, a\u00f1ade 50 g de arroz al almuerzo."
+    supplementsTitle: "Suplementación",
+    supp1Name: "Proteína en polvo",
+    supp1Dose: "1 scoop al día",
+    supp2Name: "Creatina",
+    supp2Dose: "1 scoop al día",
+    mealPlanTitle: "Opciones de comida",
+    introPickOne: "Cada día elige un desayuno, una colación (mañana), una comida, otra colación (tarde) y una cena de las listas siguientes.",
+    secBreakfast: "Desayuno — elige 1",
+    secSnack: "Colación — elige 1 (misma lista para ambas colaciones)",
+    secLunch: "Comida — elige 1",
+    secDinner: "Cena — elige 1",
+    opt1: "Opción 1",
+    opt2: "Opción 2",
+    opt3: "Opción 3",
+    opt4: "Opción 4",
+    bf1Title: "Huevos al albañil",
+    bf1_l1: "1 huevo completo",
+    bf1_l2: "5 claras de huevo",
+    bf1_l3: "3 rebanadas de pechuga de pavo",
+    bf1_l4: "4 tortillas de nopal",
+    bf1_salsa: "Salsa",
+    bf1_l5: "1 jitomate, ¼ de cebolla, ajo al gusto, chile serrano y chile de árbol al gusto",
+    bf1_l6: "Asar jitomate, cebolla y chiles; licuar para la salsa",
+    bf2Title: "Bowl de fruta + yogurt",
+    bf2_l1: "1 taza de melón o papaya",
+    bf2_l2: "1 taza de fresas o mix de berries",
+    bf2_l3: "1 taza de yogurt griego",
+    bf2_l4: "½ taza de granola o avena",
+    bf2_l5: "2 cdas de miel de agave",
+    bf2_dress: "Aderezo de yogurt",
+    bf2_l6: "2 cdas de yogurt griego, 1 cda de queso crema, 1 cda de miel de abeja",
+    bf3Title: "Chilaquiles con pollo o huevo",
+    bf3_l1: "3 tostadas de nopal o salmas",
+    bf3_l2: "Pechuga de pollo o cuatro huevos revueltos",
+    bf3_l3: "140 g de pechuga de pollo desmenuzada",
+    bf3_l4: "2 cdas de crema light (opcional)",
+    bf3_l5: "½ taza de jitomate picado",
+    bf3_l6: "1 taza de lechuga picada",
+    bf3_l7: "Cebolla picada al gusto",
+    bf3_l8: "¼ de aguacate",
+    bf3_l9: "Salsa roja o verde al gusto",
+    bf4Title: "Sándwich de pollo con aderezo de yogurt",
+    bf4_l1: "2 rebanadas de pan integral o centeno",
+    bf4_l2: "160 g de pechuga de pollo",
+    bf4_l3: "½ taza de jitomate picado",
+    bf4_l4: "Cebolla al gusto",
+    bf4_dress: "Aderezo de yogurt (igual que opción 2)",
+    bf4_l5: "2 cdas de yogurt griego, 1 cda de queso crema, 1 cda de miel de abeja",
+    sn1Title: "Arándanos y almendras bañados en chocolate amargo",
+    sn1_l1: "20 g de chocolate amargo derretido",
+    sn1_l2: "10 almendras",
+    sn1_l3: "10 arándanos",
+    sn1_note: "Bañar frutos secos y arándanos en el chocolate derretido",
+    sn2Title: "Mix de berries con nueces",
+    sn2_l1: "10 nueces de la India",
+    sn2_l2: "2 tazas de mix de berries",
+    sn2_l3: "10 almendras",
+    sn3Title: "Fresas con crema baja en grasa",
+    sn3_l1: "1 taza de fresas",
+    sn3_l2: "4 cdas de crema baja en grasa",
+    sn3_l3: "2 cdas de coco rallado",
+    sn4Title: "Sandía con chocolate amargo",
+    sn4_l1: "2 tazas de sandía picada",
+    sn4_l2: "30 g de chocolate amargo (≥70% cacao)",
+    lc1Title: "Filete de pescado con verduras",
+    lc1_l1: "180 g de filete de mero o robalo",
+    lc1_l2: "¼ de aguacate",
+    lc1_l3: "1 pimiento verde",
+    lc1_l4: "½ taza de cebolla morada",
+    lc1_l5: "1 taza de arroz blanco hervido",
+    lc1_l6: "Limón y aderezo al gusto",
+    lc2Title: "Filete de res o pechuga de pollo con ensalada",
+    lc2_l1: "180 g de bola, centro o punta de res, o pechuga de pollo asada",
+    lc2_l2: "¼ de aguacate",
+    lc2_l3: "Ensalada verde: 2 tazas de espinaca, 1 taza de lechuga",
+    lc2_l4: "1 jitomate picado",
+    lc3Title: "Arrachera o filete con puré",
+    lc3_l1: "160 g de arrachera o filete",
+    lc3_l2: "1 taza de puré de papa",
+    lc3_l3: "½ aguacate",
+    lc3_l4: "1 pimiento verde",
+    lc3_l5: "1 taza de espinaca",
+    lc3_l6: "1 jitomate — opcional Maggi sin sodio o salsa a tu elección",
+    lc4Title: "Bowl de atún con arroz",
+    lc4_l1: "2 latas de atún en agua",
+    lc4_l2: "1 taza de arroz integral",
+    lc4_l3: "¼ de aguacate",
+    lc4_l4: "70 g de ensalada campesina",
+    dn1Title: "Rollitos de pavo con panela y ensalada",
+    dn1_l1: "140 g de pechuga de pavo",
+    dn1_l2: "30 g de queso panela",
+    dn1_l3: "2 tazas de espinaca picada",
+    dn1_l4: "½ taza de jitomate",
+    dn1_l5: "½ taza de champiñones",
+    dn1_l6: "2 tazas de lechuga",
+    dn2Title: "Bowl de atún",
+    dn2_l1: "1 lata de atún en agua",
+    dn2_l2: "¼ de aguacate",
+    dn2_l3: "1 cda de queso crema (tipo Philadelphia)",
+    dn2_l4: "1 taza de espinacas o 5 espárragos",
+    dn2_l5: "1 paquete de salmas",
+    dn3Title: "Alambre de pollo",
+    dn3_l1: "160 g de pollo",
+    dn3_l2: "1 taza de pimientos",
+    dn3_l3: "¼ de taza de cebolla morada",
+    dn3_l4: "1 taza de champiñones",
+    dn3_l5: "5 espárragos",
+    dn3_l6: "¼ de aguacate",
+    dn4Title: "Ensalada de arrachera",
+    dn4_l1: "1 pimiento verde",
+    dn4_l2: "1 calabaza picada",
+    dn4_l3: "50 g de elote",
+    dn4_l4: "2 tazas de lechuga",
+    dn4_l5: "¼ de aguacate",
+    dn4_note: "El PDF solo lista verduras; confirma la porción de arrachera con tu coach.",
+    trainTitle: "Rutina de entrenamiento (resumen)",
+    trainIntro: "Cuatro días de gym (ejemplo: lun–jue). Las tablas completas con series y repeticiones están en la página Entrenamiento.",
+    trainD1Head: "Día 1:",
+    trainD1Body: "Cuádriceps, glúteo, pantorrilla",
+    trainD2Head: "Día 2:",
+    trainD2Body: "Pecho, tríceps, abdomen",
+    trainD3Head: "Día 3:",
+    trainD3Body: "Femoral, glúteo, pantorrilla",
+    trainD4Head: "Día 4:",
+    trainD4Body: "Espalda, bíceps, abdomen",
+    trainFullLink: "Ver programa completo (series y reps) →"
   }
 };
 
@@ -1228,16 +696,14 @@ function setLang(lang) {
   updateTodayBtn();
 }
 
-// TODAY BUTTON LOGIC
-// Meal schedule: Breakfast 7-10, Snack 11-12, Lunch 13-16, Snack 17-18, Dinner 20-22
 var MEAL_SLOTS = {
   es: [
     [0,    420,  '🌙', 'Desayuno pronto'],
     [420,  600,  '🍳', 'Hora del desayuno'],
     [600,  660,  '⏰', 'Colación pronto'],
     [660,  720,  '🍎', 'Hora de colación'],
-    [720,  780,  '⏰', 'Almuerzo pronto'],
-    [780,  960,  '🥗', 'Hora del almuerzo'],
+    [720,  780,  '⏰', 'Comida pronto'],
+    [780,  960,  '🥗', 'Hora de la comida'],
     [960,  1020, '⏰', 'Colación pronto'],
     [1020, 1080, '🥤', 'Hora de colación'],
     [1080, 1200, '⏰', 'Cena pronto'],
@@ -1264,9 +730,6 @@ var DAY_NAMES = {
   en: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
 };
 
-// JS getDay(): 0=Sun,1=Mon,...,6=Sat → card index (0-based): Day1=Mon=0 ... Day7=Sun=6
-var JS_DAY_TO_CARD = {1:0, 2:1, 3:2, 4:3, 5:4, 6:5, 0:6};
-
 function getMealSlot(lang) {
   var now = new Date();
   var mins = now.getHours() * 60 + now.getMinutes();
@@ -1286,12 +749,12 @@ function updateTodayBtn() {
 }
 
 function scrollToToday() {
-  var idx = JS_DAY_TO_CARD[new Date().getDay()];
-  var cards = document.querySelectorAll('.day-card');
-  var target = cards[idx];
+  var day = new Date().getDay();
+  var isTrainDay = day >= 1 && day <= 4;
+  var target = document.getElementById(isTrainDay ? 'remi-training-summary' : 'meal-options');
   if (!target) return;
   target.scrollIntoView({behavior: 'smooth', block: 'start'});
-  document.querySelectorAll('.day-card.today-highlight').forEach(function(c) {
+  document.querySelectorAll('.today-highlight').forEach(function(c) {
     c.classList.remove('today-highlight');
   });
   setTimeout(function() {
@@ -1300,6 +763,7 @@ function scrollToToday() {
   }, 380);
 }
 
+setLang('en');
 updateTodayBtn();
 setInterval(updateTodayBtn, 60000);
 </script>

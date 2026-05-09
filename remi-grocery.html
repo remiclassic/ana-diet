@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remi — Weekly Grocery List</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f4f6f8;--card:#fff;--text:#1e2228;--muted:#6b7280;
+    --accent:#3b6ea5;--accent-light:#e0ecf7;
+    --protein:#c0392b;--protein-light:#fce8e8;
+    --produce:#2d7d46;--produce-light:#e4f5ea;
+    --dairy:#3b6ea5;--dairy-light:#e0ecf7;
+    --grain:#8e6b3b;--grain-light:#faf0e0;
+    --fruit:#7a3b8c;--fruit-light:#f2e8f8;
+    --pantry:#7a756d;--pantry-light:#f0ede8;
+    --supp:#8b6f5e;--supp-light:#f3ece6;
+    --border:#dfe3e8;--radius:10px;
+    --check:#2d7d46;
+  }
+  html{font-size:15px;scroll-behavior:smooth}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:3.8rem 1rem 2rem}
+  .container{max-width:860px;margin:0 auto}
+
+  header{text-align:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:2px solid var(--border)}
+  header h1{font-size:1.75rem;font-weight:700;letter-spacing:.02em;margin-bottom:.25rem}
+  header .subtitle{font-size:1rem;color:var(--muted);margin-bottom:.15rem}
+  header .meta{font-size:.88rem;color:var(--accent);font-weight:600}
+
+  .lang-toggle{position:fixed;top:3.2rem;right:1rem;z-index:100;display:flex;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.12);border:1px solid var(--border)}
+  .lang-btn{padding:.45rem 1rem;font-size:.85rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+  .lang-btn.active{background:var(--accent);color:#fff}
+  .lang-btn:not(.active){background:#fff;color:var(--text)}
+
+  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+  .toolbar .progress{font-size:.88rem;color:var(--muted);font-weight:500}
+  .toolbar .progress strong{color:var(--accent);font-weight:700}
+  .toolbar button{background:var(--accent-light);color:var(--accent);border:1px solid var(--accent);padding:.35rem .9rem;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s}
+  .toolbar button:hover{background:var(--accent);color:#fff}
+
+  section{margin-bottom:2rem}
+  .section-title{font-size:1.12rem;font-weight:700;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:.5rem}
+  .section-icon{width:28px;height:28px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+
+  .grocery-list{list-style:none;padding:0}
+  .grocery-item{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem .8rem;border-radius:8px;margin-bottom:.35rem;background:var(--card);border:1px solid var(--border);transition:all .15s}
+  .grocery-item:hover{border-color:var(--accent)}
+  .grocery-item.checked{opacity:.55;text-decoration:line-through;border-color:var(--check)}
+  .grocery-item.checked .item-name{text-decoration:line-through}
+  .grocery-item input[type=checkbox]{margin-top:.25rem;width:18px;height:18px;accent-color:var(--check);cursor:pointer;flex-shrink:0}
+  .item-content{flex:1;min-width:0}
+  .item-name{font-weight:600;font-size:.95rem}
+  .item-detail{font-size:.82rem;color:var(--muted);margin-top:.1rem}
+
+  .note-card{background:var(--accent-light);border:1px solid #c5d6eb;border-radius:var(--radius);padding:.85rem 1rem;margin-bottom:1.5rem;font-size:.88rem;color:var(--text)}
+  .note-card strong{font-weight:700;color:var(--accent)}
+
+  .plan-link{display:inline-block;margin-top:1rem;font-weight:600;color:var(--accent);font-size:.92rem}
+
+  @media print{
+    body{padding:0!important;background:#fff;font-size:13px}
+    .plan-nav,.lang-toggle,.toolbar button{display:none!important}
+    .container{max-width:100%}
+    .grocery-item{break-inside:avoid;border:1px solid #ddd}
+    .grocery-item.checked{opacity:.45}
+  }
+  @media(max-width:600px){
+    html{font-size:14px}
+    body{padding:3.4rem .5rem 1rem}
+    .lang-toggle{top:2.8rem;right:.5rem}
+    .toolbar{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<div id="main-nav"></div><script src="nav.js"></script>
+
+<div class="lang-toggle">
+  <button class="lang-btn" onclick="setLang('es')">ES</button>
+  <button class="lang-btn active" onclick="setLang('en')">EN</button>
+</div>
+
+<div class="container">
+
+  <header>
+    <h1 data-i18n="pageTitle">Weekly grocery list</h1>
+    <div class="subtitle" data-i18n="pageSubtitle">Remi only · ~2,000 kcal flexible menu</div>
+    <div class="meta" data-i18n="pageMeta">Based on remi-diet.html options</div>
+  </header>
+
+  <div class="note-card">
+    <strong data-i18n="noteBold">How these quantities work:</strong>
+    <span data-i18n="noteBody"> Approximate one-week shopping for one person mixing breakfast, snack, lunch, and dinner options. Adjust down if you repeat fewer recipes or eat out.</span>
+  </div>
+
+  <div class="toolbar">
+    <div class="progress"><strong id="checkedCount">0</strong> / <span id="totalCount">0</span> <span data-i18n="itemsChecked">items checked</span></div>
+    <button type="button" onclick="clearAll()" data-i18n="clearBtn">Clear all</button>
+  </div>
+
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:var(--protein-light);color:var(--protein)">&#x1F969;</span>
+      <span data-i18n="catProtein">Proteins &amp; seafood</span>
+    </div>
+    <ul class="grocery-list">
+      <li class="grocery-item" data-key="rchicken"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iChicken">Chicken breast</div><div class="item-detail" data-i18n="qChicken">~1.8 kg (~4 lb) — breakfast, lunch &amp; dinner options</div></div></li>
+      <li class="grocery-item" data-key="rturkey"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iTurkey">Turkey breast</div><div class="item-detail" data-i18n="qTurkey">~650 g fresh/grill + 1 pack sliced deli turkey (~400 g)</div></div></li>
+      <li class="grocery-item" data-key="rbeef"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iBeef">Beef (steak / skirt / stir-fry cuts)</div><div class="item-detail" data-i18n="qBeef">~1.2 kg total — add arrachera if you use dinner option 4</div></div></li>
+      <li class="grocery-item" data-key="rfish"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iFish">White fish (grouper, sea bass, similar)</div><div class="item-detail" data-i18n="qFish">~550–650 g fillets</div></div></li>
+      <li class="grocery-item" data-key="rtuna"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iTuna">Tuna in water (cans)</div><div class="item-detail" data-i18n="qTuna">10–12 × ~140 g (lunch bowl + dinner bowl)</div></div></li>
+      <li class="grocery-item" data-key="reggs"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iEggs">Eggs</div><div class="item-detail" data-i18n="qEggs">~18–24 whole eggs</div></div></li>
+      <li class="grocery-item" data-key="reggwhite"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iEggWhite">Liquid egg whites (optional)</div><div class="item-detail" data-i18n="qEggWhite">1 carton (~16 oz / 500 ml) if you eat huevos al albañil often</div></div></li>
+      <li class="grocery-item" data-key="rpanela"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iPanela">Panela cheese</div><div class="item-detail" data-i18n="qPanela">~250–300 g block</div></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:var(--dairy-light);color:var(--dairy)">&#x1F9C0;</span>
+      <span data-i18n="catDairy">Dairy</span>
+    </div>
+    <ul class="grocery-list">
+      <li class="grocery-item" data-key="ryogurt"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iYogurt">Greek yogurt</div><div class="item-detail" data-i18n="qYogurt">~2 kg total — bowls &amp; yogurt dressing</div></div></li>
+      <li class="grocery-item" data-key="rcreamcheese"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iCreamCheese">Cream cheese</div><div class="item-detail" data-i18n="qCreamCheese">1 small tub (~200–250 g)</div></div></li>
+      <li class="grocery-item" data-key="rlightcream"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iLightCream">Light cream / table cream</div><div class="item-detail" data-i18n="qLightCream">1 small — chilaquiles &amp; berry snack</div></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:var(--produce-light);color:var(--produce)">&#x1F966;</span>
+      <span data-i18n="catProduce">Produce</span>
+    </div>
+    <ul class="grocery-list">
+      <li class="grocery-item" data-key="ravocado"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iAvocado">Avocado</div><div class="item-detail" data-i18n="qAvocado">8–10 pieces</div></div></li>
+      <li class="grocery-item" data-key="rspinach"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iSpinach">Spinach</div><div class="item-detail" data-i18n="qSpinach">~900 g–1.2 kg fresh or 3 large bags</div></div></li>
+      <li class="grocery-item" data-key="rlettuce"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iLettuce">Lettuce (romaine or green leaf)</div><div class="item-detail" data-i18n="qLettuce">2 heads</div></div></li>
+      <li class="grocery-item" data-key="rtomato"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iTomato">Tomatoes (roma / salad)</div><div class="item-detail" data-i18n="qTomato">~10–12 medium</div></div></li>
+      <li class="grocery-item" data-key="rpepper"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iPepper">Green bell peppers</div><div class="item-detail" data-i18n="qPepper">6–8</div></div></li>
+      <li class="grocery-item" data-key="ronion"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iOnion">Onions (red + white/yellow)</div><div class="item-detail" data-i18n="qOnion">3–4 red + 2 white/yellow</div></div></li>
+      <li class="grocery-item" data-key="rmush"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iMushroom">Mushrooms</div><div class="item-detail" data-i18n="qMushroom">~500–600 g</div></div></li>
+      <li class="grocery-item" data-key="rzucchini"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iZucchini">Zucchini</div><div class="item-detail" data-i18n="qZucchini">3–4 medium</div></div></li>
+      <li class="grocery-item" data-key="rasparagus"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iAsparagus">Asparagus</div><div class="item-detail" data-i18n="qAsparagus">2 bunches</div></div></li>
+      <li class="grocery-item" data-key="rcorn"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iCorn">Corn kernels</div><div class="item-detail" data-i18n="qCorn">1 bag frozen (~300–400 g)</div></div></li>
+      <li class="grocery-item" data-key="rgarlic"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iGarlic">Garlic</div><div class="item-detail" data-i18n="qGarlic">2 heads</div></div></li>
+      <li class="grocery-item" data-key="rchile"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iChile">Serrano &amp; árbol chiles</div><div class="item-detail" data-i18n="qChile">Small bundle each — salsa</div></div></li>
+      <li class="grocery-item" data-key="rlemon"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iLemon">Lemon or lime</div><div class="item-detail" data-i18n="qLemon">6–8 pieces</div></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:var(--fruit-light);color:var(--fruit)">&#x1F34E;</span>
+      <span data-i18n="catFruit">Fruit &amp; berries</span>
+    </div>
+    <ul class="grocery-list">
+      <li class="grocery-item" data-key="rmelon"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iMelon">Melon or papaya</div><div class="item-detail" data-i18n="qMelon">1 large fruit (or half each)</div></div></li>
+      <li class="grocery-item" data-key="rberries"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iBerries">Mixed berries</div><div class="item-detail" data-i18n="qBerries">~800 g–1 kg fresh or frozen</div></div></li>
+      <li class="grocery-item" data-key="rstraw"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iStraw">Strawberries</div><div class="item-detail" data-i18n="qStraw">~400–500 g</div></div></li>
+      <li class="grocery-item" data-key="rblue"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iBlue">Blueberries</div><div class="item-detail" data-i18n="qBlue">2 small trays (~250–400 g)</div></div></li>
+      <li class="grocery-item" data-key="rwater"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iWater">Watermelon</div><div class="item-detail" data-i18n="qWater">1 small melon or ½ large</div></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:var(--grain-light);color:var(--grain)">&#x1F35E;</span>
+      <span data-i18n="catGrain">Bakery, tortillas &amp; grains</span>
+    </div>
+    <ul class="grocery-list">
+      <li class="grocery-item" data-key="rbread"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iBread">Whole wheat or rye bread</div><div class="item-detail" data-i18n="qBread">1 loaf</div></div></li>
+      <li class="grocery-item" data-key="rnopal"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iNopal">Nopal tortillas / tostadas</div><div class="item-detail" data-i18n="qNopal">2 packs — breakfast &amp; chilaquiles</div></div></li>
+      <li class="grocery-item" data-key="rsalmas"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iSalmas">Salmas or baked crackers</div><div class="item-detail" data-i18n="qSalmas">2–3 packs</div></div></li>
+      <li class="grocery-item" data-key="rriceW"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iRiceW">White rice (dry)</div><div class="item-detail" data-i18n="qRiceW">~400–500 g</div></div></li>
+      <li class="grocery-item" data-key="rriceBr"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iRiceBr">Brown rice (dry)</div><div class="item-detail" data-i18n="qRiceBr">~300–400 g</div></div></li>
+      <li class="grocery-item" data-key="rpotato"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iPotato">Potatoes (mashing)</div><div class="item-detail" data-i18n="qPotato">~1 kg (~5 medium)</div></div></li>
+      <li class="grocery-item" data-key="roats"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iOats">Oats</div><div class="item-detail" data-i18n="qOats">~400–500 g — granola alternative</div></div></li>
+      <li class="grocery-item" data-key="rgranola"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iGranola">Granola</div><div class="item-detail" data-i18n="qGranola">1 box (~400–500 g)</div></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:var(--pantry-light);color:var(--pantry)">&#x1F9F2;</span>
+      <span data-i18n="catPantry">Pantry &amp; extras</span>
+    </div>
+    <ul class="grocery-list">
+      <li class="grocery-item" data-key="rchoc"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iChoc">Dark chocolate (≥70% cacao)</div><div class="item-detail" data-i18n="qChoc">~250–300 g — snacks</div></div></li>
+      <li class="grocery-item" data-key="ralmonds"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iAlmonds">Almonds</div><div class="item-detail" data-i18n="qAlmonds">~200–250 g raw</div></div></li>
+      <li class="grocery-item" data-key="rcashew"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iCashew">Cashews</div><div class="item-detail" data-i18n="qCashew">~150–200 g</div></div></li>
+      <li class="grocery-item" data-key="rcoconut"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iCoconut">Shredded coconut</div><div class="item-detail" data-i18n="qCoconut">1 small bag</div></div></li>
+      <li class="grocery-item" data-key="ragave"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iAgave">Agave syrup</div><div class="item-detail" data-i18n="qAgave">1 bottle</div></div></li>
+      <li class="grocery-item" data-key="rhoney"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iHoney">Honey</div><div class="item-detail" data-i18n="qHoney">1 small jar — yogurt dressing</div></div></li>
+      <li class="grocery-item" data-key="roil"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iOil">Olive oil or dressing</div><div class="item-detail" data-i18n="qOil">1 bottle — salads &amp; cooking</div></div></li>
+      <li class="grocery-item" data-key="rsalsa"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iSalsa">Salsa roja / verde (optional)</div><div class="item-detail" data-i18n="qSalsa">Jars or fresh ingredients extra</div></div></li>
+      <li class="grocery-item" data-key="rmaggi"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iMaggi">Low-sodium seasoning (optional)</div><div class="item-detail" data-i18n="qMaggi">Maggi sin sodio or similar</div></div></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="section-title">
+      <span class="section-icon" style="background:var(--supp-light);color:var(--supp)">&#x1F48A;</span>
+      <span data-i18n="catSupp">Supplements</span>
+    </div>
+    <ul class="grocery-list">
+      <li class="grocery-item" data-key="rwhey"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iWhey">Protein powder</div><div class="item-detail" data-i18n="qWhey">7+ scoops / week per plan</div></div></li>
+      <li class="grocery-item" data-key="rcreatine"><input type="checkbox" onchange="toggle(this)"><div class="item-content"><div class="item-name" data-i18n="iCreatine">Creatine</div><div class="item-detail" data-i18n="qCreatine">7+ scoops / week per plan</div></div></li>
+    </ul>
+  </section>
+
+  <a class="plan-link" href="remi-diet.html" data-i18n="backPlan">← Back to Remi’s meal options</a>
+
+</div>
+
+<script>
+const STORAGE_KEY = 'remi-grocery-checked-v1';
+
+const translations = {
+  en: {
+    pageTitle: 'Weekly grocery list',
+    pageSubtitle: 'Remi only · ~2,000 kcal flexible menu',
+    pageMeta: 'Based on remi-diet.html options',
+    noteBold: 'How these quantities work:',
+    noteBody: ' Approximate one-week shopping for one person mixing breakfast, snack, lunch, and dinner options. Adjust down if you repeat fewer recipes or eat out.',
+    itemsChecked: 'items checked',
+    clearBtn: 'Clear all',
+    catProtein: 'Proteins & seafood',
+    iChicken: 'Chicken breast',
+    qChicken: '~1.8 kg (~4 lb) — breakfast, lunch & dinner options',
+    iTurkey: 'Turkey breast',
+    qTurkey: '~650 g fresh/grill + 1 pack sliced deli turkey (~400 g)',
+    iBeef: 'Beef (steak / skirt / stir-fry cuts)',
+    qBeef: '~1.2 kg total — add skirt steak if you use dinner option 4',
+    iFish: 'White fish (grouper, sea bass, similar)',
+    qFish: '~550–650 g fillets',
+    iTuna: 'Tuna in water (cans)',
+    qTuna: '10–12 × ~140 g (lunch bowl + dinner bowl)',
+    iEggs: 'Eggs',
+    qEggs: '~18–24 whole eggs',
+    iEggWhite: 'Liquid egg whites (optional)',
+    qEggWhite: '1 carton (~16 oz / 500 ml) if you eat huevos al albañil often',
+    iPanela: 'Panela cheese',
+    qPanela: '~250–300 g block',
+    catDairy: 'Dairy',
+    iYogurt: 'Greek yogurt',
+    qYogurt: '~2 kg total — bowls & yogurt dressing',
+    iCreamCheese: 'Cream cheese',
+    qCreamCheese: '1 small tub (~200–250 g)',
+    iLightCream: 'Light cream / table cream',
+    qLightCream: '1 small — chilaquiles & berry snack',
+    catProduce: 'Produce',
+    iAvocado: 'Avocado',
+    qAvocado: '8–10 pieces',
+    iSpinach: 'Spinach',
+    qSpinach: '~900 g–1.2 kg fresh or 3 large bags',
+    iLettuce: 'Lettuce (romaine or green leaf)',
+    qLettuce: '2 heads',
+    iTomato: 'Tomatoes (roma / salad)',
+    qTomato: '~10–12 medium',
+    iPepper: 'Green bell peppers',
+    qPepper: '6–8',
+    iOnion: 'Onions (red + white/yellow)',
+    qOnion: '3–4 red + 2 white/yellow',
+    iMushroom: 'Mushrooms',
+    qMushroom: '~500–600 g',
+    iZucchini: 'Zucchini',
+    qZucchini: '3–4 medium',
+    iAsparagus: 'Asparagus',
+    qAsparagus: '2 bunches',
+    iCorn: 'Corn kernels',
+    qCorn: '1 frozen bag (~300–400 g)',
+    iGarlic: 'Garlic',
+    qGarlic: '2 heads',
+    iChile: 'Serrano & árbol chiles',
+    qChile: 'Small bundle each — salsa',
+    iLemon: 'Lemon or lime',
+    qLemon: '6–8 pieces',
+    catFruit: 'Fruit & berries',
+    iMelon: 'Melon or papaya',
+    qMelon: '1 large fruit (or half each)',
+    iBerries: 'Mixed berries',
+    qBerries: '~800 g–1 kg fresh or frozen',
+    iStraw: 'Strawberries',
+    qStraw: '~400–500 g',
+    iBlue: 'Blueberries',
+    qBlue: '2 small trays (~250–400 g)',
+    iWater: 'Watermelon',
+    qWater: '1 small melon or ½ large',
+    catGrain: 'Bakery, tortillas & grains',
+    iBread: 'Whole wheat or rye bread',
+    qBread: '1 loaf',
+    iNopal: 'Nopal tortillas / tostadas',
+    qNopal: '2 packs — breakfast & chilaquiles',
+    iSalmas: 'Salmas or baked crackers',
+    qSalmas: '2–3 packs',
+    iRiceW: 'White rice (dry)',
+    qRiceW: '~400–500 g',
+    iRiceBr: 'Brown rice (dry)',
+    qRiceBr: '~300–400 g',
+    iPotato: 'Potatoes (mashing)',
+    qPotato: '~1 kg (~5 medium)',
+    iOats: 'Oats',
+    qOats: '~400–500 g — granola alternative',
+    iGranola: 'Granola',
+    qGranola: '1 box (~400–500 g)',
+    catPantry: 'Pantry & extras',
+    iChoc: 'Dark chocolate (≥70% cacao)',
+    qChoc: '~250–300 g — snacks',
+    iAlmonds: 'Almonds',
+    qAlmonds: '~200–250 g raw',
+    iCashew: 'Cashews',
+    qCashew: '~150–200 g',
+    iCoconut: 'Shredded coconut',
+    qCoconut: '1 small bag',
+    iAgave: 'Agave syrup',
+    qAgave: '1 bottle',
+    iHoney: 'Honey',
+    qHoney: '1 small jar — yogurt dressing',
+    iOil: 'Olive oil or dressing',
+    qOil: '1 bottle — salads & cooking',
+    iSalsa: 'Red / green salsa (optional)',
+    qSalsa: 'Jars or extra fresh ingredients',
+    iMaggi: 'Low-sodium seasoning (optional)',
+    qMaggi: 'Maggi sin sodio or similar',
+    catSupp: 'Supplements',
+    iWhey: 'Protein powder',
+    qWhey: '7+ scoops / week per plan',
+    iCreatine: 'Creatine',
+    qCreatine: '7+ scoops / week per plan',
+    backPlan: '← Back to Remi’s meal options'
+  },
+  es: {
+    pageTitle: 'Lista de compras semanal',
+    pageSubtitle: 'Solo Remi · menú flexible ~2,000 kcal',
+    pageMeta: 'Según opciones en remi-diet.html',
+    noteBold: 'Cómo leer las cantidades:',
+    noteBody: ' Compra aproximada para una semana y una persona mezclando desayunos, colaciones, comidas y cenas. Reduce si repites pocas recetas o comes fuera.',
+    itemsChecked: 'artículos marcados',
+    clearBtn: 'Limpiar todo',
+    catProtein: 'Proteínas y mariscos',
+    iChicken: 'Pechuga de pollo',
+    qChicken: '~1.8 kg — opciones de desayuno, comida y cena',
+    iTurkey: 'Pechuga de pavo',
+    qTurkey: '~650 g fresca/asada + 1 paquete de pavo en rebanadas (~400 g)',
+    iBeef: 'Res (bistec / arrachera / trozos)',
+    qBeef: '~1.2 kg en total — suma arrachera si usas la cena opción 4',
+    iFish: 'Pescado blanco (mero, robalo, similar)',
+    qFish: '~550–650 g de filete',
+    iTuna: 'Atún en agua (latas)',
+    qTuna: '10–12 latas × ~140 g (bowl comida + bowl cena)',
+    iEggs: 'Huevos',
+    qEggs: '~18–24 huevos enteros',
+    iEggWhite: 'Claras líquidas (opcional)',
+    qEggWhite: '1 cartón (~500 ml) si comes huevos al albañil seguido',
+    iPanela: 'Queso panela',
+    qPanela: 'Pieza ~250–300 g',
+    catDairy: 'Lácteos',
+    iYogurt: 'Yogurt griego',
+    qYogurt: '~2 kg en total — bowls y aderezo',
+    iCreamCheese: 'Queso crema',
+    qCreamCheese: '1 bote chico (~200–250 g)',
+    iLightCream: 'Crema ligera / crema de mesa',
+    qLightCream: '1 chica — chilaquiles y snack de fresas',
+    catProduce: 'Verduras',
+    iAvocado: 'Aguacate',
+    qAvocado: '8–10 piezas',
+    iSpinach: 'Espinaca',
+    qSpinach: '~900 g–1.2 kg fresca o 3 bolsas grandes',
+    iLettuce: 'Lechuga (romana u hoja)',
+    qLettuce: '2 piezas',
+    iTomato: 'Jitomates (saladette / bola)',
+    qTomato: '~10–12 medianos',
+    iPepper: 'Pimientos verdes',
+    qPepper: '6–8',
+    iOnion: 'Cebollas (morada + blanca/amarilla)',
+    qOnion: '3–4 moradas + 2 blancas/amarillas',
+    iMushroom: 'Champiñones',
+    qMushroom: '~500–600 g',
+    iZucchini: 'Calabaza italiana (zucchini)',
+    qZucchini: '3–4 medianas',
+    iAsparagus: 'Espárragos',
+    qAsparagus: '2 manojos',
+    iCorn: 'Granos de elote',
+    qCorn: '1 bolsa congelada (~300–400 g)',
+    iGarlic: 'Ajo',
+    qGarlic: '2 cabezas',
+    iChile: 'Chiles serrano y de árbol',
+    qChile: 'Manojo chico de cada uno — salsa',
+    iLemon: 'Limón o lima',
+    qLemon: '6–8 piezas',
+    catFruit: 'Fruta y berries',
+    iMelon: 'Melón o papaya',
+    qMelon: '1 fruta grande (o mitad de cada)',
+    iBerries: 'Mix de berries',
+    qBerries: '~800 g–1 kg frescos o congelados',
+    iStraw: 'Fresas',
+    qStraw: '~400–500 g',
+    iBlue: 'Arándanos',
+    qBlue: '2 bandejas chicas (~250–400 g)',
+    iWater: 'Sandía',
+    qWater: '1 sandía chica o ½ grande',
+    catGrain: 'Pan, tortillas y granos',
+    iBread: 'Pan integral o centeno',
+    qBread: '1 barra',
+    iNopal: 'Tortillas de nopal / tostadas',
+    qNopal: '2 paquetes — desayuno y chilaquiles',
+    iSalmas: 'Salmas o galletas horneadas',
+    qSalmas: '2–3 paquetes',
+    iRiceW: 'Arroz blanco (seco)',
+    qRiceW: '~400–500 g',
+    iRiceBr: 'Arroz integral (seco)',
+    qRiceBr: '~300–400 g',
+    iPotato: 'Papas (para puré)',
+    qPotato: '~1 kg (~5 medianas)',
+    iOats: 'Avena',
+    qOats: '~400–500 g — alternativa a granola',
+    iGranola: 'Granola',
+    qGranola: '1 caja (~400–500 g)',
+    catPantry: 'Despensa y extras',
+    iChoc: 'Chocolate amargo (≥70% cacao)',
+    qChoc: '~250–300 g — colaciones',
+    iAlmonds: 'Almendras',
+    qAlmonds: '~200–250 g naturales',
+    iCashew: 'Nueces de la India',
+    qCashew: '~150–200 g',
+    iCoconut: 'Coco rallado',
+    qCoconut: '1 bolsa chica',
+    iAgave: 'Miel de agave',
+    qAgave: '1 botella',
+    iHoney: 'Miel de abeja',
+    qHoney: '1 frasco chico — aderezo de yogurt',
+    iOil: 'Aceite de oliva o aderezo',
+    qOil: '1 botella — ensaladas y cocina',
+    iSalsa: 'Salsa roja / verde (opcional)',
+    qSalsa: 'Frasco o más jitomate/chile fresco',
+    iMaggi: 'Condimento bajo en sodio (opcional)',
+    qMaggi: 'Maggi sin sodio o similar',
+    catSupp: 'Suplementos',
+    iWhey: 'Proteína en polvo',
+    qWhey: '7+ scoops / semana según plan',
+    iCreatine: 'Creatina',
+    qCreatine: '7+ scoops / semana según plan',
+    backPlan: '← Volver a opciones de comida de Remi'
+  }
+};
+
+let currentLang = 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
+    b.classList.toggle('active', b.textContent.trim() === lang.toUpperCase());
+  });
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.textContent = translations[lang][key];
+    }
+  });
+}
+
+function getSaved() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch (e) { return {}; }
+}
+
+function save(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function updateCount() {
+  var all = document.querySelectorAll('.grocery-item');
+  var checked = document.querySelectorAll('.grocery-item.checked');
+  document.getElementById('totalCount').textContent = all.length;
+  document.getElementById('checkedCount').textContent = checked.length;
+}
+
+function toggle(cb) {
+  var li = cb.closest('.grocery-item');
+  var key = li.getAttribute('data-key');
+  var saved = getSaved();
+  if (cb.checked) {
+    li.classList.add('checked');
+    saved[key] = true;
+  } else {
+    li.classList.remove('checked');
+    delete saved[key];
+  }
+  save(saved);
+  updateCount();
+}
+
+function clearAll() {
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll('.grocery-item').forEach(function(li) {
+    li.classList.remove('checked');
+    li.querySelector('input[type=checkbox]').checked = false;
+  });
+  updateCount();
+}
+
+function restoreState() {
+  var saved = getSaved();
+  document.querySelectorAll('.grocery-item').forEach(function(li) {
+    var key = li.getAttribute('data-key');
+    if (saved[key]) {
+      li.classList.add('checked');
+      li.querySelector('input[type=checkbox]').checked = true;
+    }
+  });
+  updateCount();
+}
+
+setLang('en');
+restoreState();
+</script>
+
+</body>
+</html>

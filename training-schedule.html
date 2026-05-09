@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -133,11 +133,69 @@
   .goal-text{font-size:.93rem;color:var(--muted);line-height:1.7}
   .goal-text strong{color:var(--text)}
 
+  /* ── Remi 4-day program (from July nutrition PDF) ── */
+  #remi-strength{scroll-margin-top:76px}
+  .remi-strength-section{
+    margin-top:2.5rem;
+    padding-top:1.5rem;
+    border-top:2px solid var(--border);
+  }
+  .remi-strength-head{
+    font-size:1.35rem;
+    font-weight:800;
+    margin-bottom:.4rem;
+    line-height:1.2;
+  }
+  .remi-strength-sub{
+    font-size:.9rem;
+    font-weight:600;
+    color:var(--morning);
+    margin-bottom:.5rem;
+  }
+  .remi-strength-note{
+    font-size:.88rem;
+    color:var(--muted);
+    margin-bottom:1.25rem;
+    line-height:1.55;
+  }
+  .program-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:.25rem}
+  .program-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:.8rem;
+    margin-bottom:1.25rem;
+    min-width:480px;
+  }
+  .program-table th,.program-table td{
+    padding:.42rem .35rem;
+    text-align:left;
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  .program-table thead th{
+    border-bottom:2px solid var(--border);
+    font-size:.68rem;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--muted);
+    font-weight:700;
+  }
+  .program-table tbody tr:last-child td{border-bottom:none}
+  .program-day-title{
+    font-size:.95rem;
+    font-weight:700;
+    margin:1.1rem 0 .45rem;
+    color:var(--morning);
+  }
+  .program-day-title:first-child{margin-top:.35rem}
+
   /* ── Print ── */
   @media print{
     .plan-nav,.lang-toggle{display:none!important}
     .container{max-width:100%}
     .session-card{box-shadow:none;border:1px solid #ddd}
+    .program-table{font-size:.74rem}
+    .remi-strength-section{break-inside:avoid}
   }
 
   /* ── Mobile ── */
@@ -199,6 +257,137 @@
     </p>
   </div>
 
+  <!-- Remi — 4-day resistance program (July nutrition PDF); Ana’s calendar above is unchanged -->
+  <section id="remi-strength" class="remi-strength-section">
+    <h2 class="remi-strength-head" data-i18n="remiProgramTitle">Remi — 4-day gym program</h2>
+    <p class="remi-strength-sub" data-i18n="remiProgramSubtitle">From your July nutrition plan (not the weekly session calendar above)</p>
+    <p class="remi-strength-note" data-i18n="remiProgramNote">Maps to Mon–Thu if you train four days in a row. Rest times match the PDF where listed; “—” means not specified on the sheet.</p>
+
+    <div id="remi-lang-en">
+      <div class="program-day-title">Day 1 — Quads, glutes, calves</div>
+      <div class="program-table-wrap">
+        <table class="program-table">
+          <thead><tr><th>Muscle</th><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+          <tbody>
+            <tr><td>Quads</td><td>Bulgarian split squat</td><td>4</td><td>10–12</td><td>1:30</td></tr>
+            <tr><td>Quads</td><td>Leg press</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Quads</td><td>Free squat (barbell)</td><td>4</td><td>10–12</td><td>1:30</td></tr>
+            <tr><td>Glutes</td><td>Cable kickback</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Glutes</td><td>Cable pull-through</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Calves</td><td>Standing calf raise (machine)</td><td>4</td><td>20–25</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="program-day-title">Day 2 — Chest, triceps, abs</div>
+      <div class="program-table-wrap">
+        <table class="program-table">
+          <thead><tr><th>Muscle</th><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+          <tbody>
+            <tr><td>Chest</td><td>Machine chest press</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Chest</td><td>Dumbbell flyes</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Triceps</td><td>Rope triceps pushdown</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Triceps</td><td>One-arm dumbbell kickback</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Triceps</td><td>Machine dips</td><td>4</td><td>10–12</td><td>1:30</td></tr>
+            <tr><td>Abs</td><td>Weighted cable crunch</td><td>4</td><td>20–25</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="program-day-title">Day 3 — Hamstrings, glutes, calves</div>
+      <div class="program-table-wrap">
+        <table class="program-table">
+          <thead><tr><th>Muscle</th><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+          <tbody>
+            <tr><td>Hamstrings</td><td>Barbell Romanian deadlift</td><td>4</td><td>10–15</td><td>1:30</td></tr>
+            <tr><td>Hamstrings</td><td>Lying leg curl (machine)</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Hamstrings</td><td>Seated leg curl</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Glutes</td><td>Glute kickback (machine)</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Glutes</td><td>Hip thrust</td><td>4</td><td>10–15</td><td>1:30</td></tr>
+            <tr><td>Calves</td><td>Calf press (on leg press)</td><td>4</td><td>20–25</td><td>1:30</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="program-day-title">Day 4 — Back, biceps, abs</div>
+      <div class="program-table-wrap">
+        <table class="program-table">
+          <thead><tr><th>Muscle</th><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+          <tbody>
+            <tr><td>Back</td><td>Lat pulldown — pronated grip</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Back</td><td>Seated row machine</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Back</td><td>Chest-supported row / T-bar («Chest 2 bar»)</td><td>4</td><td>10–12</td><td>1:30</td></tr>
+            <tr><td>Biceps</td><td>Machine preacher curl</td><td>4</td><td>10–12</td><td>1:30</td></tr>
+            <tr><td>Biceps</td><td>Bar cable curl</td><td>4</td><td>12–15</td><td>1:30</td></tr>
+            <tr><td>Abs</td><td>High plank</td><td>4</td><td>To failure</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="remi-lang-es" style="display:none">
+      <div class="program-day-title">Día 1 — Cuádriceps, glúteo, pantorrilla</div>
+      <div class="program-table-wrap">
+        <table class="program-table">
+          <thead><tr><th>Músculo</th><th>Ejercicio</th><th>Series</th><th>Reps</th><th>Descanso</th></tr></thead>
+          <tbody>
+            <tr><td>Cuádriceps</td><td>Desplante búlgaro</td><td>4</td><td>10–12</td><td>1:30 min</td></tr>
+            <tr><td>Cuádriceps</td><td>Prensa</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Cuádriceps</td><td>Sentadilla libre</td><td>4</td><td>10–12</td><td>1:30 min</td></tr>
+            <tr><td>Glúteo</td><td>Patada en polea</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Glúteo</td><td>Pull-through con polea</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Pantorrilla</td><td>Elevaciones en máquina de pie</td><td>4</td><td>20–25</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="program-day-title">Día 2 — Pecho, tríceps, abdomen</div>
+      <div class="program-table-wrap">
+        <table class="program-table">
+          <thead><tr><th>Músculo</th><th>Ejercicio</th><th>Series</th><th>Reps</th><th>Descanso</th></tr></thead>
+          <tbody>
+            <tr><td>Pecho</td><td>Press de pecho en máquina</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Pecho</td><td>Cristos (apertura con mancuernas)</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Tríceps</td><td>Extensiones de tríceps con cuerda en polea</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Tríceps</td><td>Copa a una mano</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Tríceps</td><td>Fondos en máquina</td><td>4</td><td>10–12</td><td>1:30 min</td></tr>
+            <tr><td>Abdomen</td><td>Crunch en polea con peso</td><td>4</td><td>20–25</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="program-day-title">Día 3 — Femoral, glúteo, pantorrilla</div>
+      <div class="program-table-wrap">
+        <table class="program-table">
+          <thead><tr><th>Músculo</th><th>Ejercicio</th><th>Series</th><th>Reps</th><th>Descanso</th></tr></thead>
+          <tbody>
+            <tr><td>Femoral</td><td>Peso muerto rumano con barra</td><td>4</td><td>10–15</td><td>1:30 min</td></tr>
+            <tr><td>Femoral</td><td>Curl tumbado en máquina</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Femoral</td><td>Curl femoral sentado</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Glúteo</td><td>Patada en máquina</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Glúteo</td><td>Hip thrust (empuje de cadera)</td><td>4</td><td>10–15</td><td>1:30 min</td></tr>
+            <tr><td>Pantorrilla</td><td>Extensiones en prensa</td><td>4</td><td>20–25</td><td>1:30 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="program-day-title">Día 4 — Espalda, bíceps, abdomen</div>
+      <div class="program-table-wrap">
+        <table class="program-table">
+          <thead><tr><th>Músculo</th><th>Ejercicio</th><th>Series</th><th>Reps</th><th>Descanso</th></tr></thead>
+          <tbody>
+            <tr><td>Espalda</td><td>Jalón con barra en polea agarre prono</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Espalda</td><td>Máquina de remo</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Espalda</td><td>Chest 2 bar</td><td>4</td><td>10–12</td><td>1:30 min</td></tr>
+            <tr><td>Bíceps</td><td>Curl predicador en máquina</td><td>4</td><td>10–12</td><td>1:30 min</td></tr>
+            <tr><td>Bíceps</td><td>Curl de bíceps en polea con barra</td><td>4</td><td>12–15</td><td>1:30 min</td></tr>
+            <tr><td>Abdomen</td><td>Plancha alta</td><td>4</td><td>Al fallo</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 <script>
@@ -216,6 +405,9 @@
       summaryEvening:'Evening (7–8 PM)',
       goalTitle:     'Goal',
       goalText:      'Stay consistent. Train together when possible. Build muscle. Stay disciplined.',
+      remiProgramTitle: 'Remi — 4-day gym program',
+      remiProgramSubtitle: 'From your July nutrition plan (not the weekly session calendar above)',
+      remiProgramNote: 'Maps to Mon–Thu if you train four days in a row. Rest times match the PDF where listed; “—” means not specified on the sheet.',
       todayBadge:    'Today',
       morningLabel:  'Morning session',
       eveningLabel:  'Evening session',
@@ -233,6 +425,9 @@
       summaryEvening:'Tarde (7–8 PM)',
       goalTitle:     'Meta',
       goalText:      'Ser constantes. Entrenar juntos cuando sea posible. Ganar músculo. Mantenerse disciplinados.',
+      remiProgramTitle: 'Remi — programa de gym de 4 días',
+      remiProgramSubtitle: 'De tu plan de alimentación de julio (no es el horario semanal de arriba)',
+      remiProgramNote: 'Encaja en lun–jue si entrenas cuatro días seguidos. Los descansos coinciden con el PDF donde aparecen; «—» = no indicado en la hoja.',
       todayBadge:    'Hoy',
       morningLabel:  'Sesión matutina',
       eveningLabel:  'Sesión vespertina',
@@ -307,10 +502,16 @@
       }
     });
     renderSchedule(lang);
+    var remiEn = document.getElementById('remi-lang-en');
+    var remiEs = document.getElementById('remi-lang-es');
+    if (remiEn && remiEs) {
+      remiEn.style.display = lang === 'en' ? 'block' : 'none';
+      remiEs.style.display = lang === 'es' ? 'block' : 'none';
+    }
   }
 
   /* Initial render */
-  renderSchedule(currentLang);
+  setLang(currentLang);
 </script>
 
 </body>

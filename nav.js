@@ -22,6 +22,7 @@
   var LINKS = [
     { href: 'index.html',            label: "Ana's Plan",  icon: null,     title: null },
     { href: 'remi-diet.html',         label: "Remi's Plan", icon: null,     title: null },
+    { href: 'remi-grocery.html',      label: 'Remi · List', icon: null,     title: 'Remi weekly groceries' },
     { href: 'grocery.html',           label: null,          icon: CART,     title: 'Grocery List' },
     { href: 'training-schedule.html', label: null,          icon: ACTIVITY, title: 'Training' },
     { href: 'progress.html',          label: null,          icon: BARCHART, title: 'Progress' },
