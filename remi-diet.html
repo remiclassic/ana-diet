@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Remi Couture — Nutrition Plan (July)</title>
+<title>Remi Couture — Muscle Gain Plan</title>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
@@ -44,10 +44,10 @@
   .schedule-item{display:flex;align-items:center;gap:.35rem;font-size:.85rem;font-weight:600}
   .schedule-time{font-size:.78rem;color:var(--muted);font-weight:500}
 
-  .targets-grid.target-cal-only{display:grid;grid-template-columns:1fr;max-width:340px;margin:0 auto 1rem;gap:.6rem}
-  .target-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;text-align:center;border-left:4px solid var(--accent)}
-  .target-box .val{font-size:1.85rem;font-weight:700;color:var(--accent)}
-  .target-box .lbl{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:.2rem}
+  .targets-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:.75rem}
+  .target-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem .75rem;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .target-box .val{font-size:1.35rem;font-weight:700;color:var(--accent);line-height:1.15}
+  .target-box .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:.35rem;line-height:1.25}
 
   .meal-option-tag{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:.12rem .5rem;border-radius:4px;margin-bottom:.45rem;background:var(--accent-light);color:var(--accent)}
   .meal-option-tag.snack{background:var(--snack-light);color:var(--snack)}
@@ -107,6 +107,7 @@
     .lang-toggle{top:2.8rem;right:.5rem}
     .lang-btn{padding:.35rem .7rem;font-size:.78rem}
     .schedule-bar{flex-direction:column;align-items:flex-start}
+    .targets-grid{grid-template-columns:repeat(2,1fr)}
     .card{padding:1rem}
   }
 </style>
@@ -126,17 +127,17 @@
 
   <header>
     <h1>REMI COUTURE</h1>
-    <div class="subtitle" data-i18n="planTitle">Nutrition plan — July · 2,000 kcal</div>
-    <div class="stats" data-i18n="stats">Pick one option per meal category daily · Training split Mon–Thu</div>
+    <div class="subtitle" data-i18n="planTitle">Muscle Gain Plan</div>
+    <div class="stats" data-i18n="stats">6&apos;3&quot; / 190 cm · ~201 lbs / 91 kg · Age 41 · Lifting regularly</div>
   </header>
 
-  <div class="targets-grid target-cal-only">
-    <div class="target-box">
-      <div class="val">2,000</div>
-      <div class="lbl" data-i18n="tgtCalLabel">kcal / day</div>
-    </div>
+  <div class="targets-grid">
+    <div class="target-box"><div class="val">~3,050</div><div class="lbl" data-i18n="tgtCal">kcal (training)</div></div>
+    <div class="target-box"><div class="val">200g</div><div class="lbl" data-i18n="tgtProt">Protein</div></div>
+    <div class="target-box"><div class="val">~350g</div><div class="lbl" data-i18n="tgtCarbs">Carbs (training)</div></div>
+    <div class="target-box"><div class="val">~70g</div><div class="lbl" data-i18n="tgtFat">Fat</div></div>
   </div>
-  <p class="disclaimer" data-i18n="tgtCalNote">Your PDF lists total calories only; macro breakdown is not specified.</p>
+  <p class="disclaimer" data-i18n="tgtCalNote">Training-day macro targets above. Meal options below follow your July coach sheet (~2,000 kcal); reconcile portions with your coach if you use both frameworks.</p>
   <p style="text-align:center;margin-bottom:1.25rem"><a href="remi-grocery.html" class="full-program-link" data-i18n="groceryLink">Weekly grocery list (Remi only) →</a></p>
 
   <div class="schedule-bar">
@@ -154,7 +155,7 @@
     </div>
     <div class="card supplement-card">
       <div class="supp-name" data-i18n="supp1Name">Protein powder</div>
-      <div class="supp-dose" data-i18n="supp1Dose">1 scoop per day</div>
+      <div class="supp-dose" data-i18n="supp1Dose">1 scoop per day · 1½ scoops per day · twice daily</div>
     </div>
     <div class="card supplement-card">
       <div class="supp-name" data-i18n="supp2Name">Creatine</div>
@@ -402,10 +403,13 @@
 <script>
 const translations = {
   en: {
-    planTitle: "Nutrition plan — July · 2,000 kcal",
-    stats: "Pick one option per meal category daily · Training split Mon–Thu",
-    tgtCalLabel: "kcal / day",
-    tgtCalNote: "Your PDF lists total calories only; macro breakdown is not specified.",
+    planTitle: "Muscle Gain Plan",
+    stats: "6'3\" / 190 cm · ~201 lbs / 91 kg · Age 41 · Lifting regularly",
+    tgtCal: "kcal (training)",
+    tgtProt: "Protein",
+    tgtCarbs: "Carbs (training)",
+    tgtFat: "Fat",
+    tgtCalNote: "Training-day macro targets above. Meal options below follow your July coach sheet (~2,000 kcal); reconcile portions with your coach if you use both frameworks.",
     groceryLink: "Weekly grocery list (Remi only) →",
     schBreakfast: "Breakfast",
     schSnack1: "Snack",
@@ -414,7 +418,7 @@ const translations = {
     schDinner: "Dinner",
     supplementsTitle: "Supplementation",
     supp1Name: "Protein powder",
-    supp1Dose: "1 scoop per day",
+    supp1Dose: "1 scoop per day · 1½ scoops per day · twice daily",
     supp2Name: "Creatine",
     supp2Dose: "1 scoop per day",
     mealPlanTitle: "Meal options",
@@ -540,10 +544,13 @@ const translations = {
     trainFullLink: "Open full program (sets & reps) →"
   },
   es: {
-    planTitle: "Plan de alimentación — Julio · 2,000 kcal",
-    stats: "Elige una opción por categoría cada día · Rutina de gym Lun–Jue",
-    tgtCalLabel: "kcal / día",
-    tgtCalNote: "Tu PDF solo indica calorías totales; no desglosa macros.",
+    planTitle: "Plan de ganancia muscular",
+    stats: "1.90 m · ~91 kg · ~201 lb · 41 años · Pesas con regularidad",
+    tgtCal: "kcal (entreno)",
+    tgtProt: "Proteína",
+    tgtCarbs: "Carbos (entreno)",
+    tgtFat: "Grasa",
+    tgtCalNote: "Arriba: objetivos de macros en días de entreno. Abajo: opciones de comidas del plan de julio del coach (~2,000 kcal); alinea porciones con tu coach si combinas ambos enfoques.",
     groceryLink: "Lista de compras semanal (solo Remi) →",
     schBreakfast: "Desayuno",
     schSnack1: "Colación",
@@ -552,7 +559,7 @@ const translations = {
     schDinner: "Cena",
     supplementsTitle: "Suplementación",
     supp1Name: "Proteína en polvo",
-    supp1Dose: "1 scoop al día",
+    supp1Dose: "1 scoop al día · 1½ scoops al día · dos veces al día",
     supp2Name: "Creatina",
     supp2Dose: "1 scoop al día",
     mealPlanTitle: "Opciones de comida",
